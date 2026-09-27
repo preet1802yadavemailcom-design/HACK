@@ -103,13 +103,13 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
             <div className="mb-6">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-400 text-xs font-mono tracking-wider uppercase mb-2">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>OFFLINE EVENT • PRASAD INSTITUTE OF TECHNOLOGY</span>
+                <span>EXCLUSIVE TO PRASAD INSTITUTE OF TECHNOLOGY STUDENTS</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black text-white">
-                HACKATHON REGISTRATION
+                PIT IN-PERSON REGISTRATION
               </h3>
               <p className="mt-1 text-xs sm:text-sm text-zinc-400 font-light">
-                Hacktoberfest Hack Day Jaunpur • Saturday, October 24, 2026
+                Hacktoberfest Hack Day Jaunpur • Saturday, October 24, 2026 • PIT Campus Only
               </p>
             </div>
 
@@ -297,12 +297,20 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
               </div>
             </div>
 
-            <div className="mt-6 flex justify-center">
+            <div className="mt-6 flex flex-col gap-3">
+              <a
+                href={`/badge?name=${encodeURIComponent(successData.participant.fullName)}&dept=${encodeURIComponent(successData.participant.branch)}&year=${encodeURIComponent(successData.participant.semester)}&roll=${encodeURIComponent(successData.participant.studentId)}`}
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 hover:from-emerald-400 hover:to-teal-400 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:scale-102 active:scale-98 transition-all"
+              >
+                <span>⚡ Generate Hacker ID Card for WhatsApp Status</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+
               <button
                 onClick={onClose}
-                className="px-8 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all"
+                className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-zinc-300 font-mono text-xs uppercase tracking-wider transition-all"
               >
-                Done
+                Close Window
               </button>
             </div>
           </div>

@@ -85,7 +85,7 @@ export const EVENT_DETAILS = {
   address: 'QP5G+W4Q, Jaunpur - Azamgarh Rd, Balibhaddarpur, Jaunpur, Uttar Pradesh 222002, India',
   hosts: ['Shubhasheesh Kundu', 'Preet Yadav'],
   institution: 'Prasad Institute of Technology, Jaunpur',
-  audience: 'University Students & Engineering Undergraduates across all departments',
+  audience: 'Exclusive to Prasad Institute of Technology (PIT Jaunpur) Students Only',
   swagPolicy: 'Swag, prizes and participant benefits will be announced after official organizer confirmation.',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Prasad+Institute+of+Technology+Jaunpur+QP5G%2BW4Q',
 };

@@ -5,6 +5,7 @@ import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
 import TracksSection from '@/components/ui/TracksSection';
+import BadgePromoSection from '@/components/ui/BadgePromoSection';
 import SquadSection from '@/components/ui/SquadSection';
 import ScheduleSection from '@/components/ui/ScheduleSection';
 import VenueSection from '@/components/ui/VenueSection';
@@ -58,6 +59,9 @@ export default function Home() {
         {/* Focus Tracks */}
         <TracksSection />
 
+        {/* Official Hacker ID Card Studio Promo */}
+        <BadgePromoSection />
+
         {/* Squad & Team Formation */}
         <SquadSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
@@ -74,9 +78,9 @@ export default function Home() {
               READY TO BUILD IN JAUNPUR?
             </h2>
             <p className="mt-3 text-sm sm:text-base text-zinc-300 max-w-lg mx-auto font-light">
-              Saturday, October 24, 2026 • 09:30 AM to 03:00 PM IST at Prasad Institute of Technology. Free registration for all university students.
+              Saturday, October 24, 2026 • 09:30 AM to 03:00 PM IST at Prasad Institute of Technology. Free registration exclusive to Prasad Institute of Technology students.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <button
                 onClick={() => {
                   soundEngine.playClick();
@@ -87,6 +91,14 @@ export default function Home() {
                 <span>Register for In-Person Pass</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
+
+              <a
+                href="/badge"
+                onClick={() => soundEngine.playClick()}
+                className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-mono font-bold text-xs uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              >
+                <span>⚡ Create Your Hacker ID Card</span>
+              </a>
             </div>
           </div>
         </section>

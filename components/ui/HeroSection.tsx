@@ -41,7 +41,7 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
       </p>
 
       <p className="mt-3 text-sm sm:text-base text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed">
-        The premier on-campus open-source hackathon in Eastern Uttar Pradesh. Join fellow university students for an intense 5.5-hour in-person sprint of building, contributing, and shipping real code.
+        The premier on-campus open-source hackathon in Eastern Uttar Pradesh. Join fellow Prasad Institute of Technology students for an intense 5.5-hour in-person sprint of building, contributing, and shipping real code.
       </p>
 
       {/* Date, Time & Location Quick Chips */}
@@ -69,7 +69,7 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
             soundEngine.playClick();
             onOpenRegister();
           }}
-          className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:shadow-[0_0_50px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 transition-all cursor-pointer overflow-hidden"
+          className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:shadow-[0_0_50px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 transition-all cursor-pointer overflow-hidden"
         >
           <span className="relative z-10">Register for In-Person Pass</span>
           <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
@@ -77,11 +77,19 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
         </button>
 
         <a
+          href="/badge"
+          onClick={() => soundEngine.playClick()}
+          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 hover:text-emerald-200 font-mono text-xs uppercase tracking-wider border border-emerald-500/40 hover:border-emerald-400 backdrop-blur-md transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+        >
+          <span>⚡ Create Your ID Card</span>
+        </a>
+
+        <a
           href="#schedule"
           onClick={() => soundEngine.playClick()}
-          className="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-black/60 hover:bg-black/80 text-white font-mono text-xs uppercase tracking-wider border border-white/15 hover:border-amber-400/50 backdrop-blur-md transition-all"
+          className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-black/60 hover:bg-black/80 text-zinc-300 hover:text-white font-mono text-xs uppercase tracking-wider border border-white/15 hover:border-amber-400/50 backdrop-blur-md transition-all"
         >
-          <span>View Event Schedule</span>
+          <span>Schedule</span>
         </a>
       </div>
 
@@ -97,7 +105,7 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
         </div>
         <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 backdrop-blur-sm">
           <span className="text-[10px] font-mono text-zinc-400 uppercase block">ELIGIBILITY</span>
-          <span className="text-base font-bold text-white font-mono">All College Students</span>
+          <span className="text-base font-bold text-amber-300 font-mono">PIT Students Only</span>
         </div>
         <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 backdrop-blur-sm">
           <span className="text-[10px] font-mono text-zinc-400 uppercase block">ADMISSION</span>

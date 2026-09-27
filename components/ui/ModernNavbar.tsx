@@ -18,18 +18,19 @@ export default function ModernNavbar({ onOpenRegister }: ModernNavbarProps) {
   };
 
   const navLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Tracks', href: '#tracks' },
-    { label: 'Squads', href: '#squads' },
-    { label: 'Schedule', href: '#schedule' },
-    { label: 'Venue', href: '#venue' },
+    { label: 'About', href: '/#about' },
+    { label: 'Tracks', href: '/#tracks' },
+    { label: 'Squads', href: '/#squads' },
+    { label: 'Schedule', href: '/#schedule' },
+    { label: 'Venue', href: '/#venue' },
+    { label: '⚡ ID Card Pass', href: '/badge', isSpecial: true },
   ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3.5 bg-black/40 backdrop-blur-xl border-b border-white/10 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand */}
-        <a href="#" className="flex items-center gap-2.5 group">
+        <a href="/" className="flex items-center gap-2.5 group">
           <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 group-hover:scale-105 transition-transform">
             <Terminal className="w-5 h-5" />
           </div>
@@ -49,13 +50,17 @@ export default function ModernNavbar({ onOpenRegister }: ModernNavbarProps) {
         </a>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-6 text-xs font-mono text-zinc-300">
+        <div className="hidden md:flex items-center gap-5 text-xs font-mono text-zinc-300">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => soundEngine.playClick()}
-              className="hover:text-amber-400 transition-colors"
+              className={`transition-all ${
+                link.isSpecial
+                  ? 'px-3 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 font-bold shadow-[0_0_12px_rgba(16,185,129,0.25)]'
+                  : 'hover:text-amber-400'
+              }`}
             >
               {link.label}
             </a>
@@ -107,7 +112,11 @@ export default function ModernNavbar({ onOpenRegister }: ModernNavbarProps) {
                 soundEngine.playClick();
                 setMobileMenuOpen(false);
               }}
-              className="py-1.5 text-zinc-300 hover:text-amber-400 transition-colors"
+              className={`py-2 px-3 rounded-lg transition-colors ${
+                link.isSpecial
+                  ? 'bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30'
+                  : 'text-zinc-300 hover:text-amber-400'
+              }`}
             >
               {link.label}
             </a>
