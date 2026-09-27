@@ -2,7 +2,6 @@
 
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import * as THREE from 'three';
 import { REALMS } from '@/data/realmsData';
 import CelestialHackCore from './CelestialHackCore';
 import RealmsEnvironment from './RealmsEnvironment';
@@ -29,7 +28,7 @@ export default function CelestialScene({
 }: CelestialSceneProps) {
   const activeRealm = REALMS[currentRealmIndex] || REALMS[0];
 
-  // Dynamic DPR based on quality settings to guarantee smooth 60fps
+  // Dynamic DPR based on quality settings
   const dpr = useMemo(() => {
     if (quality === 'low') return 1;
     if (quality === 'med') return [1, 1.25] as [number, number];
@@ -39,7 +38,7 @@ export default function CelestialScene({
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-auto">
       <Canvas
-        camera={{ position: [0, 4, 20], fov: 48, near: 0.1, far: 180 }}
+        camera={{ position: [0, 2, 18], fov: 48, near: 0.1, far: 180 }}
         dpr={dpr}
         gl={{
           antialias: quality !== 'low',
@@ -50,11 +49,8 @@ export default function CelestialScene({
         }}
         className="w-full h-full"
       >
-        {/* Soft atmospheric depth that lets the sunset background image shine through */}
-        <fog attach="fog" args={[activeRealm.palette.fog, 22, 85]} />
-
         <Suspense fallback={null}>
-          {/* Camera Motion & Parallax Controller */}
+          {/* Camera Controller */}
           <CameraRig
             currentRealmIndex={currentRealmIndex}
             mousePos={mousePos}
@@ -62,7 +58,7 @@ export default function CelestialScene({
             isIntroActive={isIntroActive}
           />
 
-          {/* Procedural 3D Environment landmarks for the active realm */}
+          {/* Clean lighting layer */}
           <RealmsEnvironment currentRealmIndex={currentRealmIndex} />
 
           {/* Central Celestial Hack Core */}
@@ -72,14 +68,14 @@ export default function CelestialScene({
             hovered={isCoreHovered}
           />
 
-          {/* Floating Luminous Lanterns / Nodes */}
+          {/* Subtle floating luminous lanterns */}
           <FloatingDiyas
-            count={quality === 'low' ? 12 : 26}
-            spread={24}
+            count={quality === 'low' ? 8 : 16}
+            spread={20}
             currentRealmColor={activeRealm.palette.accent}
           />
 
-          {/* GPU Multi-Layer Particle Universe */}
+          {/* GPU Particles (Stars, Embers, Sparks) */}
           <CustomParticles
             currentRealmIndex={currentRealmIndex}
             mousePos={mousePos}
