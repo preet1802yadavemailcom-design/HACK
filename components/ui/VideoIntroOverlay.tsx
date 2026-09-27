@@ -9,31 +9,29 @@ interface VideoIntroOverlayProps {
 
 export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  // Strictly muted by default so speaker NEVER turns on automatically
+  const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [needsGestureForSound, setNeedsGestureForSound] = useState(false);
 
   useEffect(() => {
     const vid = videoRef.current;
 
     if (vid) {
       vid.playbackRate = 0.75;
-      vid.volume = 1.0;
-
-      // Attempt unmuted playback first
-      vid.muted = false;
-      vid.play().then(() => {
-        setIsMuted(false);
-        setNeedsGestureForSound(false);
-      }).catch(() => {
-        // Browser security policy required muted initial autoplay
-        vid.muted = true;
-        setIsMuted(true);
-        setNeedsGestureForSound(true);
-        vid.play().catch(() => {});
-      });
+      vid.volume = 0;
+      vid.muted = true;
+      setIsMuted(true);
+      vid.play().catch(() => {});
     }
+
+    return () => {
+      // Strict cleanup so video audio never leaks onto the home screen
+      if (vid) {
+        vid.pause();
+        vid.muted = true;
+      }
+    };
   }, []);
 
   const handleTimeUpdate = () => {
@@ -45,6 +43,11 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
   };
 
   const finishVideo = () => {
+    // Immediately stop and mute video before exiting
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.muted = true;
+    }
     setIsExiting(true);
     setTimeout(() => {
       onComplete();
@@ -56,36 +59,21 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
     if (videoRef.current) {
       const nextMuted = !videoRef.current.muted;
       videoRef.current.muted = nextMuted;
-      videoRef.current.volume = 1.0;
+      videoRef.current.volume = nextMuted ? 0 : 0.85;
       setIsMuted(nextMuted);
-      setNeedsGestureForSound(false);
       if (videoRef.current.paused) {
-        videoRef.current.play();
-      }
-    }
-  };
-
-  const handleScreenClick = () => {
-    // Unmute immediately on any screen click or tap anywhere
-    if (videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.volume = 1.0;
-      setIsMuted(false);
-      setNeedsGestureForSound(false);
-      if (videoRef.current.paused) {
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {});
       }
     }
   };
 
   return (
     <div
-      onClick={handleScreenClick}
-      className={`fixed inset-0 z-50 w-full h-full bg-black transition-all duration-500 overflow-hidden cursor-pointer select-none ${
+      className={`fixed inset-0 z-50 w-full h-full bg-black transition-all duration-500 overflow-hidden select-none ${
         isExiting ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
-      {/* 100% True Edge-to-Edge Fullscreen Video for All Devices (Laptop, Desktop, Mobile, Tablet) */}
+      {/* 100% True Edge-to-Edge Fullscreen Video for All Devices */}
       <video
         ref={videoRef}
         src="/intro-video.mp4"
@@ -105,25 +93,25 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
 
       {/* Top Floating Controls */}
       <div className="absolute top-6 left-6 right-6 z-20 flex items-center justify-between pointer-events-auto">
-        {/* Sound Toggle Pill */}
+        {/* Sound Toggle Pill - Click to unmute only if user desires */}
         <button
           onClick={handleToggleMute}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-2xl border font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-xl ${
-            isMuted
+            !isMuted
               ? 'bg-amber-500 text-black font-bold border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.7)] animate-pulse'
-              : 'bg-black/75 text-white border-white/20 hover:bg-black/90'
+              : 'bg-black/75 text-zinc-300 border-white/20 hover:bg-black/90 hover:text-white'
           }`}
           aria-label={isMuted ? 'Click to enable audio' : 'Mute audio'}
         >
           {isMuted ? (
             <>
-              <VolumeX className="w-4 h-4" />
-              <span>Tap for Sound 🔊</span>
+              <VolumeX className="w-4 h-4 text-zinc-400" />
+              <span>Sound: Off 🔇</span>
             </>
           ) : (
             <>
-              <Volume2 className="w-4 h-4 text-amber-400" />
-              <span>Sound On (0.75x)</span>
+              <Volume2 className="w-4 h-4 text-black" />
+              <span>Sound On (0.75x) 🔊</span>
             </>
           )}
         </button>
@@ -140,16 +128,6 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
           <FastForward className="w-4 h-4" />
         </button>
       </div>
-
-      {/* Prominent Center/Bottom Tap Prompt if Browser Muted Autoplay */}
-      {needsGestureForSound && (
-        <div className="absolute bottom-16 inset-x-0 z-30 flex items-center justify-center pointer-events-none px-4">
-          <div className="px-6 py-3.5 rounded-2xl bg-black/90 border border-amber-400/60 text-amber-300 font-mono text-xs uppercase tracking-widest flex items-center gap-3 shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-bounce">
-            <Volume2 className="w-4 h-4 text-amber-400" />
-            <span>Tap Screen Anywhere to Unmute Sound</span>
-          </div>
-        </div>
-      )}
 
       {/* Bottom Progress Bar */}
       <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/10 z-20">

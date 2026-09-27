@@ -13,6 +13,7 @@ import SquadSection from '@/components/ui/SquadSection';
 import ScheduleSection from '@/components/ui/ScheduleSection';
 import VenueSection from '@/components/ui/VenueSection';
 import RegistrationModal from '@/components/ui/RegistrationModal';
+import MagicalAuraCanvas from '@/components/ui/MagicalAuraCanvas';
 import { soundEngine } from '@/lib/audio';
 import { ArrowRight, Terminal, Volume2, VolumeX } from 'lucide-react';
 
@@ -51,6 +52,9 @@ export default function Home() {
 
       {/* 3. Deep Cinematic Contrast Vignette Overlay for Crystal-Clear Readability */}
       <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/80 via-black/65 to-black/90 pointer-events-none backdrop-blur-[0.5px]" />
+
+      {/* 4. Interactive Magical Stardust & Cyber Embers Particle Canvas */}
+      <MagicalAuraCanvas />
 
       {/* 4. Modern Sticky Navigation */}
       <ModernNavbar onOpenRegister={() => setIsRegisterOpen(true)} />

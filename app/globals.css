@@ -112,3 +112,48 @@ body {
 .animate-shimmer-sweep {
   animation: shimmerKey 2.5s infinite;
 }
+
+/* Magical Floating Animation */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+/* Pulsing Radiant Aura */
+@keyframes pulseAura {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+.animate-pulse-aura {
+  animation: pulseAura 4s ease-in-out infinite;
+}
+
+/* Rotating Neon Border Beam */
+@keyframes borderRotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.animate-border-rotate {
+  animation: borderRotate 12s linear infinite;
+}
+
