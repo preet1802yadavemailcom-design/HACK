@@ -1,57 +1,66 @@
-# THE NINE REALMS 🌌
-### HACKTOBERFEST HACK DAY JAUNPUR (OFFLINE) × PRASAD INSTITUTE OF TECHNOLOGY
-> **“Nine dimensions of code. Infinite possibilities. One physical arena of builders.”**
+# Hacktoberfest Hack Day 2026 — Jaunpur Edition 💻
+### Prasad Institute of Technology, Jaunpur (Offline / In-Person Hackathon)
 
-An award-level, cinematic, interactive 3D web experience for **Hacktoberfest 2026** hosted as a physical, in-person campus hackathon at **Prasad Institute of Technology, Jaunpur**.
+A modern, high-performance, official event website for **Hacktoberfest Hack Day Jaunpur 2026**, hosted on-campus at **Prasad Institute of Technology, Jaunpur**.
 
 ---
 
 ## 🏛️ Event Specifications (Physical / Offline)
 
-* **Event Format:** Physical On-Campus Hackathon (Offline)
-* **Event:** Hacktoberfest Hack Day Jaunpur × Prasad Institute of Technology
+* **Event:** Hacktoberfest Hack Day 2026 (Jaunpur Edition)
+* **Format:** 100% Offline / In-Person (On-Campus)
 * **Date:** Saturday, October 24, 2026
 * **Time:** 09:30 AM – 3:00 PM IST
-* **Location:** Prasad Institute of Technology, Jaunpur
-* **Address:** QP5G+W4Q, Jaunpur - Azamgarh Rd, Balibhaddarpur, Jaunpur, Uttar Pradesh 222002, India
-* **Audience:** University Students & Undergraduate Engineers
-* **Hosts:** Shubhasheesh Kundu & Preet Yadav
-* **Official Swag / Benefit Policy:** *“Swag, prizes and participant benefits will be announced after official organizer confirmation.”*
+* **Venue:** Prasad Institute of Technology, Jaunpur
+* **Campus Address:** QP5G+W4Q, Jaunpur - Azamgarh Rd, Balibhaddarpur, Jaunpur, Uttar Pradesh 222002, India
+* **Organizers / Hosts:** Shubhasheesh Kundu & Preet Yadav
+* **Institution:** Prasad Institute of Technology, Jaunpur
+* **Eligible Attendees:** University Students & Undergraduates across all departments
+* **Admission:** Free Registration for all students
+* **Swag & Benefits Policy:** *“Swag, prizes and participant benefits will be announced after official organizer confirmation.”*
 
 ---
 
-## 🔮 The 9 Open-Source Dimensions
+## 🚀 Hackathon Tracks
 
-| Dimension | Name | Focus | Tech Layer |
-|---|---|---|---|
-| **01. GENESIS** | *Genesis Summit* | Foundations of Open Source | `git init` — Glowing digital streams carving paths through mountain summits |
-| **02. ARCHITECTURE** | *Code Grove* | Deep Logic & Modular Design | `git branch` — Firefly nodes & floating code constellations |
-| **03. RESONANCE** | *Resonance Citadel* | Clarity & Acoustic Signals | `git commit` — Sound-reactive acoustic rings & golden bells |
-| **04. NEBULA** | *Cosmic Nebula* | Infinite Scale & Origin | `git remote` — Procedural planetary universe & solar corona |
-| **05. NEXUS** | *Collaborative Nexus* | Peer-to-Peer Interconnection | `git merge` — Holographic collaboration nodes & waterfall data beams |
-| **06. THE FORGE** | *The Plasma Forge* | Relentless Sprint Execution | `git push` — Volcanic basalt spires, magma fissures & flame particles |
-| **07. BREAKTHROUGH** | *The Quantum Void* | Transcending Darkness into Dawn | `git rebase` — Lightning arcs & sudden explosion of blinding white light |
-| **08. SANCTUARY** | *Crystal Sanctuary* | Immaculate Craftsmanship & Purity | `git clean` — Luminescent quartz prisms & prismatic refraction |
-| **09. THE APEX** | *The Apex Metropolis* | Complete Mastery & Global Release | `git tag v1.0.0` — Nine converging energy rings & Sri Yantra mandala |
+1. **Open Source & Upstream PRs** (`git init`, `git commit`, `git push`, upstream GitHub PRs)
+2. **Web & Full-Stack Applications** (React, Next.js, Node.js, modern cloud APIs)
+3. **AI, Automation & Intelligent Systems** (Gemini API, Python, local LLMs, AI agents)
+4. **Open Innovation & Tools** (CLI tools, developer utilities, cross-platform apps, IoT)
 
 ---
 
-## ⚡ Technical Highlights
+## ⏱️ Schedule (Saturday, Oct 24, 2026)
 
-* **Visual Identity:** Cinematic twilight sunset landscape backdrop with misty mountain lake reflections, soaring eagle in flight, coupled with real-time Three.js 3D WebGL scenes.
-* **3D Celestial Hack Core:** Custom GLSL Simplex noise vertex displacement and Fresnel rim illumination.
-* **Particle Universe:** GPU multi-layer stars, embers, and fireflies with cursor repulsion.
-* **Procedural Audio Engine:** 100% mathematical Web Audio API sound synthesis (temple bells, 108Hz drone, warp sweeps).
-* **Campus Registration & Passes:** Unique ID generation (`REALM-2026-XXXX`) with duplicate validation.
+* **09:30 AM** — On-Campus Check-in & Badge Issuance
+* **10:00 AM** — Opening Briefing & Squad Matchmaking Mixer
+* **11:00 AM** — Hackathon Sprint Begins (5.5-hour build block)
+* **01:30 PM** — Code Freeze & PR Submissions
+* **02:30 PM** — Project Showcase & Stage Demos (Auditorium Projector)
+* **03:00 PM** — Keynote Close, Participant Acknowledgment & Group Photo
 
 ---
 
-## 🚀 Running Locally
+## 🛠️ Tech Stack
+
+* **Framework:** Next.js 14 (App Router) + React 18 + TypeScript
+* **Styling:** Tailwind CSS + Glassmorphism Dark Theme + Lucide Icons
+* **Visuals:** Crystal-clear cinematic sunset landscape background (`/sunset-bg.png`) with ambient interactive particle canvas (`Three.js / @react-three/fiber`)
+* **Audio:** Lightweight procedural Web Audio API synthesis for UI clicks
+* **Registration API:** In-memory duplicate detection + Ticket pass generation (`/api/register`)
+
+---
+
+## 💻 Running Locally
 
 ```bash
+# Install dependencies
 npm install
+
+# Run development server
 npm run dev
-# or build & start
+
+# Or build & run production
 npm run build
 npm run start
 ```

@@ -2,29 +2,28 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "THE NINE REALMS • Hacktoberfest Hack Day Jaunpur (Offline) × Prasad Institute of Technology",
-  description: "An award-level, cinematic, immersive 3D digital universe of open-source engineering. Join us in-person on Saturday, October 24, 2026 at Prasad Institute of Technology, Jaunpur.",
+  title: "Hacktoberfest Hack Day Jaunpur 2026 | Prasad Institute of Technology (Offline)",
+  description: "The official offline in-person Hacktoberfest 2026 Hack Day at Prasad Institute of Technology, Jaunpur on Saturday, October 24, 2026. Join student builders for a 5.5-hour open-source sprint.",
   keywords: [
     "Hacktoberfest 2026",
     "Hack Day Jaunpur",
     "Prasad Institute of Technology",
-    "The Nine Realms",
     "Offline Hackathon",
     "Open Source",
-    "WebGL",
-    "Three.js",
+    "College Hackathon",
+    "Jaunpur Hackathon",
   ],
   authors: [{ name: "Shubhasheesh Kundu & Preet Yadav" }],
   openGraph: {
-    title: "THE NINE REALMS • Hacktoberfest Hack Day Jaunpur (Offline)",
-    description: "Nine dimensions of code. Infinite possibilities. One physical arena of builders.",
-    siteName: "The Nine Realms",
+    title: "Hacktoberfest Hack Day Jaunpur 2026 | Prasad Institute of Technology",
+    description: "Physical in-person college hackathon on Saturday, October 24, 2026 at Prasad Institute of Technology, Jaunpur.",
+    siteName: "Hacktoberfest Hack Day Jaunpur",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#02040a",
+  themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -37,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className="bg-midnight-950 text-foreground antialiased selection:bg-gold-500 selection:text-midnight-950 overflow-x-hidden">
+      <body className="bg-neutral-950 text-white antialiased selection:bg-amber-500 selection:text-black overflow-x-hidden">
         {children}
       </body>
     </html>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { soundEngine } from '@/lib/audio';
-import { X, Sparkles, CheckCircle2, AlertCircle, Copy, Check, Ticket, MapPin } from 'lucide-react';
+import { X, CheckCircle2, AlertCircle, Copy, Check, Ticket, MapPin, ArrowRight } from 'lucide-react';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -57,13 +57,12 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
       } else {
         setSuccessData(data);
         soundEngine.playTempleBell(1.2);
-        // Confetti celebration
         try {
           confetti({
-            particleCount: 80,
-            spread: 70,
+            particleCount: 70,
+            spread: 60,
             origin: { y: 0.6 },
-            colors: ['#fbbf24', '#f59e0b', '#22d3ee', '#ec4899', '#ffffff'],
+            colors: ['#f59e0b', '#fbbf24', '#06b6d4', '#ffffff'],
           });
         } catch {}
       }
@@ -84,17 +83,15 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-950/85 backdrop-blur-2xl animate-fade-in">
-      <div className="relative w-full max-w-xl p-6 sm:p-8 rounded-3xl bg-midnight-900/95 border border-gold-500/40 shadow-[0_0_50px_rgba(245,158,11,0.3)] text-white overflow-hidden max-h-[92vh] overflow-y-auto">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 blur-3xl pointer-events-none" />
-
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-fade-in">
+      <div className="relative w-full max-w-xl p-6 sm:p-8 rounded-3xl bg-neutral-950 border border-white/15 shadow-2xl text-white overflow-hidden max-h-[92vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={() => {
             soundEngine.playClick();
             onClose();
           }}
-          className="absolute top-5 right-5 p-2 rounded-full bg-midnight-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
           aria-label="Close registration modal"
         >
           <X className="w-5 h-5" />
@@ -104,15 +101,15 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
           <div>
             {/* Modal Header */}
             <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-400 text-xs font-mono tracking-widest uppercase mb-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-400 text-xs font-mono tracking-wider uppercase mb-2">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>OFFLINE IN-PERSON REGISTRATION • PIT JAUNPUR</span>
+                <span>OFFLINE EVENT • PRASAD INSTITUTE OF TECHNOLOGY</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-celestial font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-500">
-                CAMPUS HACKATHON ENTRY
+              <h3 className="text-2xl sm:text-3xl font-black text-white">
+                HACKATHON REGISTRATION
               </h3>
               <p className="mt-1 text-xs sm:text-sm text-zinc-400 font-light">
-                Hacktoberfest Hack Day Jaunpur × Prasad Institute of Technology
+                Hacktoberfest Hack Day Jaunpur • Saturday, October 24, 2026
               </p>
             </div>
 
@@ -129,7 +126,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
               {/* Full Name */}
               <div>
                 <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                  Full Name <span className="text-gold-400">*</span>
+                  Full Name <span className="text-amber-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -137,7 +134,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   placeholder="e.g. Aryan Sharma"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-midnight-950 border border-zinc-800 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 text-sm text-white placeholder-zinc-600 outline-none transition-all font-sans"
+                  className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-zinc-600 outline-none transition-all"
                 />
               </div>
 
@@ -145,7 +142,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Student ID / Roll No <span className="text-gold-400">*</span>
+                    Student ID / Roll No <span className="text-amber-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -153,13 +150,13 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                     placeholder="e.g. 2201340100012"
                     value={formData.studentId}
                     onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-midnight-950 border border-zinc-800 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 text-sm text-white placeholder-zinc-600 outline-none transition-all font-mono"
+                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-zinc-600 outline-none transition-all font-mono"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Student Email <span className="text-gold-400">*</span>
+                    Student Email <span className="text-amber-400">*</span>
                   </label>
                   <input
                     type="email"
@@ -167,7 +164,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                     placeholder="aryan@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-midnight-950 border border-zinc-800 focus:border-gold-500 focus:ring-1 focus:ring-gold-500 text-sm text-white placeholder-zinc-600 outline-none transition-all font-mono"
+                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-zinc-600 outline-none transition-all font-mono"
                   />
                 </div>
               </div>
@@ -176,12 +173,12 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Department / Branch <span className="text-gold-400">*</span>
+                    Department / Branch <span className="text-amber-400">*</span>
                   </label>
                   <select
                     value={formData.branch}
                     onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-midnight-950 border border-zinc-800 focus:border-gold-500 text-sm text-white outline-none"
+                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 text-sm text-white outline-none"
                   >
                     <option value="Computer Science & Engineering (CSE)">Computer Science &amp; Eng (CSE)</option>
                     <option value="Information Technology (IT)">Information Technology (IT)</option>
@@ -195,12 +192,12 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
 
                 <div>
                   <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Current Semester <span className="text-gold-400">*</span>
+                    Current Semester <span className="text-amber-400">*</span>
                   </label>
                   <select
                     value={formData.semester}
                     onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-midnight-950 border border-zinc-800 focus:border-gold-500 text-sm text-white outline-none"
+                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 text-sm text-white outline-none"
                   >
                     <option value="Semester 1">Semester 1 (1st Year)</option>
                     <option value="Semester 3">Semester 3 (2nd Year)</option>
@@ -213,7 +210,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
               {/* Team Status */}
               <div>
                 <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                  Team Formation Status <span className="text-gold-400">*</span>
+                  Team Formation Status <span className="text-amber-400">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   {(['Looking for teammates', 'Bringing a team', 'Joining a team', 'Solo'] as const).map((status) => (
@@ -223,8 +220,8 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                       onClick={() => setFormData({ ...formData, teamStatus: status })}
                       className={`p-2.5 rounded-xl text-left border transition-all ${
                         formData.teamStatus === status
-                          ? 'bg-gold-500/20 border-gold-500 text-gold-300 font-semibold'
-                          : 'bg-midnight-950 border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                          ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-semibold'
+                          : 'bg-neutral-900 border-white/10 text-zinc-400 hover:border-white/20'
                       }`}
                     >
                       {status}
@@ -238,7 +235,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-gold-500 to-amber-600 text-midnight-950 font-mono font-bold text-sm uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.5)] hover:shadow-[0_0_35px_rgba(245,158,11,0.8)] transition-all disabled:opacity-50"
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-bold text-sm uppercase tracking-wider shadow-lg hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? 'CONFIRMING ON-CAMPUS SPOT...' : 'CONFIRM OFFLINE REGISTRATION →'}
                 </button>
@@ -246,29 +243,29 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
             </form>
           </div>
         ) : (
-          /* Celestial Access Pass Confirmation */
+          /* Participant Access Pass */
           <div className="text-center py-4 animate-fade-in">
             <div className="inline-flex p-3 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-3">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
-            <h3 className="text-2xl font-celestial font-bold text-white">
-              IN-PERSON PASS CONFIRMED
+            <h3 className="text-2xl font-bold text-white">
+              REGISTRATION CONFIRMED
             </h3>
             <p className="text-xs text-zinc-400 font-mono mt-1">
               Welcome to Hack Day Jaunpur, {successData.participant.fullName}!
             </p>
 
-            {/* Holographic Ticket Graphic */}
-            <div className="mt-6 p-6 rounded-2xl bg-midnight-950 border border-gold-500/50 shadow-2xl relative text-left font-mono">
-              <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+            {/* Clean Ticket Graphic */}
+            <div className="mt-6 p-6 rounded-2xl bg-neutral-900 border border-amber-500/40 shadow-2xl relative text-left font-mono">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <div>
-                  <span className="text-[10px] text-zinc-500 block uppercase">CAMPUS PASS IDENTIFIER</span>
-                  <span className="text-lg font-bold text-gold-400">{successData.ticketId}</span>
+                  <span className="text-[10px] text-zinc-500 block uppercase">PASS IDENTIFIER</span>
+                  <span className="text-lg font-bold text-amber-400">{successData.ticketId}</span>
                 </div>
                 <button
                   onClick={handleCopyTicket}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-zinc-300"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -281,7 +278,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   <span className="text-zinc-200">{successData.participant.fullName}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 text-[10px] block">STUDENT ID</span>
+                  <span className="text-zinc-500 text-[10px] block">ROLL NUMBER</span>
                   <span className="text-zinc-200">{successData.participant.studentId}</span>
                 </div>
                 <div>
@@ -289,23 +286,23 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   <span className="text-zinc-200 truncate block">{successData.participant.branch}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 text-[10px] block">SQUAD MODE</span>
+                  <span className="text-zinc-500 text-[10px] block">TEAM STATUS</span>
                   <span className="text-emerald-400">{successData.participant.teamStatus}</span>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between text-[10px] text-zinc-500">
-                <span>VENUE: PIT JAUNPUR (PHYSICAL)</span>
-                <span>24 OCT 2026 • 09:30 IST</span>
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-zinc-500">
+                <span>VENUE: PIT JAUNPUR (OFFLINE)</span>
+                <span>24 OCT 2026 • 09:30 AM IST</span>
               </div>
             </div>
 
             <div className="mt-6 flex justify-center">
               <button
                 onClick={onClose}
-                className="px-8 py-3 rounded-full bg-gold-500 hover:bg-gold-400 text-midnight-950 font-mono font-bold text-xs uppercase tracking-wider transition-all"
+                className="px-8 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all"
               >
-                RETURN TO EXPERIENCE
+                Done
               </button>
             </div>
           </div>
