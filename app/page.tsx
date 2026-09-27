@@ -6,6 +6,7 @@ import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
 import HighImpactStatsSection from '@/components/ui/HighImpactStatsSection';
 import MLHSponsorBanner from '@/components/ui/MLHSponsorBanner';
+import CollegeAccreditationBanner from '@/components/ui/CollegeAccreditationBanner';
 import TracksSection from '@/components/ui/TracksSection';
 import BadgePromoSection from '@/components/ui/BadgePromoSection';
 import PrizesSection from '@/components/ui/PrizesSection';
@@ -106,6 +107,9 @@ export default function Home() {
 
         {/* Major League Hacking (MLH) Official Sponsorship Banner */}
         <MLHSponsorBanner />
+
+        {/* Official College Accreditation & AKTU Institutional Showcase Banner */}
+        <CollegeAccreditationBanner onOpenRegister={() => setIsRegisterOpen(true)} />
 
         {/* Focus Tracks */}
         <TracksSection />

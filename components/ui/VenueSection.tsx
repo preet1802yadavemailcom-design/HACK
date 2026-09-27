@@ -21,6 +21,33 @@ export default function VenueSection() {
         </p>
       </div>
 
+      {/* Campus Visual Showcase Bar */}
+      <div className="mb-8 rounded-3xl bg-neutral-900/85 border border-white/15 p-4 sm:p-6 backdrop-blur-2xl shadow-2xl flex flex-col md:flex-row items-center gap-6 overflow-hidden">
+        <div className="w-full md:w-1/2 rounded-2xl bg-white p-3 shadow-md flex items-center justify-center">
+          <img
+            src="/pit-banner.png"
+            alt="Prasad Institute of Technology Banner"
+            className="w-full h-auto max-h-[85px] object-contain"
+          />
+        </div>
+        <div className="w-full md:w-1/2 flex items-center gap-3">
+          <div className="w-20 h-20 rounded-2xl overflow-hidden border border-amber-400/40 shadow-lg flex-shrink-0">
+            <img src="/pit-campus.png" alt="PIT Campus" className="w-full h-full object-cover" />
+          </div>
+          <div className="text-left font-mono text-xs">
+            <div className="text-amber-400 font-bold uppercase tracking-wider">
+              OFFLINE COLLEGE VENUE
+            </div>
+            <div className="text-white font-sans font-bold text-sm">
+              Main Auditorium &amp; CS Labs
+            </div>
+            <div className="text-zinc-400 text-[11px] mt-0.5">
+              High-speed WiFi &bull; Power strips at desks &bull; Live Sprint Zone
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Address Card */}
         <div className="p-7 sm:p-8 rounded-3xl bg-black/75 border border-white/10 backdrop-blur-2xl flex flex-col justify-between shadow-xl">

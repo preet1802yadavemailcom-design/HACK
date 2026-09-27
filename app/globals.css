@@ -157,3 +157,12 @@ body {
   animation: borderRotate 12s linear infinite;
 }
 
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
