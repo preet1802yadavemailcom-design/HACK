@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://hack.pages.dev'),
   title: "Hacktoberfest Hack Day Jaunpur 2026 | Prasad Institute of Technology (Offline)",
   description: "The official offline in-person Hacktoberfest 2026 Hack Day at Prasad Institute of Technology, Jaunpur on Saturday, October 24, 2026. Join student builders for a 5.5-hour open-source sprint.",
   keywords: [
@@ -14,11 +15,23 @@ export const metadata: Metadata = {
     "Jaunpur Hackathon",
   ],
   authors: [{ name: "Shubhasheesh Kundu & Preet Yadav" }],
+  icons: {
+    icon: '/pit-logo.png',
+    apple: '/pit-logo.png',
+  },
   openGraph: {
     title: "Hacktoberfest Hack Day Jaunpur 2026 | Prasad Institute of Technology",
     description: "Physical in-person college hackathon on Saturday, October 24, 2026 at Prasad Institute of Technology, Jaunpur.",
     siteName: "Hacktoberfest Hack Day Jaunpur",
     type: "website",
+    images: [
+      {
+        url: '/pit-logo.png',
+        width: 313,
+        height: 313,
+        alt: 'Prasad Institute of Technology Jaunpur Logo',
+      },
+    ],
   },
 };
 

@@ -166,11 +166,22 @@ export default function Home() {
         {/* Footer with Creator Credits & Direct WhatsApp Hotline */}
         <footer className="relative w-full py-12 px-4 border-t border-white/10 bg-black/90 backdrop-blur-xl text-center font-mono text-xs text-zinc-400 z-20">
           <div className="max-w-4xl mx-auto flex flex-col items-center gap-4">
-            <div className="flex items-center gap-2 text-zinc-200">
-              <Terminal className="w-4 h-4 text-amber-400" />
-              <span className="font-bold">HACKTOBERFEST HACK DAY JAUNPUR</span>
-              <span>×</span>
-              <span>PRASAD INSTITUTE OF TECHNOLOGY</span>
+            <div className="flex items-center gap-3 text-zinc-200">
+              <div className="w-9 h-9 rounded-full bg-white p-0.5 border border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.3)] flex items-center justify-center flex-shrink-0">
+                <img
+                  src="/pit-logo.png"
+                  alt="Prasad Institute of Technology Logo"
+                  className="w-full h-full object-contain rounded-full"
+                />
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="font-bold text-white font-sans text-sm">
+                  PRASAD INSTITUTE OF TECHNOLOGY, JAUNPUR
+                </span>
+                <span className="text-[10px] text-amber-400 font-mono">
+                  HACKTOBERFEST HACK DAY 2026 • CSE DEPARTMENT
+                </span>
+              </div>
             </div>
 
             <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 text-xs max-w-lg">

@@ -40,9 +40,13 @@ export default function ModernNavbar({
       <nav className="max-w-6xl mx-auto rounded-full bg-black/85 hover:bg-black/95 border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_0_25px_rgba(245,158,11,0.06)] backdrop-blur-2xl py-2 px-4 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300">
         {/* Left: Brand Identity & Creator Credit */}
         <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
-          <div className="relative p-2 rounded-xl bg-gradient-to-br from-amber-500/25 to-yellow-500/10 text-amber-400 border border-amber-400/40 group-hover:scale-105 group-hover:border-amber-400 transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)]">
-            <Terminal className="w-4 h-4" />
-            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+          <div className="relative w-9 h-9 rounded-full bg-white p-0.5 border-2 border-amber-400/80 group-hover:scale-105 group-hover:border-amber-300 transition-all shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center flex-shrink-0">
+            <img
+              src="/pit-logo.png"
+              alt="Prasad Institute of Technology Logo"
+              className="w-full h-full object-contain rounded-full"
+            />
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-ping" />
           </div>
 
           <div className="flex flex-col text-left">

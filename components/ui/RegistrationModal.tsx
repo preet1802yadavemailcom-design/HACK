@@ -38,11 +38,13 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
           <span>PORTAL ACTIVATING SOON</span>
         </div>
 
-        {/* Holographic Glowing Icon */}
-        <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-amber-500/20 via-yellow-500/20 to-emerald-500/20 border-2 border-amber-400/50 p-1 flex items-center justify-center shadow-[0_0_35px_rgba(245,158,11,0.3)] mb-5">
-          <div className="w-full h-full rounded-2xl bg-black flex items-center justify-center">
-            <Zap className="w-9 h-9 text-amber-400 animate-bounce" />
-          </div>
+        {/* Official College Seal */}
+        <div className="w-20 h-20 mx-auto rounded-full bg-white p-1 border-2 border-amber-400 shadow-[0_0_35px_rgba(245,158,11,0.5)] mb-5 flex items-center justify-center">
+          <img
+            src="/pit-logo.png"
+            alt="Prasad Institute of Technology Logo"
+            className="w-full h-full object-contain rounded-full"
+          />
         </div>
 
         {/* Title */}

@@ -53,6 +53,25 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
       {/* Dynamic Ambient Glow Orbs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-gradient-to-r from-amber-500/20 via-yellow-500/15 to-emerald-500/15 rounded-full blur-[100px] pointer-events-none animate-pulse" />
 
+      {/* Official Prasad Institute of Technology Jaunpur Logo Badge */}
+      <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-black/85 border border-amber-400/40 backdrop-blur-xl shadow-[0_0_30px_rgba(245,158,11,0.25)] mb-4 hover:border-amber-400 transition-all group">
+        <div className="w-10 h-10 rounded-full bg-white p-0.5 border border-amber-400 shadow-md flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+          <img
+            src="/pit-logo.png"
+            alt="Prasad Institute of Technology Logo"
+            className="w-full h-full object-contain rounded-full"
+          />
+        </div>
+        <div className="flex flex-col text-left">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold">
+            Department of Computer Science & Engineering
+          </span>
+          <span className="text-xs sm:text-sm font-sans font-bold text-white tracking-wide">
+            Prasad Institute of Technology, Jaunpur
+          </span>
+        </div>
+      </div>
+
       {/* Offline Status Badge */}
       <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/75 border border-emerald-500/50 backdrop-blur-xl shadow-[0_0_25px_rgba(16,185,129,0.3)] mb-6 transition-all hover:scale-105">
         <span className="relative flex h-2.5 w-2.5">

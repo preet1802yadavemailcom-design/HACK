@@ -79,8 +79,17 @@ export default function BadgePromoSection() {
               </div>
 
               <div className="relative z-10 flex items-center justify-between pb-2 border-b border-white/10">
-                <div className="w-7 h-5 rounded bg-gradient-to-tr from-amber-300 to-amber-600 flex items-center justify-center shadow">
-                  <Cpu className="w-3 h-3 text-black" />
+                <div className="flex items-center gap-1.5">
+                  <div className="w-7 h-5 rounded bg-gradient-to-tr from-amber-300 to-amber-600 flex items-center justify-center shadow">
+                    <Cpu className="w-3 h-3 text-black" />
+                  </div>
+                  <div className="w-6 h-6 rounded-full bg-white p-0.5 border border-amber-400 shadow flex items-center justify-center flex-shrink-0">
+                    <img
+                      src="/pit-logo.png"
+                      alt="PIT Logo"
+                      className="w-full h-full object-contain rounded-full"
+                    />
+                  </div>
                 </div>
                 <div className="text-right">
                   <span className="text-[8px] font-mono text-zinc-400 uppercase block">PIT JAUNPUR</span>
