@@ -26,6 +26,7 @@ export default function ModernNavbar({ onOpenRegister }: ModernNavbarProps) {
     { label: 'Squads', href: '/#squads' },
     { label: 'Schedule', href: '/#schedule' },
     { label: 'Venue', href: '/#venue' },
+    { label: '💬 Contact', href: '/#contact' },
     { label: '⚡ VIP Passport', href: '/badge', isSpecial: true },
   ];
 

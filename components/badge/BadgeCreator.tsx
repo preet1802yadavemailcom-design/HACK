@@ -915,8 +915,30 @@ export default function BadgeCreator() {
           </div>
         </div>
 
+        {/* Organizer WhatsApp Support Hotline Bar */}
+        <div className="mt-12 p-4 rounded-2xl bg-black/60 border border-white/10 max-w-xl mx-auto flex flex-wrap items-center justify-center gap-3 font-mono text-xs text-zinc-300">
+          <span className="text-zinc-500 uppercase text-[10px]">NEED HELP?</span>
+          <a
+            href="https://wa.me/916306588533?text=Hi%20Shubhasheesh%20Sir%2C%20I%20have%20a%20query%20regarding%20Hacktoberfest%20PIT"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1"
+          >
+            <span>💬 Shubhasheesh Sir (6306588533)</span>
+          </a>
+          <span className="text-zinc-600">•</span>
+          <a
+            href="https://wa.me/916394530549?text=Hi%20Preet%2C%20I%20have%20a%20query%20regarding%20Hacktoberfest%20PIT"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1"
+          >
+            <span>💬 Preet Yadav (6394530549)</span>
+          </a>
+        </div>
+
         {/* Creator & Department Attribution Footer */}
-        <div className="mt-16 pt-8 border-t border-white/10 text-center space-y-2 font-mono">
+        <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-2 font-mono">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
             <span>✨ Designed &amp; Engineered with ❤️ by Preet Yadav</span>
           </div>

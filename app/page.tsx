@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
+import HighImpactStatsSection from '@/components/ui/HighImpactStatsSection';
 import MLHSponsorBanner from '@/components/ui/MLHSponsorBanner';
 import TracksSection from '@/components/ui/TracksSection';
 import BadgePromoSection from '@/components/ui/BadgePromoSection';
@@ -12,10 +13,12 @@ import ResourcesSection from '@/components/ui/ResourcesSection';
 import SquadSection from '@/components/ui/SquadSection';
 import ScheduleSection from '@/components/ui/ScheduleSection';
 import VenueSection from '@/components/ui/VenueSection';
+import OrganizerHotlineSection from '@/components/ui/OrganizerHotlineSection';
+import FloatingWhatsAppWidget from '@/components/ui/FloatingWhatsAppWidget';
 import RegistrationModal from '@/components/ui/RegistrationModal';
 import MagicalAuraCanvas from '@/components/ui/MagicalAuraCanvas';
 import { soundEngine } from '@/lib/audio';
-import { ArrowRight, Terminal, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, Terminal, Volume2, VolumeX, MessageSquare, Phone } from 'lucide-react';
 
 export default function Home() {
   const [isVideoIntroActive, setIsVideoIntroActive] = useState(true);
@@ -56,17 +59,20 @@ export default function Home() {
       {/* 4. Interactive Magical Stardust & Cyber Embers Particle Canvas */}
       <MagicalAuraCanvas />
 
-      {/* 4. Modern Sticky Navigation */}
+      {/* 5. Modern Sticky Navigation */}
       <ModernNavbar onOpenRegister={() => setIsRegisterOpen(true)} />
 
-      {/* 5. Main Hackathon Event Content */}
+      {/* 6. Main Hackathon Event Content */}
       <div
         className={`relative z-10 flex flex-col items-center transition-all duration-700 ${
           isVideoIntroActive ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        {/* Hero Section */}
+        {/* Hero Section with Live Countdown */}
         <HeroSection onOpenRegister={() => setIsRegisterOpen(true)} />
+
+        {/* 3D High-Impact Stats Cubes */}
+        <HighImpactStatsSection />
 
         {/* Major League Hacking (MLH) Official Sponsorship Banner */}
         <MLHSponsorBanner />
@@ -86,11 +92,14 @@ export default function Home() {
         {/* Squad & Team Formation */}
         <SquadSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
-        {/* Schedule */}
+        {/* Schedule & Timeline */}
         <ScheduleSection />
 
         {/* Campus Venue & Details */}
         <VenueSection />
+
+        {/* 24/7 Organizer Hotline (Shubhasheesh Kundu Sir & Preet Yadav) */}
+        <OrganizerHotlineSection />
 
         {/* Final CTA Banner */}
         <section className="relative w-full py-20 px-4 max-w-4xl mx-auto text-center z-20">
@@ -124,9 +133,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer with Creator Credits */}
+        {/* Footer with Creator Credits & Direct WhatsApp Hotline */}
         <footer className="relative w-full py-12 px-4 border-t border-white/10 bg-black/90 backdrop-blur-xl text-center font-mono text-xs text-zinc-400 z-20">
-          <div className="max-w-4xl mx-auto flex flex-col items-center gap-3">
+          <div className="max-w-4xl mx-auto flex flex-col items-center gap-4">
             <div className="flex items-center gap-2 text-zinc-200">
               <Terminal className="w-4 h-4 text-amber-400" />
               <span className="font-bold">HACKTOBERFEST HACK DAY JAUNPUR</span>
@@ -134,7 +143,7 @@ export default function Home() {
               <span>PRASAD INSTITUTE OF TECHNOLOGY</span>
             </div>
 
-            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 text-xs max-w-lg">
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 text-xs max-w-lg">
               Crafted &amp; Engineered by <span className="text-amber-400 font-bold">Preet Yadav</span>
               <br />
               <span className="text-zinc-400 text-[11px]">
@@ -142,7 +151,34 @@ export default function Home() {
               </span>
             </div>
 
-            <p className="text-[11px] text-zinc-400 max-w-md">
+            {/* Direct Contact Numbers Strip */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-[11px]">
+              <a
+                href={`https://wa.me/916306588533?text=${encodeURIComponent(
+                  'Hi Shubhasheesh Sir, I have a query regarding Hacktoberfest PIT Jaunpur.'
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-1.5 rounded-full bg-black/80 border border-white/15 hover:border-emerald-400/50 text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors"
+              >
+                <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Shubhasheesh Kundu Sir: <strong>+91 63065 88533</strong></span>
+              </a>
+
+              <a
+                href={`https://wa.me/916394530549?text=${encodeURIComponent(
+                  'Hi Preet, I have a query regarding Hacktoberfest PIT Jaunpur.'
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-1.5 rounded-full bg-black/80 border border-white/15 hover:border-emerald-400/50 text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors"
+              >
+                <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Preet Yadav: <strong>+91 63945 30549</strong></span>
+              </a>
+            </div>
+
+            <p className="text-[11px] text-zinc-400 max-w-md pt-2">
               Organized by Shubhasheesh Kundu &amp; Preet Yadav • Sponsored by Major League Hacking (MLH).
             </p>
             <div className="text-[10px] text-zinc-500">
@@ -152,7 +188,10 @@ export default function Home() {
         </footer>
       </div>
 
-      {/* Floating BGM Toggle Pill (Default OFF) */}
+      {/* Floating 1-Tap Direct WhatsApp Support Widget (Bottom-Left) */}
+      <FloatingWhatsAppWidget />
+
+      {/* Floating BGM Toggle Pill (Bottom-Right, Default OFF) */}
       <div className="fixed bottom-6 right-6 z-40">
         <button
           onClick={toggleBgm}
@@ -177,7 +216,7 @@ export default function Home() {
         </button>
       </div>
 
-      {/* 6. Registration Modal */}
+      {/* Registration Modal */}
       <RegistrationModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}
