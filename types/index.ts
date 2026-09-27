@@ -1,21 +1,21 @@
 export type RealmId = 
-  | 'shailputri'
-  | 'brahmacharini'
-  | 'chandraghanta'
-  | 'kushmanda'
-  | 'skandamata'
-  | 'katyayani'
-  | 'kalaratri'
-  | 'mahagauri'
-  | 'siddhidatri';
+  | 'genesis'
+  | 'architecture'
+  | 'resonance'
+  | 'nebula'
+  | 'nexus'
+  | 'forge'
+  | 'breakthrough'
+  | 'sanctuary'
+  | 'apex';
 
 export interface RealmInfo {
   id: RealmId;
   index: number;
   name: string;
-  sanskritName: string;
+  tagline: string;
   title: string;
-  goddessForm: string;
+  dimensionType: string;
   significance: string;
   hacktoberfestTheme: string;
   techLayer: string;

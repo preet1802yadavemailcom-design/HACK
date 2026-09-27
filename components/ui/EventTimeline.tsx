@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { soundEngine } from '@/lib/audio';
-import { Clock, CheckCircle, Flame, Sparkles, Terminal, Code2, Rocket, Award } from 'lucide-react';
+import { Clock, Terminal, Code2, Rocket, Award, Sparkles, MapPin } from 'lucide-react';
 
 export default function EventTimeline() {
   const [activeStep, setActiveStep] = useState<number>(2); // Default to "BUILD"
@@ -10,56 +10,56 @@ export default function EventTimeline() {
   const schedule = [
     {
       time: '09:30 IST',
-      phase: 'CHECK-IN & AWAKENING',
+      phase: 'ON-CAMPUS CHECK-IN',
       shortTitle: 'CHECK-IN',
-      icon: Flame,
-      realmReference: 'Realm 1: Shailputri Genesis',
-      description: 'Arrival, badge issuance, hacker desk assignment, and welcome address at the auditorium.',
-      milestone: 'Environment verification & Git keys synchronized.',
+      icon: MapPin,
+      realmReference: 'Dimension 01: Genesis',
+      description: 'Physical campus check-in at Prasad Institute of Technology auditorium. Badge issuance, table station allocations & opening briefing.',
+      milestone: 'Environment verification & Git setup confirmed on-site.',
     },
     {
       time: '10:00 IST',
-      phase: 'IDEATE / FIND YOUR PROBLEM',
+      phase: 'IDEATE & SQUAD FORMATION',
       shortTitle: 'IDEATE',
       icon: Terminal,
-      realmReference: 'Realm 2: Brahmacharini Contemplation',
-      description: 'Problem statement discovery, repo selection, issue scoping, and squad formation mixer.',
-      milestone: 'First issue claim & git branch created.',
+      realmReference: 'Dimension 02: Architecture',
+      description: 'Problem statement discovery, open-source repo selection, issue scoping, and in-person team mixer.',
+      milestone: 'First issue claimed & feature branch created.',
     },
     {
       time: '11:00 IST',
-      phase: 'THE SACRED BUILD SPRINT',
+      phase: 'THE SPRINT BUILD BLOCK',
       shortTitle: 'BUILD',
       icon: Code2,
-      realmReference: 'Realm 6: Katyayani Warrior Fire',
-      description: 'Continuous intense hacking block. Mentors and hosts actively assist with blockers, APIs, and architecture.',
-      milestone: 'Core logic implemented, tests passing.',
+      realmReference: 'Dimension 06: Plasma Forge',
+      description: 'Intense physical hacking session. Hosts and mentors physically circulate across campus lab tables to resolve blockers and review architecture.',
+      milestone: 'Core features implemented, tests passing.',
     },
     {
       time: '13:30 IST',
       phase: 'SHIP THE PULL REQUEST',
       shortTitle: 'SHIP THE PR',
       icon: Rocket,
-      realmReference: 'Realm 7: Kalaratri Breakthrough',
-      description: 'Code freeze for PR submissions. Open PRs to upstream Hacktoberfest repos or push project release tags.',
+      realmReference: 'Dimension 07: Breakthrough',
+      description: 'Code freeze for PR submissions. Open pull requests to upstream Hacktoberfest participating repos or tag live project release.',
       milestone: 'Pull request submitted for maintainer review.',
     },
     {
       time: '14:30 IST',
-      phase: 'COMMUNITY SHOWCASE',
+      phase: 'LIVE AUDITORIUM SHOWCASE',
       shortTitle: 'SHOWCASE',
       icon: Sparkles,
-      realmReference: 'Realm 8: Mahagauri Clarity',
-      description: 'Lightning demos of student builds, open-source pull requests, and creative technology prototypes.',
-      milestone: 'Public stage presentation to peers and faculty.',
+      realmReference: 'Dimension 08: Sanctuary',
+      description: 'Stage demos of student builds, open-source pull requests, and software prototypes on the main auditorium projector.',
+      milestone: 'In-person stage presentation to peers and faculty.',
     },
     {
       time: '15:00 IST',
       phase: 'CULMINATION & CLOSE',
       shortTitle: 'CLOSE',
       icon: Award,
-      realmReference: 'Realm 9: Siddhidatri Perfection',
-      description: 'Closing keynote, community photos, contributor acknowledgments, and closing ceremonial bell.',
+      realmReference: 'Dimension 09: Apex',
+      description: 'Closing remarks by organizers, group photograph, contributor acknowledgments, and event wrap-up.',
       milestone: 'Hacktoberfest Hack Day Jaunpur successfully concluded.',
     },
   ];
@@ -70,13 +70,13 @@ export default function EventTimeline() {
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 font-mono text-xs uppercase tracking-widest mb-3">
           <Clock className="w-3.5 h-3.5" />
-          <span>SATURDAY, OCTOBER 24, 2026</span>
+          <span>SATURDAY, OCTOBER 24, 2026 • OFFLINE SPRINT</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-celestial font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-400 to-amber-500 text-gold-glow">
-          THE HACK DAY JOURNEY
+          IN-PERSON HACK SCHEDULE
         </h2>
         <p className="mt-3 text-zinc-400 max-w-xl mx-auto text-sm sm:text-base font-light">
-          Six disciplined milestones navigating from dawn check-in to final code release.
+          Six focused milestones at Prasad Institute of Technology, navigating from 09:30 morning check-in to final stage demos.
         </p>
       </div>
 
@@ -115,7 +115,7 @@ export default function EventTimeline() {
                       <span className="font-mono text-xs px-2.5 py-1 rounded bg-gold-500/20 text-gold-300 font-bold tracking-wider">
                         {item.time}
                       </span>
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase">
+                      <span className="text-[10px] font-mono text-cyan-400 uppercase font-semibold">
                         {item.realmReference}
                       </span>
                     </div>
@@ -127,8 +127,8 @@ export default function EventTimeline() {
                       {item.description}
                     </p>
 
-                    <div className="mt-4 pt-3 border-t border-zinc-800/80 flex items-center gap-2 text-[11px] font-mono text-cyan-400">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                    <div className="mt-4 pt-3 border-t border-zinc-800/80 flex items-center gap-2 text-[11px] font-mono text-emerald-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                       <span>{item.milestone}</span>
                     </div>
                   </div>

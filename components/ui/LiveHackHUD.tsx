@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { REALMS } from '@/data/realmsData';
 import { soundEngine } from '@/lib/audio';
-import { Volume2, VolumeX, Cpu, Radio, ShieldCheck, MapPin, Calendar, Clock, Gauge } from 'lucide-react';
+import { Volume2, VolumeX, Cpu, Radio, ShieldCheck, MapPin, Calendar, Clock, Gauge, Building } from 'lucide-react';
 
 interface LiveHackHUDProps {
   currentRealmIndex: number;
@@ -59,17 +59,17 @@ export default function LiveHackHUD({
     <>
       {/* Top Left: Event Telemetry HUD */}
       <div className="fixed top-5 left-5 z-40 flex flex-col gap-1.5 pointer-events-none select-none">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-midnight-950/80 border border-gold-500/30 backdrop-blur-md shadow-lg pointer-events-auto">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-midnight-950/85 border border-emerald-500/40 backdrop-blur-md shadow-lg pointer-events-auto">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="font-mono text-[10px] tracking-widest text-emerald-400 font-semibold uppercase">
-            STATUS: ONLINE
+          <span className="font-mono text-[10px] tracking-widest text-emerald-400 font-bold uppercase">
+            OFFLINE IN-PERSON
           </span>
           <span className="text-zinc-600">|</span>
           <span className="font-mono text-[10px] tracking-wider text-zinc-300">
-            JAUNPUR × PIT
+            PIT JAUNPUR CAMPUS
           </span>
         </div>
 
@@ -91,8 +91,8 @@ export default function LiveHackHUD({
               <span className="text-zinc-200 font-semibold">HACKTOBERFEST &apos;26</span>
             </div>
             <div>
-              <span className="text-zinc-500 block">MODE</span>
-              <span className="text-cyan-400 font-semibold">BUILD → SHIP</span>
+              <span className="text-zinc-500 block">FORMAT</span>
+              <span className="text-emerald-400 font-semibold">PHYSICAL / ON-CAMPUS</span>
             </div>
             <div>
               <span className="text-zinc-500 block">DATE</span>
@@ -105,7 +105,7 @@ export default function LiveHackHUD({
           </div>
 
           <div className="mt-2.5 pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[10px]">
-            <span className="text-zinc-500">COORDINATES</span>
+            <span className="text-zinc-500">VENUE GPS</span>
             <span className="text-zinc-400 font-mono">25.7464° N, 82.6837° E</span>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function LiveHackHUD({
           }}
           className="relative group overflow-hidden px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 via-gold-500 to-amber-600 text-midnight-950 font-mono font-bold text-xs tracking-wider uppercase shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_30px_rgba(245,158,11,0.7)] hover:scale-105 active:scale-95 transition-all"
         >
-          <span>REGISTER NOW</span>
+          <span>REGISTER (OFFLINE)</span>
           <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
         </button>
       </div>

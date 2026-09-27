@@ -1,13 +1,14 @@
 # THE NINE REALMS 🌌
-### HACKTOBERFEST HACK DAY JAUNPUR × PRASAD INSTITUTE OF TECHNOLOGY
-> **“Nine nights. Infinite possibilities. One community of builders.”**
+### HACKTOBERFEST HACK DAY JAUNPUR (OFFLINE) × PRASAD INSTITUTE OF TECHNOLOGY
+> **“Nine dimensions of code. Infinite possibilities. One physical arena of builders.”**
 
-An award-level, cinematic, interactive 3D web experience for **Hacktoberfest 2026** hosted at **Prasad Institute of Technology, Jaunpur**.
+An award-level, cinematic, interactive 3D web experience for **Hacktoberfest 2026** hosted as a physical, in-person campus hackathon at **Prasad Institute of Technology, Jaunpur**.
 
 ---
 
-## 🏛️ Event Specifications
+## 🏛️ Event Specifications (Physical / Offline)
 
+* **Event Format:** Physical On-Campus Hackathon (Offline)
 * **Event:** Hacktoberfest Hack Day Jaunpur × Prasad Institute of Technology
 * **Date:** Saturday, October 24, 2026
 * **Time:** 09:30 AM – 3:00 PM IST
@@ -19,58 +20,38 @@ An award-level, cinematic, interactive 3D web experience for **Hacktoberfest 202
 
 ---
 
-## 🔮 The Creative Universe: The Nine Realms
+## 🔮 The 9 Open-Source Dimensions
 
-The digital journey travels through nine interconnected cosmic realms inspired by the sacred nights of Navratri and the philosophies of open-source engineering:
-
-| Realm | Goddess Form | Concept | Tech Layer |
+| Dimension | Name | Focus | Tech Layer |
 |---|---|---|---|
-| **01. SHAILPUTRI** | *Daughter of the Mountains* | Himalayan Genesis & Grounding | `git init` — Glowing fiber data streams through icy mountain ridges |
-| **02. BRAHMACHARINI** | *The Seeker of Wisdom* | Sacred Woodland & Tapasya | `git branch` — Firefly nodes & floating code constellations |
-| **03. CHANDRAGHANTA** | *Bearer of the Golden Bell* | Sonic Clarity & Courage | `git commit` — Sound-reactive acoustic rings & golden bells |
-| **04. KUSHMANDA** | *Cosmic Creator of the Universe* | Solar Nebula & Cosmic Genesis | `git remote` — Procedural planetary universe & solar corona |
-| **05. SKANDAMATA** | *The Mother & Protector* | Floating Lotus Oasis | `git merge` — Holographic collaboration nodes & waterfall data beams |
-| **06. KATYAYANI** | *The Warrior Goddess* | Warrior Fire Citadel | `git push` — Volcanic basalt spires, magma fissures & flame particles |
-| **07. KALARATRI** | *Destroyer of Darkness* | Cosmic Void into Radiant Dawn | `git rebase` — Lightning arcs & sudden explosion of blinding white light |
-| **08. MAHAGAURI** | *The Serene & Pure* | Crystal Sanctuary of Purity | `git clean` — Luminescent quartz prisms & prismatic refraction |
-| **09. SIDDHIDATRI** | *Giver of All Siddhis* | The Celestial City & Culmination | `git tag v1.0.0` — Nine converging energy rings & Sri Yantra mandala |
+| **01. GENESIS** | *Genesis Summit* | Foundations of Open Source | `git init` — Glowing digital streams carving paths through mountain summits |
+| **02. ARCHITECTURE** | *Code Grove* | Deep Logic & Modular Design | `git branch` — Firefly nodes & floating code constellations |
+| **03. RESONANCE** | *Resonance Citadel* | Clarity & Acoustic Signals | `git commit` — Sound-reactive acoustic rings & golden bells |
+| **04. NEBULA** | *Cosmic Nebula* | Infinite Scale & Origin | `git remote` — Procedural planetary universe & solar corona |
+| **05. NEXUS** | *Collaborative Nexus* | Peer-to-Peer Interconnection | `git merge` — Holographic collaboration nodes & waterfall data beams |
+| **06. THE FORGE** | *The Plasma Forge* | Relentless Sprint Execution | `git push` — Volcanic basalt spires, magma fissures & flame particles |
+| **07. BREAKTHROUGH** | *The Quantum Void* | Transcending Darkness into Dawn | `git rebase` — Lightning arcs & sudden explosion of blinding white light |
+| **08. SANCTUARY** | *Crystal Sanctuary* | Immaculate Craftsmanship & Purity | `git clean` — Luminescent quartz prisms & prismatic refraction |
+| **09. THE APEX** | *The Apex Metropolis* | Complete Mastery & Global Release | `git tag v1.0.0` — Nine converging energy rings & Sri Yantra mandala |
 
 ---
 
-## ⚡ Technical Architecture
+## ⚡ Technical Highlights
 
-* **Framework:** Next.js 14 (App Router) + React 18 + TypeScript
-* **3D Graphics & Engine:** Three.js + React Three Fiber (`@react-three/fiber`) + Drei (`@react-three/drei`)
-* **Custom GLSL Shaders:**
-  * Procedural 3D Simplex noise core displacement with dynamic breathing
-  * Fresnel rim illumination radiating sacred gold, cyan, and vermilion hues
-* **Particle Universe:** GPU-accelerated multi-layer particle system (2500+ stars, 600 swirling sacred petals/embers, bioluminescent fireflies) with cursor repulsion and quality scaling (Low/Med/High)
-* **Audio Engine:** 100% procedural Web Audio API synthesis (Tibetan/Indian singing bowls, temple bells, binaural 108Hz cosmic drones, diya spark ignition, hyperspace realm warp) without external audio file dependencies
-* **Styling & UI:** Tailwind CSS + Lucide Icons + Space Grotesk + Cinzel + DM Mono typography
-* **Registration Backend:** Next.js API route (`/api/register`) with field validation, duplicate detection (by email or roll number), ticket pass generation (`REALM-2026-XXXX`), and optional Google Apps Script forwarding webhook support.
+* **Visual Identity:** Cinematic twilight sunset landscape backdrop with misty mountain lake reflections, soaring eagle in flight, coupled with real-time Three.js 3D WebGL scenes.
+* **3D Celestial Hack Core:** Custom GLSL Simplex noise vertex displacement and Fresnel rim illumination.
+* **Particle Universe:** GPU multi-layer stars, embers, and fireflies with cursor repulsion.
+* **Procedural Audio Engine:** 100% mathematical Web Audio API sound synthesis (temple bells, 108Hz drone, warp sweeps).
+* **Campus Registration & Passes:** Unique ID generation (`REALM-2026-XXXX`) with duplicate validation.
 
 ---
 
 ## 🚀 Running Locally
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
-
-# Or build and launch production server
+# or build & start
 npm run build
 npm run start
 ```
-
-Visit [http://localhost:3000](http://localhost:3000) (or configured port).
-
----
-
-## 📜 Authors & Acknowledgments
-
-* **Hosts & Organizers:** Shubhasheesh Kundu & Preet Yadav
-* **Institution:** Prasad Institute of Technology, Jaunpur
-* **Celebration:** Hacktoberfest 2026

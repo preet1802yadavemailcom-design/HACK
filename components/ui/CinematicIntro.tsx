@@ -2,33 +2,33 @@
 
 import React, { useState, useEffect } from 'react';
 import { soundEngine } from '@/lib/audio';
-import { Flame, Sparkles, ArrowRight, FastForward } from 'lucide-react';
+import { Cpu, Sparkles, ArrowRight, FastForward, MapPin } from 'lucide-react';
 
 interface CinematicIntroProps {
   onEnter: () => void;
 }
 
 export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
-  // Phases: 0 (Void), 1 (Stars ignite), 2 (First Diya), 3 (Hundreds of Diyas), 4 (Typography sequence), 5 (Ready to enter)
+  // Phases: 0 (Void), 1 (Stars ignite), 2 (First Node), 3 (Expanding Network), 4 (Typography sequence), 5 (Ready to enter)
   const [phase, setPhase] = useState<number>(0);
   const [typoStep, setTypoStep] = useState<number>(0);
   const [isExiting, setIsExiting] = useState<boolean>(false);
 
   useEffect(() => {
     // Cinematic timed timeline sequence
-    const t0 = setTimeout(() => setPhase(1), 600);
+    const t0 = setTimeout(() => setPhase(1), 500);
     const t1 = setTimeout(() => {
       setPhase(2);
       soundEngine.playDiyaIgnite();
-    }, 1800);
+    }, 1600);
     const t2 = setTimeout(() => {
       setPhase(3);
       soundEngine.playDiyaIgnite();
-    }, 3200);
+    }, 2800);
     const t3 = setTimeout(() => {
       setPhase(4);
       soundEngine.playTempleBell(0.85);
-    }, 4500);
+    }, 4000);
 
     return () => {
       clearTimeout(t0);
@@ -41,15 +41,15 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
   // Sequential typography timing in Phase 4
   useEffect(() => {
     if (phase === 4) {
-      const step1 = setTimeout(() => setTypoStep(1), 400); // HACKTOBERFEST
-      const step2 = setTimeout(() => setTypoStep(2), 1400); // HACK DAY
-      const step3 = setTimeout(() => setTypoStep(3), 2400); // JAUNPUR
-      const step4 = setTimeout(() => setTypoStep(4), 3400); // PRASAD INSTITUTE OF TECHNOLOGY
+      const step1 = setTimeout(() => setTypoStep(1), 300); // HACKTOBERFEST
+      const step2 = setTimeout(() => setTypoStep(2), 1200); // HACK DAY
+      const step3 = setTimeout(() => setTypoStep(3), 2100); // JAUNPUR
+      const step4 = setTimeout(() => setTypoStep(4), 3000); // PRASAD INSTITUTE OF TECHNOLOGY
       const step5 = setTimeout(() => {
-        setTypoStep(5); // THE NINE REALMS
+        setTypoStep(5); // THE NINE REALMS • OFFLINE HACKATHON
         setPhase(5);
         soundEngine.playTempleBell(1.15);
-      }, 4400);
+      }, 4000);
 
       return () => {
         clearTimeout(step1);
@@ -67,7 +67,7 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
     setIsExiting(true);
     setTimeout(() => {
       onEnter();
-    }, 1000);
+    }, 900);
   };
 
   const handleSkip = () => {
@@ -95,7 +95,7 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
         <FastForward className="w-3.5 h-3.5" />
       </button>
 
-      {/* Background Starfield Twinkling (Phase 1+) */}
+      {/* Background Starfield Twinkling */}
       {phase >= 1 && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {Array.from({ length: 48 }).map((_, i) => (
@@ -113,21 +113,21 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
         </div>
       )}
 
-      {/* Phase 2: First Single Sacred Diya Ignites */}
+      {/* Phase 2: First Developer Core Node Ignites */}
       {phase >= 2 && phase < 4 && (
         <div className="relative flex flex-col items-center justify-center transition-all duration-1000">
           <div className="relative flex items-center justify-center">
             {/* Golden radiance aura */}
             <div className="absolute w-36 h-36 rounded-full bg-gold-500/20 blur-2xl animate-pulse" />
             <div className="relative p-5 rounded-full bg-gold-950/40 border border-gold-500/40 shadow-[0_0_40px_rgba(245,158,11,0.5)]">
-              <Flame className="w-10 h-10 text-gold-400 animate-bounce" />
+              <Cpu className="w-10 h-10 text-gold-400 animate-pulse" />
             </div>
           </div>
           <p className="mt-6 font-mono text-xs uppercase tracking-[0.3em] text-gold-300/80">
-            {phase === 2 ? 'Awakening the first flame...' : 'Igniting celestial constellations...'}
+            {phase === 2 ? 'Initializing Developer Hack Core...' : 'Connecting In-Person Campus Nodes...'}
           </p>
 
-          {/* Phase 3: Hundreds of Diyas Array */}
+          {/* Phase 3: Multiple Luminous Nodes Array */}
           {phase === 3 && (
             <div className="absolute inset-0 pointer-events-none">
               {Array.from({ length: 24 }).map((_, i) => {
@@ -138,7 +138,7 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
                 return (
                   <div
                     key={i}
-                    className="absolute w-2 h-2 rounded-full bg-gold-400 shadow-[0_0_12px_#fbbf24] animate-ping"
+                    className="absolute w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_12px_#22d3ee] animate-ping"
                     style={{
                       transform: `translate(${x}px, ${y}px)`,
                       animationDuration: `${1.5 + (i % 3)}s`,
@@ -154,10 +154,10 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
       {/* Phase 4 & 5: Grand Cinematic Typography Sequence */}
       {phase >= 4 && (
         <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
-          {/* Subtle Sacred Geometry Motif */}
-          <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-mono tracking-widest uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Hacktoberfest 2026 Special Edition</span>
+          {/* OFFLINE IN-PERSON BADGE */}
+          <div className="mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 text-xs font-mono tracking-widest uppercase shadow-[0_0_20px_rgba(16,185,129,0.25)]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>OFFLINE IN-PERSON HACKATHON • PIT CAMPUS</span>
           </div>
 
           {/* Sequential Emergence */}
@@ -180,21 +180,22 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
           )}
 
           {typoStep >= 4 && (
-            <div className="mt-1 text-sm md:text-base font-mono tracking-widest text-gold-400/90 uppercase">
-              PRASAD INSTITUTE OF TECHNOLOGY
+            <div className="mt-1 text-sm md:text-base font-mono tracking-widest text-gold-400/90 uppercase flex items-center justify-center gap-2">
+              <MapPin className="w-4 h-4 text-gold-400" />
+              <span>PRASAD INSTITUTE OF TECHNOLOGY</span>
             </div>
           )}
 
           {typoStep >= 5 && (
             <div className="mt-8 pt-6 border-t border-gold-500/30 flex flex-col items-center animate-fade-in">
               <span className="text-xs font-mono uppercase tracking-[0.4em] text-zinc-400 mb-2">
-                PRESENTS THE IMMERSIVE 3D EXPERIENCE
+                THE 9 OPEN-SOURCE DIMENSIONS
               </span>
               <h1 className="text-4xl md:text-7xl font-celestial font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-gold-400 to-amber-600 text-gold-glow">
                 THE NINE REALMS
               </h1>
               <p className="mt-3 text-sm md:text-base text-zinc-300 max-w-lg font-light italic">
-                “Nine nights. Infinite possibilities. One community of builders.”
+                “Nine dimensions of code. Infinite possibilities. One physical arena of builders.”
               </p>
 
               {/* Call To Action */}
@@ -202,7 +203,7 @@ export default function CinematicIntro({ onEnter }: CinematicIntroProps) {
                 onClick={handleEnterWorld}
                 className="mt-8 group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500 via-gold-500 to-amber-600 text-midnight-950 font-bold font-mono tracking-widest uppercase rounded-full shadow-[0_0_35px_rgba(245,158,11,0.6)] hover:shadow-[0_0_55px_rgba(245,158,11,0.9)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
               >
-                <span className="relative z-10">ENTER THE WORLD</span>
+                <span className="relative z-10">ENTER THE HACKATHON</span>
                 <ArrowRight className="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" />
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </button>

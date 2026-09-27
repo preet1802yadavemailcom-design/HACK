@@ -15,10 +15,10 @@ export default function FloatingDiyas({
   spread = 22,
   currentRealmColor = '#fbbf24',
 }: FloatingDiyasProps) {
-  const diyasGroupRef = useRef<THREE.Group>(null);
+  const nodesGroupRef = useRef<THREE.Group>(null);
 
-  // Procedural placements for the floating sacred diyas
-  const diyasData = useMemo(() => {
+  // Procedural placements for the floating celestial lanterns / glowing contribution nodes
+  const nodesData = useMemo(() => {
     return Array.from({ length: count }).map((_, idx) => {
       const angle = (idx / count) * Math.PI * 2 + (Math.random() * 0.4);
       const rad = 5 + Math.random() * spread;
@@ -27,7 +27,7 @@ export default function FloatingDiyas({
       const z = Math.sin(angle) * rad;
       const speed = 0.5 + Math.random() * 0.8;
       const phase = Math.random() * Math.PI * 2;
-      const scale = 0.6 + Math.random() * 0.5;
+      const scale = 0.5 + Math.random() * 0.4;
 
       return {
         initialPos: [x, y, z] as [number, number, number],
@@ -41,19 +41,19 @@ export default function FloatingDiyas({
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
 
-    if (diyasGroupRef.current) {
-      diyasGroupRef.current.children.forEach((diya, i) => {
-        const data = diyasData[i];
+    if (nodesGroupRef.current) {
+      nodesGroupRef.current.children.forEach((node, i) => {
+        const data = nodesData[i];
         if (data) {
-          // Organic floating bobbing motion
-          diya.position.y = data.initialPos[1] + Math.sin(time * data.speed + data.phase) * 0.35;
-          diya.rotation.y += delta * 0.2;
+          // Organic floating bobbing motion over water
+          node.position.y = data.initialPos[1] + Math.sin(time * data.speed + data.phase) * 0.35;
+          node.rotation.y += delta * 0.25;
           
-          // Flame flicker
-          const flame = diya.children.find((c) => c.name === 'flame');
-          if (flame) {
-            const flicker = 1 + Math.sin(time * 12 + data.phase) * 0.15 + (Math.random() - 0.5) * 0.08;
-            flame.scale.set(data.scale * 1, data.scale * flicker * 1.3, data.scale * 1);
+          // Core pulsation
+          const core = node.children.find((c) => c.name === 'core');
+          if (core) {
+            const pulse = 1 + Math.sin(time * 4 + data.phase) * 0.12;
+            core.scale.set(data.scale * pulse, data.scale * pulse, data.scale * pulse);
           }
         }
       });
@@ -61,43 +61,33 @@ export default function FloatingDiyas({
   });
 
   return (
-    <group ref={diyasGroupRef}>
-      {diyasData.map((data, idx) => (
+    <group ref={nodesGroupRef}>
+      {nodesData.map((data, idx) => (
         <group
           key={idx}
           position={data.initialPos}
           scale={[data.scale, data.scale, data.scale]}
         >
-          {/* Terracotta Diya Clay Bowl */}
-          <mesh position={[0, 0, 0]} castShadow receiveShadow>
-            <cylinderGeometry args={[0.35, 0.18, 0.15, 16]} />
+          {/* Geometric Outer Lantern Cage */}
+          <mesh position={[0, 0, 0]}>
+            <octahedronGeometry args={[0.38, 0]} />
             <meshStandardMaterial
-              color="#78350f"
-              roughness={0.7}
-              metalness={0.1}
+              color="#d97706"
+              wireframe={true}
+              roughness={0.3}
+              metalness={0.9}
             />
           </mesh>
 
-          {/* Golden Sacred Ghee / Oil reservoir */}
-          <mesh position={[0, 0.06, 0]}>
-            <cylinderGeometry args={[0.3, 0.28, 0.04, 16]} />
-            <meshStandardMaterial
-              color="#fbbf24"
-              emissive="#d97706"
-              emissiveIntensity={0.6}
-              roughness={0.2}
-            />
-          </mesh>
-
-          {/* Diya Sacred Teardrop Flame */}
-          <mesh name="flame" position={[0, 0.22, 0]}>
-            <coneGeometry args={[0.12, 0.32, 16]} />
+          {/* Luminous Inner Core Flame */}
+          <mesh name="core" position={[0, 0, 0]}>
+            <sphereGeometry args={[0.2, 16, 16]} />
             <meshBasicMaterial
               color="#fef08a"
             />
           </mesh>
 
-          {/* Local Warm Flame Glow */}
+          {/* Local Warm Sunset Glow */}
           <pointLight
             color="#fbbf24"
             intensity={1.2}

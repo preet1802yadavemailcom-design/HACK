@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { soundEngine } from '@/lib/audio';
-import { X, Sparkles, CheckCircle2, AlertCircle, Copy, Check, Ticket, ArrowRight, ShieldCheck } from 'lucide-react';
+import { X, Sparkles, CheckCircle2, AlertCircle, Copy, Check, Ticket, MapPin } from 'lucide-react';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -86,7 +86,6 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-950/85 backdrop-blur-2xl animate-fade-in">
       <div className="relative w-full max-w-xl p-6 sm:p-8 rounded-3xl bg-midnight-900/95 border border-gold-500/40 shadow-[0_0_50px_rgba(245,158,11,0.3)] text-white overflow-hidden max-h-[92vh] overflow-y-auto">
-        {/* Subtle decorative glowing corner accent */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 blur-3xl pointer-events-none" />
 
         {/* Close Button */}
@@ -105,12 +104,12 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
           <div>
             {/* Modal Header */}
             <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-mono tracking-widest uppercase mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>OFFICIAL PORTAL</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-400 text-xs font-mono tracking-widest uppercase mb-2">
+                <MapPin className="w-3.5 h-3.5" />
+                <span>OFFLINE IN-PERSON REGISTRATION • PIT JAUNPUR</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-celestial font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-500">
-                REGISTER FOR HACK DAY
+                CAMPUS HACKATHON ENTRY
               </h3>
               <p className="mt-1 text-xs sm:text-sm text-zinc-400 font-light">
                 Hacktoberfest Hack Day Jaunpur × Prasad Institute of Technology
@@ -241,7 +240,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-gold-500 to-amber-600 text-midnight-950 font-mono font-bold text-sm uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.5)] hover:shadow-[0_0_35px_rgba(245,158,11,0.8)] transition-all disabled:opacity-50"
                 >
-                  {loading ? 'SYNCHRONIZING WITH SACRED CORE...' : 'CONFIRM REGISTRATION →'}
+                  {loading ? 'CONFIRMING ON-CAMPUS SPOT...' : 'CONFIRM OFFLINE REGISTRATION →'}
                 </button>
               </div>
             </form>
@@ -254,17 +253,17 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
             </div>
 
             <h3 className="text-2xl font-celestial font-bold text-white">
-              PASS ISSUED &amp; CONFIRMED
+              IN-PERSON PASS CONFIRMED
             </h3>
             <p className="text-xs text-zinc-400 font-mono mt-1">
-              Welcome to The Nine Realms, {successData.participant.fullName}!
+              Welcome to Hack Day Jaunpur, {successData.participant.fullName}!
             </p>
 
             {/* Holographic Ticket Graphic */}
             <div className="mt-6 p-6 rounded-2xl bg-midnight-950 border border-gold-500/50 shadow-2xl relative text-left font-mono">
               <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
                 <div>
-                  <span className="text-[10px] text-zinc-500 block uppercase">PASS IDENTIFIER</span>
+                  <span className="text-[10px] text-zinc-500 block uppercase">CAMPUS PASS IDENTIFIER</span>
                   <span className="text-lg font-bold text-gold-400">{successData.ticketId}</span>
                 </div>
                 <button
@@ -286,17 +285,17 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   <span className="text-zinc-200">{successData.participant.studentId}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 text-[10px] block">BRANCH</span>
+                  <span className="text-zinc-500 text-[10px] block">DEPARTMENT</span>
                   <span className="text-zinc-200 truncate block">{successData.participant.branch}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 text-[10px] block">STATUS</span>
-                  <span className="text-cyan-400">{successData.participant.teamStatus}</span>
+                  <span className="text-zinc-500 text-[10px] block">SQUAD MODE</span>
+                  <span className="text-emerald-400">{successData.participant.teamStatus}</span>
                 </div>
               </div>
 
               <div className="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between text-[10px] text-zinc-500">
-                <span>VENUE: PIT JAUNPUR</span>
+                <span>VENUE: PIT JAUNPUR (PHYSICAL)</span>
                 <span>24 OCT 2026 • 09:30 IST</span>
               </div>
             </div>
@@ -306,7 +305,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                 onClick={onClose}
                 className="px-8 py-3 rounded-full bg-gold-500 hover:bg-gold-400 text-midnight-950 font-mono font-bold text-xs uppercase tracking-wider transition-all"
               >
-                RETURN TO UNIVERSE
+                RETURN TO EXPERIENCE
               </button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapPin, Calendar, Clock, Users, Building, ShieldCheck, ExternalLink, Gift, Sparkles } from 'lucide-react';
+import { MapPin, Calendar, Clock, Building, Gift, ExternalLink, ShieldCheck } from 'lucide-react';
 
 export default function EventInfoSection() {
   const mapUrl = 'https://www.google.com/maps/search/?api=1&query=Prasad+Institute+of+Technology+Jaunpur+QP5G%2BW4Q';
@@ -10,15 +10,15 @@ export default function EventInfoSection() {
     <section className="relative w-full py-16 px-4 max-w-5xl mx-auto z-30 pointer-events-auto">
       {/* Section Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 font-mono text-xs uppercase tracking-widest mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs uppercase tracking-widest mb-3">
           <Building className="w-3.5 h-3.5" />
-          <span>OFFICIAL EVENT SPECIFICATIONS</span>
+          <span>PHYSICAL ON-CAMPUS EVENT SPECIFICATIONS</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-celestial font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-400 to-amber-500 text-gold-glow">
           JAUNPUR × PIT
         </h2>
         <p className="mt-3 text-zinc-400 max-w-xl mx-auto text-sm sm:text-base font-light">
-          Everything you need to know about the premier open-source festival in Eastern Uttar Pradesh.
+          An in-person Hacktoberfest gathering at Prasad Institute of Technology, Jaunpur, Uttar Pradesh.
         </p>
       </div>
 
@@ -31,7 +31,12 @@ export default function EventInfoSection() {
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Event Venue</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-white">Campus Venue</h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 uppercase font-bold">
+                    OFFLINE
+                  </span>
+                </div>
                 <span className="text-xs font-mono text-zinc-400">Prasad Institute of Technology</span>
               </div>
             </div>
@@ -39,7 +44,7 @@ export default function EventInfoSection() {
             <div className="space-y-4 text-sm text-zinc-300">
               <div>
                 <span className="text-[10px] font-mono uppercase text-zinc-500 block">
-                  CAMPUS ADDRESS
+                  PHYSICAL CAMPUS ADDRESS
                 </span>
                 <p className="font-light mt-0.5 leading-relaxed">
                   QP5G+W4Q, Jaunpur - Azamgarh Rd, Balibhaddarpur, Jaunpur, Uttar Pradesh 222002, India
@@ -73,7 +78,7 @@ export default function EventInfoSection() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs font-mono text-gold-400 hover:text-gold-300 transition-colors"
             >
-              <span>Open in Google Maps</span>
+              <span>Get Directions in Google Maps</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -88,17 +93,17 @@ export default function EventInfoSection() {
                 <Calendar className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-[10px] font-mono uppercase text-zinc-500">EVENT DATE</span>
+                <span className="text-[10px] font-mono uppercase text-zinc-500">EVENT DATE &amp; TIME</span>
                 <h4 className="text-lg font-bold text-white">Saturday, October 24, 2026</h4>
                 <div className="flex items-center gap-1.5 text-xs text-cyan-400 font-mono mt-0.5">
                   <Clock className="w-3.5 h-3.5" />
-                  <span>09:30 AM – 3:00 PM IST</span>
+                  <span>09:30 AM – 3:00 PM IST (Offline On-Campus)</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Official Swag & Benefits Card (Intentional, dignified transparency) */}
+          {/* Official Swag & Benefits Card */}
           <div className="p-6 rounded-3xl bg-midnight-950/80 border border-gold-500/30 backdrop-blur-2xl shadow-xl">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-2xl bg-gold-500/10 border border-gold-500/30 text-gold-400 flex-shrink-0">

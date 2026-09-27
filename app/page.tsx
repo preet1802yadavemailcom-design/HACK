@@ -19,7 +19,7 @@ import { soundEngine } from '@/lib/audio';
 const CelestialScene = dynamic(() => import('@/components/canvas/CelestialScene'), {
   ssr: false,
   loading: () => (
-    <div className="absolute inset-0 bg-midnight-950 flex items-center justify-center">
+    <div className="absolute inset-0 bg-transparent flex items-center justify-center">
       <div className="flex flex-col items-center gap-3">
         <div className="w-12 h-12 rounded-full border-2 border-gold-500 border-t-transparent animate-spin" />
         <span className="font-mono text-xs uppercase tracking-widest text-gold-400">
@@ -64,9 +64,8 @@ export default function Home() {
         const progress = Math.min(1, Math.max(0, window.scrollY / totalHeight));
         setScrollProgress(progress);
 
-        // Optional scroll-linked realm adaptation
+        // Scroll-linked realm adaptation
         const calculatedIndex = Math.min(8, Math.floor(progress * 9));
-        // We only gently suggest realm if scrolled significantly into a specific section
         if (progress > 0.05 && progress < 0.95 && calculatedIndex !== currentRealmIndex) {
           setCurrentRealmIndex(calculatedIndex);
         }
@@ -91,7 +90,16 @@ export default function Home() {
       onMouseMove={handleMouseMove}
       className="relative min-h-screen w-full bg-midnight-950 text-white overflow-x-hidden selection:bg-gold-500 selection:text-midnight-950"
     >
-      {/* 1. Cinematic Opening Intro (Black Screen -> Diya Ignition -> Logo Emergence) */}
+      {/* 1. Cinematic Sunset Lake Background Image Layer */}
+      <div 
+        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat pointer-events-none transition-transform duration-1000 scale-100 opacity-60"
+        style={{ backgroundImage: "url('/sunset-bg.png')" }}
+      />
+      {/* Atmospheric Vignette & Contrast Gradients */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-midnight-950/80 via-midnight-950/40 to-midnight-950/90 pointer-events-none" />
+      <div className="fixed inset-0 z-0 vignette-overlay pointer-events-none" />
+
+      {/* 2. Cinematic Opening Intro (Black Screen -> Developer Node Ignition -> Logo Emergence) */}
       {isIntroActive && (
         <CinematicIntro
           onEnter={() => {
@@ -100,7 +108,7 @@ export default function Home() {
         />
       )}
 
-      {/* 2. Persistent 3D Three.js WebGL Universe Canvas */}
+      {/* 3. Persistent 3D Three.js WebGL Universe Canvas */}
       <div className="fixed inset-0 z-0 pointer-events-auto">
         <CelestialScene
           currentRealmIndex={currentRealmIndex}
@@ -110,12 +118,10 @@ export default function Home() {
           quality={quality}
           isCoreHovered={isCoreHovered}
         />
-        {/* Subtle Vignette and Holographic Scanline Overlay */}
-        <div className="absolute inset-0 vignette-overlay pointer-events-none" />
-        <div className="absolute inset-0 hud-scanline opacity-30 pointer-events-none" />
+        <div className="absolute inset-0 hud-scanline opacity-20 pointer-events-none" />
       </div>
 
-      {/* 3. Live Hack Day Technical Telemetry HUD */}
+      {/* 4. Live Hack Day Technical Telemetry HUD */}
       {!isIntroActive && (
         <LiveHackHUD
           currentRealmIndex={currentRealmIndex}
@@ -125,7 +131,7 @@ export default function Home() {
         />
       )}
 
-      {/* 4. Interactive Page Sections Content Container */}
+      {/* 5. Interactive Page Sections Content Container */}
       {!isIntroActive && (
         <div className="relative z-10 flex flex-col items-center">
           {/* Realm Hero Display Card */}
@@ -150,7 +156,7 @@ export default function Home() {
           {/* Final Convergence Climax & CTA */}
           <FinalExperience onOpenRegister={() => setIsRegisterOpen(true)} />
 
-          {/* Sacred Editorial Footer */}
+          {/* Editorial Footer */}
           <footer className="relative w-full py-12 px-4 border-t border-zinc-900 bg-midnight-950/90 backdrop-blur-2xl text-center font-mono text-xs text-zinc-500 z-30">
             <div className="max-w-4xl mx-auto flex flex-col items-center gap-3">
               <div className="flex items-center gap-2 text-zinc-400">
@@ -158,18 +164,18 @@ export default function Home() {
                 <span>×</span>
                 <span className="text-zinc-300">PRASAD INSTITUTE OF TECHNOLOGY</span>
               </div>
-              <p className="text-[11px] text-zinc-600 max-w-md">
-                Co-organized by Shubhasheesh Kundu &amp; Preet Yadav • Inspired by the Sacred Nine Nights of Navratri.
+              <p className="text-[11px] text-zinc-500 max-w-md">
+                Co-organized by Shubhasheesh Kundu &amp; Preet Yadav • Physical In-Person Campus Hackathon.
               </p>
-              <div className="text-[10px] text-zinc-700">
-                Crafted with Next.js, Three.js, React Three Fiber, Custom GLSL Shaders &amp; Web Audio API.
+              <div className="text-[10px] text-zinc-600">
+                Next.js, Three.js, React Three Fiber, Custom GLSL Shaders &amp; Web Audio API.
               </div>
             </div>
           </footer>
         </div>
       )}
 
-      {/* 5. Celestial 9-Node Orbital Navigation Dial */}
+      {/* 6. Celestial 9-Node Orbital Navigation Dial */}
       {!isIntroActive && (
         <CelestialNavRing
           currentRealmIndex={currentRealmIndex}
@@ -177,7 +183,7 @@ export default function Home() {
         />
       )}
 
-      {/* 6. Immersive Cyber-Sacred Registration Modal */}
+      {/* 7. Immersive Cyber-Sacred Registration Modal */}
       <RegistrationModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}

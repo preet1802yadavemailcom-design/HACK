@@ -19,20 +19,20 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
 
-    // Gentle swaying of temple bells in Realm 3 (Chandraghanta)
+    // Gentle swaying of acoustic chime bells in Realm 3 (Resonance)
     if (bellGroupRef.current) {
       bellGroupRef.current.children.forEach((child, i) => {
         child.rotation.z = Math.sin(time * 2.5 + i) * 0.15;
       });
     }
 
-    // Orbiting planetary objects in Realm 4 (Kushmanda)
+    // Orbiting planetary objects in Realm 4 (Nebula)
     if (planetRef.current) {
       planetRef.current.rotation.y += delta * 0.4;
       planetRef.current.rotation.x = Math.sin(time * 0.2) * 0.1;
     }
 
-    // Dynamic lightning flickers in Realm 7 (Kalaratri)
+    // Dynamic lightning flickers in Realm 7 (Quantum Breakthrough)
     if (lightningRef.current) {
       const strike = Math.sin(time * 18) > 0.82;
       lightningRef.current.visible = strike;
@@ -42,10 +42,10 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
 
   return (
     <group ref={groupRef}>
-      {/* ----------------- REALM 01: SHAILPUTRI (Himalayan Mountains) ----------------- */}
+      {/* ----------------- DIMENSION 01: GENESIS (Mountain Summits) ----------------- */}
       {currentRealmIndex === 0 && (
         <group position={[0, -5, 0]}>
-          {/* Himalayan Summits */}
+          {/* Mountain Summits */}
           {[-12, -6, 0, 7, 13].map((x, i) => (
             <mesh key={i} position={[x, 0, -10 - (i % 3) * 4]}>
               <coneGeometry args={[4 + (i % 3) * 1.5, 9 + (i % 2) * 3, 6]} />
@@ -55,7 +55,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
                 metalness={0.2}
                 flatShading
               />
-              {/* Snow Caps */}
+              {/* Snow/Light Caps */}
               <mesh position={[0, 3.2, 0]}>
                 <coneGeometry args={[2.2, 3.2, 6]} />
                 <meshStandardMaterial
@@ -68,7 +68,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
               </mesh>
             </mesh>
           ))}
-          {/* Glowing Digital Stream Path along the ridges */}
+          {/* Glowing Digital Stream Path */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.2, 0]}>
             <ringGeometry args={[6, 8, 32]} />
             <meshBasicMaterial
@@ -81,10 +81,10 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 02: BRAHMACHARINI (Sacred Woodland & Code) ----------------- */}
+      {/* ----------------- DIMENSION 02: ARCHITECTURE (Code Grove) ----------------- */}
       {currentRealmIndex === 1 && (
         <group position={[0, -4, 0]}>
-          {/* Ancient Carved Stupas / Sacred Pillars */}
+          {/* Ancient Monoliths / Pillars */}
           {[-8, -4, 4, 8].map((x, i) => (
             <group key={i} position={[x, 0, -6 - (i % 2) * 3]}>
               <mesh position={[0, 2.5, 0]}>
@@ -101,7 +101,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
               </mesh>
             </group>
           ))}
-          {/* Reflecting Pool Water Plane */}
+          {/* Water Reflection Plane */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.1, 0]}>
             <planeGeometry args={[40, 40]} />
             <meshStandardMaterial
@@ -113,10 +113,10 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 03: CHANDRAGHANTA (Golden Moon & Bells) ----------------- */}
+      {/* ----------------- DIMENSION 03: RESONANCE (Golden Crescent & Bells) ----------------- */}
       {currentRealmIndex === 2 && (
         <group>
-          {/* Giant Celestial Crescent Moon */}
+          {/* Giant Celestial Crescent */}
           <group position={[12, 10, -18]}>
             <mesh>
               <sphereGeometry args={[7, 32, 32]} />
@@ -127,14 +127,13 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
                 roughness={0.3}
               />
             </mesh>
-            {/* Cutout shadow sphere creating crescent shape */}
             <mesh position={[-2.5, 0, 1.8]}>
               <sphereGeometry args={[6.8, 32, 32]} />
               <meshBasicMaterial color="#0b0f19" />
             </mesh>
           </group>
 
-          {/* Hanging Golden Temple Bells */}
+          {/* Hanging Golden Acoustic Chimes */}
           <group ref={bellGroupRef} position={[0, 5, -4]}>
             {[-5, -2, 2, 5].map((x, idx) => (
               <group key={idx} position={[x, 0, 0]}>
@@ -148,7 +147,6 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
                     emissiveIntensity={0.4}
                   />
                 </mesh>
-                {/* Bell Clapper */}
                 <mesh position={[0, -1.3, 0]}>
                   <sphereGeometry args={[0.16, 12, 12]} />
                   <meshBasicMaterial color="#fef08a" />
@@ -159,15 +157,14 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 04: KUSHMANDA (Cosmic Creation / Solar Universe) ----------------- */}
+      {/* ----------------- DIMENSION 04: NEBULA (Cosmic Generation) ----------------- */}
       {currentRealmIndex === 3 && (
         <group>
-          {/* Giant Solar Creation Core in Background */}
+          {/* Giant Solar Core */}
           <mesh position={[0, 0, -22]}>
             <sphereGeometry args={[8, 32, 32]} />
             <meshBasicMaterial color="#fb923c" />
           </mesh>
-          {/* Solar Corona Ring */}
           <mesh position={[0, 0, -22]}>
             <torusGeometry args={[11, 0.8, 16, 64]} />
             <meshBasicMaterial color="#f97316" transparent opacity={0.6} />
@@ -193,10 +190,10 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 05: SKANDAMATA (Floating Lotus Oasis) ----------------- */}
+      {/* ----------------- DIMENSION 05: NEXUS (Collaborative Oasis) ----------------- */}
       {currentRealmIndex === 4 && (
         <group position={[0, -3.5, 0]}>
-          {/* Giant Floating Sacred Lotus Pedestal */}
+          {/* Floating Tiered Platform */}
           {Array.from({ length: 12 }).map((_, i) => {
             const angle = (i / 12) * Math.PI * 2;
             const r = 6;
@@ -226,7 +223,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 06: KATYAYANI (Warrior Fire Citadel) ----------------- */}
+      {/* ----------------- DIMENSION 06: THE FORGE (Execution Citadel) ----------------- */}
       {currentRealmIndex === 5 && (
         <group position={[0, -4, 0]}>
           {/* Volcanic Basalt Pillars */}
@@ -253,7 +250,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 07: KALARATRI (Cosmic Void & Lightning) ----------------- */}
+      {/* ----------------- DIMENSION 07: BREAKTHROUGH (Quantum Void) ----------------- */}
       {currentRealmIndex === 6 && (
         <group>
           {/* Lightning Arcs */}
@@ -275,7 +272,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 08: MAHAGAURI (Crystal Sanctuary) ----------------- */}
+      {/* ----------------- DIMENSION 08: SANCTUARY (Crystal Architecture) ----------------- */}
       {currentRealmIndex === 7 && (
         <group position={[0, -4, 0]}>
           {/* Luminescent Crystal Spires */}
@@ -291,7 +288,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
               />
             </mesh>
           ))}
-          {/* Sacred Mirror Water Platform */}
+          {/* Water Platform */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
             <circleGeometry args={[14, 32]} />
             <meshStandardMaterial
@@ -303,12 +300,11 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* ----------------- REALM 09: SIDDHIDATRI (The Celestial City) ----------------- */}
+      {/* ----------------- DIMENSION 09: APEX (Metropolis of Mastery) ----------------- */}
       {currentRealmIndex === 8 && (
         <group position={[0, -3, 0]}>
-          {/* Colossal Floating Celestial Temple Shikhara */}
+          {/* Floating Spire */}
           <group position={[0, 2, -12]}>
-            {/* Base Tier */}
             <mesh position={[0, 0, 0]}>
               <boxGeometry args={[10, 2, 10]} />
               <meshStandardMaterial
@@ -317,7 +313,6 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
                 roughness={0.3}
               />
             </mesh>
-            {/* Middle Tier with Golden Columns */}
             <mesh position={[0, 2.5, 0]}>
               <boxGeometry args={[7, 3, 7]} />
               <meshStandardMaterial
@@ -328,7 +323,6 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
                 roughness={0.2}
               />
             </mesh>
-            {/* Grand Shikhara Spire */}
             <mesh position={[0, 6.5, 0]}>
               <coneGeometry args={[3.2, 5, 8]} />
               <meshStandardMaterial
@@ -339,14 +333,13 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
                 roughness={0.1}
               />
             </mesh>
-            {/* Golden Kalasha on Temple Crown */}
             <mesh position={[0, 9.4, 0]}>
               <sphereGeometry args={[0.55, 16, 16]} />
               <meshBasicMaterial color="#ffffff" />
             </mesh>
           </group>
 
-          {/* Sri Yantra Mandala Ground Grid */}
+          {/* Central Ground Grid */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
             <ringGeometry args={[5, 16, 48]} />
             <meshBasicMaterial
@@ -357,7 +350,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
             />
           </mesh>
 
-          {/* 9 Converging Energy Beams */}
+          {/* Converging Energy Beams */}
           {Array.from({ length: 9 }).map((_, i) => {
             const angle = (i / 9) * Math.PI * 2;
             const r = 14;
@@ -379,7 +372,7 @@ export default function RealmsEnvironment({ currentRealmIndex }: RealmsEnvironme
         </group>
       )}
 
-      {/* Atmospheric Fog Light Matching the Realm */}
+      {/* Atmospheric Lighting Matching the Dimension */}
       <ambientLight color={activeRealm.palette.ambient} intensity={1.2} />
       <directionalLight
         position={[10, 15, 10]}

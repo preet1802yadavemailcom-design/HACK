@@ -50,8 +50,8 @@ export default function CelestialScene({
         }}
         className="w-full h-full"
       >
-        {/* Dynamic Realm Fog */}
-        <fog attach="fog" args={[activeRealm.palette.fog, 8, 48]} />
+        {/* Soft atmospheric depth that lets the sunset background image shine through */}
+        <fog attach="fog" args={[activeRealm.palette.fog, 22, 85]} />
 
         <Suspense fallback={null}>
           {/* Camera Motion & Parallax Controller */}
@@ -72,9 +72,9 @@ export default function CelestialScene({
             hovered={isCoreHovered}
           />
 
-          {/* Floating Luminous Diyas */}
+          {/* Floating Luminous Lanterns / Nodes */}
           <FloatingDiyas
-            count={quality === 'low' ? 12 : 28}
+            count={quality === 'low' ? 12 : 26}
             spread={24}
             currentRealmColor={activeRealm.palette.accent}
           />

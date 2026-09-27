@@ -2,22 +2,22 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "THE NINE REALMS • Hacktoberfest Hack Day Jaunpur × Prasad Institute of Technology",
-  description: "An award-level, cinematic, immersive 3D digital universe inspired by Navratri and open-source engineering. Join us on Saturday, October 24, 2026 at Prasad Institute of Technology, Jaunpur.",
+  title: "THE NINE REALMS • Hacktoberfest Hack Day Jaunpur (Offline) × Prasad Institute of Technology",
+  description: "An award-level, cinematic, immersive 3D digital universe of open-source engineering. Join us in-person on Saturday, October 24, 2026 at Prasad Institute of Technology, Jaunpur.",
   keywords: [
     "Hacktoberfest 2026",
     "Hack Day Jaunpur",
     "Prasad Institute of Technology",
     "The Nine Realms",
-    "Navratri 3D Experience",
+    "Offline Hackathon",
     "Open Source",
     "WebGL",
     "Three.js",
   ],
   authors: [{ name: "Shubhasheesh Kundu & Preet Yadav" }],
   openGraph: {
-    title: "THE NINE REALMS • Hacktoberfest Hack Day Jaunpur",
-    description: "Nine nights. Infinite possibilities. One community of builders.",
+    title: "THE NINE REALMS • Hacktoberfest Hack Day Jaunpur (Offline)",
+    description: "Nine dimensions of code. Infinite possibilities. One physical arena of builders.",
     siteName: "The Nine Realms",
     type: "website",
   },

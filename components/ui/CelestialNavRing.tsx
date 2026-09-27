@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { REALMS } from '@/data/realmsData';
 import { soundEngine } from '@/lib/audio';
-import { Compass, ChevronRight, Sparkles, Orbit } from 'lucide-react';
+import { Compass, ChevronRight, Orbit } from 'lucide-react';
 
 interface CelestialNavRingProps {
   currentRealmIndex: number;
@@ -41,11 +41,11 @@ export default function CelestialNavRing({
         }`}
       >
         <div className="flex items-center justify-center gap-2">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gold-500/20 text-gold-300 uppercase tracking-widest">
-            REALM 0{displayedRealm.index}
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gold-500/20 text-gold-300 uppercase tracking-widest font-bold">
+            DIMENSION 0{displayedRealm.index}
           </span>
-          <span className="text-xs font-serif text-zinc-400">
-            {displayedRealm.sanskritName}
+          <span className="text-xs font-mono text-zinc-400 uppercase">
+            {displayedRealm.tagline}
           </span>
         </div>
         <h4 className="text-base font-bold text-white tracking-wide mt-0.5">
@@ -75,7 +75,6 @@ export default function CelestialNavRing({
         <div className="flex items-center gap-1.5 sm:gap-2">
           {REALMS.map((realm, idx) => {
             const isCurrent = idx === currentRealmIndex;
-            const isHovered = idx === hoveredIndex;
 
             return (
               <button
@@ -104,11 +103,11 @@ export default function CelestialNavRing({
         </div>
       </div>
 
-      {/* Accessible Expanded Realm Drawer for Keyboard & Touch Users */}
+      {/* Accessible Expanded Realm Drawer */}
       {isExpanded && (
         <div className="absolute bottom-20 w-80 sm:w-96 p-3 rounded-2xl border border-gold-500/30 bg-midnight-950/95 backdrop-blur-2xl shadow-2xl animate-fade-in flex flex-col gap-1 max-h-80 overflow-y-auto">
           <div className="px-2 py-1 text-xs font-mono text-zinc-400 uppercase tracking-widest border-b border-zinc-800 mb-1 flex items-center justify-between">
-            <span>The Nine Sacred Realms</span>
+            <span>The Nine Open Source Realms</span>
             <Compass className="w-3.5 h-3.5 text-gold-400" />
           </div>
           {REALMS.map((r, i) => (
@@ -125,7 +124,6 @@ export default function CelestialNavRing({
                 <div className="text-xs font-bold flex items-center gap-1.5">
                   <span className="text-gold-400 font-mono">0{r.index}.</span>
                   <span>{r.name}</span>
-                  <span className="text-[10px] text-zinc-500">({r.sanskritName})</span>
                 </div>
                 <div className="text-[10px] text-zinc-400 font-mono">{r.hacktoberfestTheme}</div>
               </div>
