@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
+import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
 import TracksSection from '@/components/ui/TracksSection';
@@ -18,6 +19,7 @@ const ModernCanvas = dynamic(() => import('@/components/canvas/ModernCanvas'), {
 });
 
 export default function Home() {
+  const [isVideoIntroActive, setIsVideoIntroActive] = useState(true);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
@@ -32,7 +34,17 @@ export default function Home() {
       onMouseMove={handleMouseMove}
       className="relative min-h-screen w-full bg-neutral-950 text-white overflow-x-hidden selection:bg-amber-500 selection:text-black"
     >
-      {/* 1. Crystal-Clear Sunset Background Layer (The uploaded image) */}
+      {/* 1. Fullscreen Video Intro on First Open */}
+      {isVideoIntroActive && (
+        <VideoIntroOverlay
+          onComplete={() => {
+            setIsVideoIntroActive(false);
+            soundEngine.startAmbient();
+          }}
+        />
+      )}
+
+      {/* 2. Crystal-Clear Sunset Background Layer (The uploaded image) */}
       <div
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style={{ backgroundImage: "url('/sunset-bg.png')" }}
@@ -40,14 +52,16 @@ export default function Home() {
       {/* Subtle modern dark vignette overlay for crisp text readability */}
       <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 pointer-events-none" />
 
-      {/* 2. Lightweight Ambient Particle Canvas */}
+      {/* 3. Lightweight Ambient Particle Canvas */}
       <ModernCanvas mousePos={mousePos} />
 
-      {/* 3. Modern Sticky Navigation */}
+      {/* 4. Modern Sticky Navigation */}
       <ModernNavbar onOpenRegister={() => setIsRegisterOpen(true)} />
 
-      {/* 4. Page Content */}
-      <div className="relative z-10 flex flex-col items-center">
+      {/* 5. Page Content */}
+      <div className={`relative z-10 flex flex-col items-center transition-all duration-700 ${
+        isVideoIntroActive ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}>
         {/* Hero Section */}
         <HeroSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
@@ -78,7 +92,7 @@ export default function Home() {
                   soundEngine.playClick();
                   setIsRegisterOpen(true);
                 }}
-                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
                 <span>Register for In-Person Pass</span>
                 <ArrowRight className="w-4 h-4" />
@@ -106,7 +120,7 @@ export default function Home() {
         </footer>
       </div>
 
-      {/* 5. Registration Modal */}
+      {/* 6. Registration Modal */}
       <RegistrationModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}

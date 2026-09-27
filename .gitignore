@@ -16,6 +16,7 @@
 # misc
 .DS_Store
 *.pem
+WhatsApp Video*.mp4
 
 # debug
 npm-debug.log*
