@@ -63,6 +63,9 @@ export default function Home() {
         <VideoIntroOverlay
           onComplete={() => {
             setIsVideoIntroActive(false);
+            if (bgVideoRef.current) {
+              bgVideoRef.current.play().catch(() => {});
+            }
           }}
         />
       )}
@@ -72,11 +75,13 @@ export default function Home() {
         <video
           ref={bgVideoRef}
           src="/home-bg-video.mp4"
-          autoPlay
+          poster="/home-bg-poster.jpg"
+          preload={isVideoIntroActive ? "none" : "auto"}
+          autoPlay={!isVideoIntroActive}
           loop
           muted={!isBgmOn}
           playsInline
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover filter contrast-[1.06] saturate-[1.12] brightness-[0.96]"
         />
       </div>
 

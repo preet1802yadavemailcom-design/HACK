@@ -166,3 +166,30 @@ body {
   }
 }
 
+/* GPU Hardware Acceleration & 24K Ultra-HD Crisp Rendering */
+.hardware-accelerated {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+.hd-crisp {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+}
+
+/* 60fps Smooth Scroll & Instant Paint Optimizations */
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+img, video {
+  content-visibility: auto;
+}
+
+

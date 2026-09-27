@@ -77,6 +77,8 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
       <video
         ref={videoRef}
         src="/intro-video.mp4"
+        poster="/intro-poster.jpg"
+        preload="auto"
         autoPlay
         playsInline
         muted={isMuted}
@@ -88,7 +90,7 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
         onLoadedMetadata={() => {
           if (videoRef.current) videoRef.current.playbackRate = 0.75;
         }}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover filter contrast-[1.06] saturate-[1.12]"
       />
 
       {/* Top Floating Controls */}
