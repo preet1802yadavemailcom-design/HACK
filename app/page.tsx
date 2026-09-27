@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useState } from 'react';
 import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
@@ -13,28 +12,13 @@ import RegistrationModal from '@/components/ui/RegistrationModal';
 import { soundEngine } from '@/lib/audio';
 import { ArrowRight, Terminal } from 'lucide-react';
 
-const ModernCanvas = dynamic(() => import('@/components/canvas/ModernCanvas'), {
-  ssr: false,
-  loading: () => null,
-});
-
 export default function Home() {
   const [isVideoIntroActive, setIsVideoIntroActive] = useState(true);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const x = (e.clientX / window.innerWidth) * 2 - 1;
-    const y = -(e.clientY / window.innerHeight) * 2 + 1;
-    setMousePos({ x, y });
-  }, []);
 
   return (
-    <main
-      onMouseMove={handleMouseMove}
-      className="relative min-h-screen w-full bg-neutral-950 text-white overflow-x-hidden selection:bg-amber-500 selection:text-black"
-    >
-      {/* 1. Fullscreen Video Intro on First Open */}
+    <main className="relative min-h-screen w-full bg-neutral-950 text-white overflow-x-hidden selection:bg-amber-500 selection:text-black">
+      {/* 1. Fullscreen Edge-to-Edge Video Intro (Supports all devices including laptops) */}
       {isVideoIntroActive && (
         <VideoIntroOverlay
           onComplete={() => {
@@ -44,24 +28,30 @@ export default function Home() {
         />
       )}
 
-      {/* 2. Crystal-Clear Sunset Background Layer (The uploaded image) */}
-      <div
-        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-        style={{ backgroundImage: "url('/sunset-bg.png')" }}
-      />
-      {/* Subtle modern dark vignette overlay for crisp text readability */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 pointer-events-none" />
+      {/* 2. Ultra-HD 2K Landscape Mountain Background Video Loop (Rotated & Optimized) */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <video
+          src="/home-bg-video.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-      {/* 3. Lightweight Ambient Particle Canvas */}
-      <ModernCanvas mousePos={mousePos} />
+      {/* 3. Deep Cinematic Contrast Vignette Overlay for Crystal-Clear Readability */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90 pointer-events-none backdrop-blur-[0.5px]" />
 
       {/* 4. Modern Sticky Navigation */}
       <ModernNavbar onOpenRegister={() => setIsRegisterOpen(true)} />
 
-      {/* 5. Page Content */}
-      <div className={`relative z-10 flex flex-col items-center transition-all duration-700 ${
-        isVideoIntroActive ? 'opacity-0 pointer-events-none' : 'opacity-100'
-      }`}>
+      {/* 5. Main Hackathon Event Content */}
+      <div
+        className={`relative z-10 flex flex-col items-center transition-all duration-700 ${
+          isVideoIntroActive ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
         {/* Hero Section */}
         <HeroSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
@@ -79,7 +69,7 @@ export default function Home() {
 
         {/* Final CTA Banner */}
         <section className="relative w-full py-20 px-4 max-w-4xl mx-auto text-center z-20">
-          <div className="p-8 sm:p-12 rounded-3xl bg-black/80 border border-white/10 backdrop-blur-2xl shadow-2xl">
+          <div className="p-8 sm:p-12 rounded-3xl bg-black/85 border border-white/10 backdrop-blur-2xl shadow-2xl">
             <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
               READY TO BUILD IN JAUNPUR?
             </h2>
@@ -102,7 +92,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="relative w-full py-12 px-4 border-t border-white/10 bg-black/80 backdrop-blur-xl text-center font-mono text-xs text-zinc-400 z-20">
+        <footer className="relative w-full py-12 px-4 border-t border-white/10 bg-black/85 backdrop-blur-xl text-center font-mono text-xs text-zinc-400 z-20">
           <div className="max-w-4xl mx-auto flex flex-col items-center gap-3">
             <div className="flex items-center gap-2 text-zinc-200">
               <Terminal className="w-4 h-4 text-amber-400" />
