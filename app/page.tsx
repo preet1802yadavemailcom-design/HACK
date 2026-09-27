@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
@@ -16,6 +16,7 @@ import VenueSection from '@/components/ui/VenueSection';
 import OrganizerHotlineSection from '@/components/ui/OrganizerHotlineSection';
 import FloatingWhatsAppWidget from '@/components/ui/FloatingWhatsAppWidget';
 import RegistrationModal from '@/components/ui/RegistrationModal';
+import CyberMatrixTerminal from '@/components/ui/CyberMatrixTerminal';
 import MagicalAuraCanvas from '@/components/ui/MagicalAuraCanvas';
 import { soundEngine } from '@/lib/audio';
 import { ArrowRight, Terminal, Volume2, VolumeX, MessageSquare, Phone } from 'lucide-react';
@@ -23,8 +24,22 @@ import { ArrowRight, Terminal, Volume2, VolumeX, MessageSquare, Phone } from 'lu
 export default function Home() {
   const [isVideoIntroActive, setIsVideoIntroActive] = useState(true);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isBgmOn, setIsBgmOn] = useState(false); // By default OFF
   const bgVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Global Keyboard Shortcut: Ctrl + K or ` (backtick) to launch Hacker Matrix Terminal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey && e.key.toLowerCase() === 'k') || e.key === '`') {
+        e.preventDefault();
+        soundEngine.playClick();
+        setIsTerminalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const toggleBgm = () => {
     const nextState = !isBgmOn;
@@ -206,6 +221,25 @@ export default function Home() {
       {/* Floating 1-Tap Direct WhatsApp Support Widget (Bottom-Left) */}
       <FloatingWhatsAppWidget />
 
+      {/* Floating Cyber Matrix Terminal Launcher (Bottom-Right, above BGM) */}
+      <div className="fixed bottom-20 right-6 z-40">
+        <button
+          onClick={() => {
+            soundEngine.playClick();
+            setIsTerminalOpen(true);
+          }}
+          className="group flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-black/85 hover:bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:scale-105 active:scale-95 transition-all cursor-pointer backdrop-blur-xl"
+          title="Open Hacker Terminal (Ctrl+K or `)"
+          aria-label="Open Cyber Terminal"
+        >
+          <Terminal className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+          <span className="hidden sm:inline">Hacker Terminal</span>
+          <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-normal">
+            Ctrl+K
+          </span>
+        </button>
+      </div>
+
       {/* Floating BGM Toggle Pill (Bottom-Right, Default OFF) */}
       <div className="fixed bottom-6 right-6 z-40">
         <button
@@ -231,10 +265,16 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Registration Modal */}
+      {/* Registration Modal (Opening Soon Teaser) */}
       <RegistrationModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}
+      />
+
+      {/* Cyber Matrix Terminal HUD */}
+      <CyberMatrixTerminal
+        isOpen={isTerminalOpen}
+        onClose={() => setIsTerminalOpen(false)}
       />
     </main>
   );

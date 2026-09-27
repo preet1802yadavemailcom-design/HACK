@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
+import React from 'react';
+import Link from 'next/link';
 import { soundEngine } from '@/lib/audio';
-import { X, CheckCircle2, AlertCircle, Copy, Check, Ticket, MapPin, ArrowRight } from 'lucide-react';
+import { X, Clock, Sparkles, MessageSquare, Zap, Shield, ArrowRight, Bell } from 'lucide-react';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -11,310 +11,101 @@ interface RegistrationModalProps {
 }
 
 export default function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    studentId: '',
-    email: '',
-    branch: 'Computer Science & Engineering (CSE)',
-    semester: 'Semester 5',
-    teamStatus: 'Looking for teammates' as 'Joining a team' | 'Bringing a team' | 'Looking for teammates' | 'Solo',
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successData, setSuccessData] = useState<{
-    ticketId: string;
-    participant: {
-      fullName: string;
-      studentId: string;
-      email: string;
-      branch: string;
-      semester: string;
-      teamStatus: string;
-    };
-  } | null>(null);
-  const [copied, setCopied] = useState(false);
-
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage(null);
-    setLoading(true);
-
-    try {
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        setErrorMessage(data.error || 'Registration could not be completed.');
-        soundEngine.playClick();
-      } else {
-        setSuccessData(data);
-        soundEngine.playTempleBell(1.2);
-        try {
-          confetti({
-            particleCount: 70,
-            spread: 60,
-            origin: { y: 0.6 },
-            colors: ['#f59e0b', '#fbbf24', '#06b6d4', '#ffffff'],
-          });
-        } catch {}
-      }
-    } catch {
-      setErrorMessage('Network connection error. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCopyTicket = () => {
-    if (successData?.ticketId) {
-      navigator.clipboard.writeText(successData.ticketId);
-      setCopied(true);
-      soundEngine.playClick();
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-fade-in">
-      <div className="relative w-full max-w-xl p-6 sm:p-8 rounded-3xl bg-neutral-950 border border-white/15 shadow-2xl text-white overflow-hidden max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-lg p-7 sm:p-9 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-black to-neutral-950 border-2 border-amber-400/50 shadow-[0_0_80px_rgba(245,158,11,0.35)] text-white text-center overflow-hidden">
+        {/* Background Ambient Glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+
         {/* Close Button */}
         <button
           onClick={() => {
             soundEngine.playClick();
             onClose();
           }}
-          className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
-          aria-label="Close registration modal"
+          className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+          aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {!successData ? (
-          <div>
-            {/* Modal Header */}
-            <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-400 text-xs font-mono tracking-wider uppercase mb-2">
-                <MapPin className="w-3.5 h-3.5" />
-                <span>EXCLUSIVE TO PRASAD INSTITUTE OF TECHNOLOGY STUDENTS</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-black text-white">
-                PIT IN-PERSON REGISTRATION
-              </h3>
-              <p className="mt-1 text-xs sm:text-sm text-zinc-400 font-light">
-                Hacktoberfest Hack Day Jaunpur • Saturday, October 24, 2026 • PIT Campus Only
-              </p>
-            </div>
+        {/* Status Indicator */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold uppercase tracking-widest mb-5 shadow-md animate-pulse">
+          <Clock className="w-3.5 h-3.5 text-amber-400" />
+          <span>PORTAL ACTIVATING SOON</span>
+        </div>
 
-            {/* Error Alert */}
-            {errorMessage && (
-              <div className="mb-4 p-3 rounded-xl bg-red-950/40 border border-red-500/50 text-red-200 text-xs flex items-start gap-2.5">
-                <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
-            {/* Registration Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Full Name */}
-              <div>
-                <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                  Full Name <span className="text-amber-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Aryan Sharma"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-zinc-600 outline-none transition-all"
-                />
-              </div>
-
-              {/* Student ID / Roll Number & Email */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Student ID / Roll No <span className="text-amber-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. 2201340100012"
-                    value={formData.studentId}
-                    onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-zinc-600 outline-none transition-all font-mono"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Student Email <span className="text-amber-400">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="aryan@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm text-white placeholder-zinc-600 outline-none transition-all font-mono"
-                  />
-                </div>
-              </div>
-
-              {/* Branch & Semester */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Department / Branch <span className="text-amber-400">*</span>
-                  </label>
-                  <select
-                    value={formData.branch}
-                    onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 text-sm text-white outline-none"
-                  >
-                    <option value="Computer Science & Engineering (CSE)">Computer Science &amp; Eng (CSE)</option>
-                    <option value="Information Technology (IT)">Information Technology (IT)</option>
-                    <option value="Electronics & Communication (ECE)">Electronics &amp; Comm (ECE)</option>
-                    <option value="Mechanical Engineering (ME)">Mechanical Engineering (ME)</option>
-                    <option value="Civil Engineering (CE)">Civil Engineering (CE)</option>
-                    <option value="Electrical Engineering (EE)">Electrical Engineering (EE)</option>
-                    <option value="Pharmacy / Other Allied Branch">Pharmacy / Other Branch</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Current Semester <span className="text-amber-400">*</span>
-                  </label>
-                  <select
-                    value={formData.semester}
-                    onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 focus:border-amber-400 text-sm text-white outline-none"
-                  >
-                    <option value="Semester 1">Semester 1 (1st Year)</option>
-                    <option value="Semester 3">Semester 3 (2nd Year)</option>
-                    <option value="Semester 5">Semester 5 (3rd Year)</option>
-                    <option value="Semester 7">Semester 7 (4th Year)</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Team Status */}
-              <div>
-                <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                  Team Formation Status <span className="text-amber-400">*</span>
-                </label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  {(['Looking for teammates', 'Bringing a team', 'Joining a team', 'Solo'] as const).map((status) => (
-                    <button
-                      type="button"
-                      key={status}
-                      onClick={() => setFormData({ ...formData, teamStatus: status })}
-                      className={`p-2.5 rounded-xl text-left border transition-all ${
-                        formData.teamStatus === status
-                          ? 'bg-amber-500/20 border-amber-400 text-amber-300 font-semibold'
-                          : 'bg-neutral-900 border-white/10 text-zinc-400 hover:border-white/20'
-                      }`}
-                    >
-                      {status}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Submit CTA */}
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-bold text-sm uppercase tracking-wider shadow-lg hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer"
-                >
-                  {loading ? 'CONFIRMING ON-CAMPUS SPOT...' : 'CONFIRM OFFLINE REGISTRATION →'}
-                </button>
-              </div>
-            </form>
+        {/* Holographic Glowing Icon */}
+        <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-amber-500/20 via-yellow-500/20 to-emerald-500/20 border-2 border-amber-400/50 p-1 flex items-center justify-center shadow-[0_0_35px_rgba(245,158,11,0.3)] mb-5">
+          <div className="w-full h-full rounded-2xl bg-black flex items-center justify-center">
+            <Zap className="w-9 h-9 text-amber-400 animate-bounce" />
           </div>
-        ) : (
-          /* Participant Access Pass */
-          <div className="text-center py-4 animate-fade-in">
-            <div className="inline-flex p-3 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-3">
-              <CheckCircle2 className="w-8 h-8" />
-            </div>
+        </div>
 
-            <h3 className="text-2xl font-bold text-white">
-              REGISTRATION CONFIRMED
-            </h3>
-            <p className="text-xs text-zinc-400 font-mono mt-1">
-              Welcome to Hack Day Jaunpur, {successData.participant.fullName}!
-            </p>
+        {/* Title */}
+        <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">
+          REGISTRATIONS <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 drop-shadow-md">
+            OPENING SHORTLY!
+          </span>
+        </h3>
 
-            {/* Clean Ticket Graphic */}
-            <div className="mt-6 p-6 rounded-2xl bg-neutral-900 border border-amber-500/40 shadow-2xl relative text-left font-mono">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <div>
-                  <span className="text-[10px] text-zinc-500 block uppercase">PASS IDENTIFIER</span>
-                  <span className="text-lg font-bold text-amber-400">{successData.ticketId}</span>
-                </div>
-                <button
-                  onClick={handleCopyTicket}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-zinc-300"
-                >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? 'Copied' : 'Copy'}</span>
-                </button>
-              </div>
+        {/* Description */}
+        <p className="mt-3 text-sm text-zinc-300 font-light leading-relaxed max-w-md mx-auto">
+          Prasad Institute of Technology ke students ke liye official in-person registration form abhi finalize ho raha hai. Total seats <span className="text-amber-400 font-bold">100 offline auditorium passes</span> tak strictly limited hain.
+        </p>
 
-              <div className="grid grid-cols-2 gap-3 pt-3 text-xs">
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">PARTICIPANT</span>
-                  <span className="text-zinc-200">{successData.participant.fullName}</span>
-                </div>
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">ROLL NUMBER</span>
-                  <span className="text-zinc-200">{successData.participant.studentId}</span>
-                </div>
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">DEPARTMENT</span>
-                  <span className="text-zinc-200 truncate block">{successData.participant.branch}</span>
-                </div>
-                <div>
-                  <span className="text-zinc-500 text-[10px] block">TEAM STATUS</span>
-                  <span className="text-emerald-400">{successData.participant.teamStatus}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-zinc-500">
-                <span>VENUE: PIT JAUNPUR (OFFLINE)</span>
-                <span>24 OCT 2026 • 09:30 AM IST</span>
-              </div>
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3">
-              <a
-                href={`/badge?name=${encodeURIComponent(successData.participant.fullName)}&dept=${encodeURIComponent(successData.participant.branch)}&year=${encodeURIComponent(successData.participant.semester)}&roll=${encodeURIComponent(successData.participant.studentId)}`}
-                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 hover:from-emerald-400 hover:to-teal-400 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:scale-102 active:scale-98 transition-all"
-              >
-                <span>⚡ Generate Hacker ID Card for WhatsApp Status</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-
-              <button
-                onClick={onClose}
-                className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-zinc-300 font-mono text-xs uppercase tracking-wider transition-all"
-              >
-                Close Window
-              </button>
-            </div>
+        {/* Micro Notice Box */}
+        <div className="mt-6 p-4 rounded-2xl bg-black/70 border border-white/10 text-xs font-mono text-left space-y-2">
+          <div className="flex items-center justify-between text-zinc-400 pb-2 border-b border-white/5">
+            <span className="uppercase text-[10px]">EVENT DATE:</span>
+            <span className="text-white font-bold">Saturday, Oct 24, 2026</span>
           </div>
-        )}
+          <div className="flex items-center justify-between text-zinc-400 pb-2 border-b border-white/5">
+            <span className="uppercase text-[10px]">CAMPUS VENUE:</span>
+            <span className="text-amber-300 font-bold">PIT Auditorium, Jaunpur</span>
+          </div>
+          <div className="flex items-center justify-between text-zinc-400">
+            <span className="uppercase text-[10px]">SLOT RESERVATION:</span>
+            <span className="text-emerald-400 font-bold">VIP Pass Holders Get Priority</span>
+          </div>
+        </div>
+
+        {/* Action Buttons: 1. Create VIP Passport First, 2. WhatsApp Notification */}
+        <div className="mt-7 space-y-3">
+          {/* Create VIP Pass First (Immediate Action!) */}
+          <Link
+            href="/badge"
+            onClick={() => {
+              soundEngine.playClick();
+              onClose();
+            }}
+            className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border border-amber-300"
+          >
+            <Sparkles className="w-4 h-4 text-black" />
+            <span>⚡ Claim VIP Hacker Passport &amp; Poster First</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+
+          {/* WhatsApp Direct Notification */}
+          <a
+            href="https://wa.me/916306588533?text=Hi%20Shubhasheesh%20Sir%2C%20please%20notify%20me%20when%20Hacktoberfest%20PIT%20registrations%20open%21"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => soundEngine.playClick()}
+            className="w-full py-3.5 px-6 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 hover:text-emerald-200 font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span>Notify Me on WhatsApp for First Access</span>
+          </a>
+        </div>
+
+        <p className="mt-4 text-[10px] font-mono text-zinc-500">
+          Prasad Institute of Technology • Department of Computer Science &amp; Engineering
+        </p>
       </div>
     </div>
   );

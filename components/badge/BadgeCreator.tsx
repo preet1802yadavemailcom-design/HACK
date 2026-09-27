@@ -108,6 +108,14 @@ const CARD_THEMES = [
   },
 ];
 
+const PHOTO_FILTERS = [
+  { id: 'normal', name: 'Original', css: '' },
+  { id: 'cyberpunk', name: 'Cyber Neon', css: 'contrast-125 saturate-150 hue-rotate-15 brightness-105' },
+  { id: 'gold', name: 'Gold VIP', css: 'sepia-[0.35] contrast-125 brightness-110 saturate-125' },
+  { id: 'matrix', name: 'Matrix Green', css: 'grayscale contrast-150 brightness-95 hue-rotate-90 sepia-[0.4]' },
+  { id: 'noir', name: 'Dark Noir', css: 'grayscale contrast-150 brightness-95' },
+];
+
 export default function BadgeCreator() {
   const searchParams = useSearchParams();
 
@@ -122,6 +130,7 @@ export default function BadgeCreator() {
   const [customRole, setCustomRole] = useState('');
   const [selectedTheme, setSelectedTheme] = useState('campus');
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [photoFilter, setPhotoFilter] = useState('normal');
   const [passNumber, setPassNumber] = useState('PIT-HKTB-7892');
   const [isGenerating, setIsGenerating] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -163,6 +172,7 @@ export default function BadgeCreator() {
   };
 
   const activeTheme = CARD_THEMES.find((t) => t.id === selectedTheme) || CARD_THEMES[0];
+  const activeFilter = PHOTO_FILTERS.find((f) => f.id === photoFilter) || PHOTO_FILTERS[0];
   const displayRole = customRole.trim() ? customRole.trim() : hackerRole;
 
   const triggerConfetti = () => {
@@ -369,6 +379,35 @@ export default function BadgeCreator() {
                   )}
                 </div>
               </div>
+
+              {/* Photo Filter FX Picker */}
+              {photoUrl && (
+                <div className="pt-2">
+                  <label className="block text-[11px] font-mono text-zinc-300 uppercase mb-1.5 flex items-center justify-between">
+                    <span>Hacker Photo Filter</span>
+                    <span className="text-amber-400 text-[10px]">● Live FX</span>
+                  </label>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {PHOTO_FILTERS.map((filter) => (
+                      <button
+                        key={filter.id}
+                        type="button"
+                        onClick={() => {
+                          setPhotoFilter(filter.id);
+                          soundEngine.playClick();
+                        }}
+                        className={`py-1.5 px-1 rounded-lg font-mono text-[10px] border transition-all cursor-pointer text-center ${
+                          photoFilter === filter.id
+                            ? 'border-amber-400 bg-amber-500/20 text-amber-300 font-bold shadow-md'
+                            : 'border-white/10 text-zinc-400 hover:text-white bg-black/40'
+                        }`}
+                      >
+                        {filter.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Full Name */}
@@ -629,7 +668,7 @@ export default function BadgeCreator() {
                                 <img
                                   src={photoUrl}
                                   alt={fullName}
-                                  className="w-full h-full object-cover"
+                                  className={`w-full h-full object-cover transition-all duration-300 ${activeFilter.css}`}
                                 />
                               ) : (
                                 <div className="w-full h-full bg-neutral-900 flex flex-col items-center justify-center text-zinc-500 font-mono text-[9px]">
@@ -766,7 +805,7 @@ export default function BadgeCreator() {
                             <img
                               src={photoUrl}
                               alt={fullName}
-                              className="w-full h-full object-cover"
+                              className={`w-full h-full object-cover transition-all duration-300 ${activeFilter.css}`}
                             />
                           ) : (
                             <div className="w-full h-full bg-neutral-900 flex flex-col items-center justify-center text-zinc-500 font-mono text-[10px]">
