@@ -3,97 +3,112 @@
 import React from 'react';
 import Link from 'next/link';
 import { soundEngine } from '@/lib/audio';
-import { Sparkles, ArrowRight, Shield, QrCode, Zap, Share2 } from 'lucide-react';
+import { Sparkles, ArrowRight, Shield, Zap, Share2, Flame, Cpu, Smartphone } from 'lucide-react';
 
 export default function BadgePromoSection() {
   return (
     <section className="relative w-full py-16 px-4 max-w-5xl mx-auto z-20 pointer-events-auto">
-      <div className="relative rounded-3xl bg-gradient-to-r from-amber-500/10 via-neutral-900/90 to-emerald-500/10 border-2 border-amber-500/30 p-8 sm:p-12 backdrop-blur-2xl shadow-[0_0_50px_rgba(245,158,11,0.2)] overflow-hidden">
+      <div className="relative rounded-3xl bg-gradient-to-r from-amber-500/15 via-neutral-900/95 to-emerald-500/15 border-2 border-amber-400/40 p-8 sm:p-12 backdrop-blur-2xl shadow-[0_0_60px_rgba(245,158,11,0.25)] overflow-hidden">
         {/* Glow ambient circle */}
-        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-amber-500/25 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-emerald-500/25 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           {/* Text Content */}
           <div className="md:col-span-7 space-y-4 text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>NEW: OFFICIAL HACKER PASS GENERATOR</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-amber-300 border border-amber-400/40 text-xs font-mono font-bold uppercase tracking-wider">
+              <Flame className="w-3.5 h-3.5 text-amber-400" />
+              <span>COLLEGE SWAG SPOTLIGHT</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-              CREATE YOUR OFFICIAL <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200">
-                HACKER ID CARD
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              CLAIM YOUR VIP <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 drop-shadow-[0_0_25px_rgba(245,158,11,0.5)]">
+                HACKER PASSPORT
               </span>
             </h2>
 
             <p className="text-sm text-zinc-300 font-light leading-relaxed max-w-lg">
-              Every Prasad Institute of Technology participant gets a unique 3D holographic digital ID card with photo, department, year, custom hacker archetype, and scannable QR verification.
+              Dikhaye apna tech swag poore college ko! Upload your photo, pick your viral hacker title, and get a **3D Holographic VIP Pass &amp; 1080×1920 WhatsApp Status Poster** that everyone will talk about.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono text-zinc-300">
-              <span className="px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 flex items-center gap-1.5">
-                <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                <span>PIT Students Exclusive</span>
+              <span className="px-3 py-1.5 rounded-xl bg-black/60 border border-emerald-500/30 text-emerald-300 flex items-center gap-1.5 shadow-md">
+                <Shield className="w-3.5 h-3.5" />
+                <span>PIT Exclusive Clearance</span>
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 flex items-center gap-1.5">
-                <Share2 className="w-3.5 h-3.5 text-amber-400" />
-                <span>WhatsApp Status Ready</span>
+              <span className="px-3 py-1.5 rounded-xl bg-black/60 border border-amber-500/30 text-amber-300 flex items-center gap-1.5 shadow-md">
+                <Smartphone className="w-3.5 h-3.5" />
+                <span>WhatsApp Status Ready (9:16)</span>
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Ultra-HD PNG Export</span>
+              <span className="px-3 py-1.5 rounded-xl bg-black/60 border border-cyan-500/30 text-cyan-300 flex items-center gap-1.5 shadow-md">
+                <Zap className="w-3.5 h-3.5" />
+                <span>Level 99 Hacker Archetypes</span>
               </span>
             </div>
 
-            <div className="pt-4">
+            <div className="pt-4 flex flex-wrap items-center gap-4">
               <Link
                 href="/badge"
                 onClick={() => soundEngine.playClick()}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
-                <span>⚡ Create Your ID Card Now</span>
+                <span>⚡ Create Your VIP Passport Now</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
 
-          {/* Visual Mini Badge Preview */}
+          {/* Visual Mini 9:16 Mockup */}
           <div className="md:col-span-5 flex justify-center">
             <Link
               href="/badge"
               onClick={() => soundEngine.playClick()}
-              className="group block relative w-full max-w-[270px] rounded-2xl p-4 bg-gradient-to-b from-neutral-900 to-black border-2 border-amber-400/50 shadow-2xl transition-transform group-hover:scale-105 group-hover:rotate-1"
+              className="group block relative w-full max-w-[280px] rounded-3xl p-4 bg-gradient-to-b from-neutral-900 via-black to-neutral-950 border-2 border-amber-400/60 shadow-[0_0_50px_rgba(245,158,11,0.35)] transition-all group-hover:scale-105 group-hover:rotate-1"
             >
-              {/* Lanyard Hole */}
-              <div className="w-12 h-2.5 mx-auto rounded-full bg-black/80 border border-white/20 mb-3" />
+              {/* Lanyard Strap Header */}
+              <div className="w-16 h-3 mx-auto rounded-b-md bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 mb-2 shadow-md flex items-center justify-center">
+                <div className="w-8 h-1 rounded-full bg-black/60" />
+              </div>
 
-              <div className="text-center border-b border-white/10 pb-2">
-                <span className="text-[9px] font-mono text-zinc-400 block tracking-widest">PIT JAUNPUR</span>
-                <span className="text-xs font-black text-amber-400 font-sans tracking-tight">HACKTOBERFEST 2026</span>
+              <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                <div className="w-7 h-5 rounded bg-gradient-to-tr from-amber-300 to-amber-600 flex items-center justify-center shadow">
+                  <Cpu className="w-3 h-3 text-black" />
+                </div>
+                <div className="text-right">
+                  <span className="text-[8px] font-mono text-zinc-400 uppercase block">PIT JAUNPUR</span>
+                  <span className="text-[10px] font-mono font-black text-amber-400">LEVEL 99 VIP</span>
+                </div>
               </div>
 
               <div className="py-3 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-amber-400 to-emerald-400 mb-2">
-                  <div className="w-full h-full rounded-full bg-neutral-950 flex items-center justify-center font-mono text-[9px] text-amber-300">
-                    YOUR PHOTO
+                <div className="w-20 h-20 rounded-2xl p-1 bg-gradient-to-tr from-amber-400 via-yellow-300 to-emerald-400 shadow-xl mb-2">
+                  <div className="w-full h-full rounded-xl bg-neutral-950 flex flex-col items-center justify-center font-mono text-[9px] text-amber-300">
+                    <Sparkles className="w-5 h-5 text-amber-400 mb-0.5" />
+                    <span>YOUR PHOTO</span>
                   </div>
                 </div>
-                <span className="text-sm font-bold text-white font-mono">ADITYA SHARMA</span>
-                <span className="text-[10px] font-mono text-amber-300 mt-0.5">⚡ Full-Stack Developer</span>
-                <span className="text-[9px] font-mono text-zinc-400 mt-1">CSE • 3rd Year • PIT Campus</span>
+                <span className="text-base font-black text-white font-sans tracking-tight">ADITYA SHARMA</span>
+                <span className="text-[10px] font-mono text-amber-300 font-semibold mt-0.5">
+                  10x PIT Full-Stack Ninja ⚔️
+                </span>
+                <span className="text-[9px] font-mono text-zinc-400 mt-1">
+                  CSE • 3rd Year • Oct 24, 2026
+                </span>
               </div>
 
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[8px] font-mono text-zinc-400">
-                <span className="text-emerald-400 font-bold">● VERIFIED PASS</span>
-                <span>#PIT-HKTB-2026</span>
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[8px] font-mono">
+                <span className="text-emerald-400 font-bold">● VERIFIED HACKER</span>
+                <span className="text-amber-400 font-bold">#PIT-HKTB-2026</span>
               </div>
 
-              {/* Hover Badge Click Tag */}
-              <div className="absolute inset-0 bg-black/75 backdrop-blur-xs rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="px-3.5 py-1.5 rounded-xl bg-amber-500 text-black font-mono font-bold text-xs uppercase tracking-wider">
-                  Open Generator →
+              {/* Hover Badge Click Overlay */}
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-xs rounded-3xl flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-4 text-center">
+                <span className="px-4 py-2 rounded-xl bg-amber-500 text-black font-mono font-black text-xs uppercase tracking-wider shadow-lg mb-2">
+                  Open Generator Studio →
+                </span>
+                <span className="text-[10px] font-mono text-zinc-300">
+                  Ready for WhatsApp Status &amp; Stories
                 </span>
               </div>
             </Link>
