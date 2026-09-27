@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
@@ -24,10 +24,20 @@ export default function Home() {
   const [isVideoIntroActive, setIsVideoIntroActive] = useState(true);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isBgmOn, setIsBgmOn] = useState(false); // By default OFF
+  const bgVideoRef = useRef<HTMLVideoElement>(null);
 
   const toggleBgm = () => {
-    const nextMuted = soundEngine.toggleMute();
-    setIsBgmOn(!nextMuted);
+    const nextState = !isBgmOn;
+    setIsBgmOn(nextState);
+
+    // Unmute/mute the authentic home background video music with 100% full rich volume
+    if (bgVideoRef.current) {
+      bgVideoRef.current.muted = !nextState;
+      bgVideoRef.current.volume = 1.0;
+      if (nextState) {
+        bgVideoRef.current.play().catch(() => {});
+      }
+    }
   };
 
   return (
@@ -44,10 +54,11 @@ export default function Home() {
       {/* 2. Ultra-HD 2K Landscape Mountain Background Video Loop (Rotated & Optimized) */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <video
+          ref={bgVideoRef}
           src="/home-bg-video.mp4"
           autoPlay
           loop
-          muted
+          muted={!isBgmOn}
           playsInline
           className="w-full h-full object-cover"
         />
@@ -60,7 +71,11 @@ export default function Home() {
       <MagicalAuraCanvas />
 
       {/* 5. Modern Sticky Navigation */}
-      <ModernNavbar onOpenRegister={() => setIsRegisterOpen(true)} />
+      <ModernNavbar
+        isBgmOn={isBgmOn}
+        onToggleBgm={toggleBgm}
+        onOpenRegister={() => setIsRegisterOpen(true)}
+      />
 
       {/* 6. Main Hackathon Event Content */}
       <div

@@ -59,7 +59,7 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
     if (videoRef.current) {
       const nextMuted = !videoRef.current.muted;
       videoRef.current.muted = nextMuted;
-      videoRef.current.volume = nextMuted ? 0 : 0.85;
+      videoRef.current.volume = nextMuted ? 0 : 1.0;
       setIsMuted(nextMuted);
       if (videoRef.current.paused) {
         videoRef.current.play().catch(() => {});
