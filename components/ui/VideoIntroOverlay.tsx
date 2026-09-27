@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { Volume2, VolumeX, FastForward, Play } from 'lucide-react';
+import { Volume2, VolumeX, FastForward } from 'lucide-react';
 
 interface VideoIntroOverlayProps {
   onComplete: () => void;
@@ -10,7 +10,7 @@ interface VideoIntroOverlayProps {
 export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgVideoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(false); // Try unmuted by default
+  const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const [needsGestureForSound, setNeedsGestureForSound] = useState(false);
@@ -29,7 +29,7 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
         setIsMuted(false);
         setNeedsGestureForSound(false);
       }).catch(() => {
-        // Browser blocked unmuted autoplay, fallback to muted + prompt user to unmute
+        // Browser policy requires user interaction for unmuted audio
         vid.muted = true;
         setIsMuted(true);
         setNeedsGestureForSound(true);
@@ -56,7 +56,7 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
     setIsExiting(true);
     setTimeout(() => {
       onComplete();
-    }, 350);
+    }, 300);
   };
 
   const handleToggleMute = (e: React.MouseEvent) => {
@@ -74,7 +74,7 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
   };
 
   const handleScreenClick = () => {
-    // Unmute immediately on any screen click/tap
+    // Unmute immediately on any tap or click anywhere on screen
     if (videoRef.current) {
       videoRef.current.muted = false;
       videoRef.current.volume = 1.0;
@@ -89,11 +89,11 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
   return (
     <div
       onClick={handleScreenClick}
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-500 overflow-hidden cursor-pointer select-none ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-400 overflow-hidden cursor-pointer select-none ${
         isExiting ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
-      {/* Background Ambient Blur of the video for widescreen cinematic immersion */}
+      {/* Background Ambient Widescreen Blur (Screen-Friendly on Desktops / Laptops) */}
       <video
         ref={bgVideoRef}
         src="/intro-video.mp4"
@@ -101,11 +101,11 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
         playsInline
         muted
         loop
-        className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-40 scale-110 pointer-events-none"
+        className="hidden md:block absolute inset-0 w-full h-full object-cover blur-3xl opacity-40 scale-110 pointer-events-none"
       />
 
-      {/* Main Ultra-HD Landscape Video Element (Speed: 0.75x) */}
-      <div className="relative z-10 w-full h-full max-w-6xl max-h-[92vh] px-4 flex items-center justify-center">
+      {/* Main Full-HD / 2K Unrotated Video Element (Screen-friendly on mobile & desktop) */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center p-0 md:p-4">
         <video
           ref={videoRef}
           src="/intro-video.mp4"
@@ -120,12 +120,12 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
           onLoadedMetadata={() => {
             if (videoRef.current) videoRef.current.playbackRate = 0.75;
           }}
-          className="w-full h-auto max-h-[88vh] object-contain rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.8)] border border-white/10"
+          className="w-full h-full md:max-w-md lg:max-w-lg md:max-h-[96vh] object-cover md:object-contain md:rounded-3xl shadow-[0_0_80px_rgba(0,0,0,0.9)]"
         />
       </div>
 
-      {/* Controls Overlay */}
-      <div className="absolute top-6 left-6 right-6 z-20 flex items-center justify-between pointer-events-auto">
+      {/* Top Floating Controls */}
+      <div className="absolute top-5 left-5 right-5 z-20 flex items-center justify-between pointer-events-auto">
         {/* Sound Toggle Pill */}
         <button
           onClick={handleToggleMute}
@@ -139,12 +139,12 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
           {isMuted ? (
             <>
               <VolumeX className="w-4 h-4" />
-              <span>Click for Sound 🔊</span>
+              <span>Tap for Sound 🔊</span>
             </>
           ) : (
             <>
               <Volume2 className="w-4 h-4 text-amber-400" />
-              <span>Audio Active (0.75x)</span>
+              <span>Sound On (0.75x)</span>
             </>
           )}
         </button>
@@ -162,12 +162,12 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
         </button>
       </div>
 
-      {/* Prominent Center Prompt if Browser Muted Autoplay */}
+      {/* Bottom Floating Tap Prompt if Browser Muted */}
       {needsGestureForSound && (
-        <div className="absolute bottom-16 z-30 flex items-center justify-center pointer-events-none">
-          <div className="px-5 py-3 rounded-2xl bg-black/80 border border-amber-500/50 text-amber-300 font-mono text-xs uppercase tracking-widest flex items-center gap-2.5 shadow-2xl backdrop-blur-md animate-bounce">
+        <div className="absolute bottom-16 z-30 flex items-center justify-center pointer-events-none px-4">
+          <div className="px-5 py-3 rounded-2xl bg-black/85 border border-amber-500/50 text-amber-300 font-mono text-xs uppercase tracking-widest flex items-center gap-2.5 shadow-2xl backdrop-blur-md animate-bounce">
             <Volume2 className="w-4 h-4 text-amber-400" />
-            <span>Tap Anywhere on Screen to Unmute Sound</span>
+            <span>Tap Screen to Unmute Audio</span>
           </div>
         </div>
       )}
