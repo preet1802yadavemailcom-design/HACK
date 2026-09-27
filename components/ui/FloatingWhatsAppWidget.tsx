@@ -15,25 +15,25 @@ export default function FloatingWhatsAppWidget() {
   return (
     <>
       {/* Floating Trigger Pill */}
-      <div className="fixed bottom-6 left-6 z-40">
+      <div className="fixed bottom-3 sm:bottom-6 left-3 sm:left-6 z-40">
         <button
           onClick={toggleModal}
-          className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-emerald-400/50"
+          className="group relative flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-emerald-400/50"
           aria-label="Direct WhatsApp Support"
         >
           <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
           </span>
-          <MessageSquare className="w-4 h-4 fill-white" />
+          <MessageSquare className="w-4 h-4 fill-white flex-shrink-0" />
           <span className="hidden sm:inline">WhatsApp Organizers 💬</span>
         </button>
       </div>
 
       {/* Interactive Quick Connect Drawer / Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/75 backdrop-blur-md transition-opacity">
-          <div className="relative w-full max-w-md rounded-3xl bg-neutral-950 border-2 border-emerald-500/50 p-6 sm:p-7 shadow-[0_0_60px_rgba(16,185,129,0.35)] text-white space-y-5 animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md transition-opacity">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl bg-neutral-950 border-2 border-emerald-500/50 p-5 sm:p-7 shadow-[0_0_60px_rgba(16,185,129,0.35)] text-white space-y-4 sm:space-y-5 animate-in fade-in zoom-in-95 duration-200">
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">

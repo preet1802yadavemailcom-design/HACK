@@ -581,7 +581,7 @@ export default function BadgeCreator() {
             {/* Mode 1: 9:16 WhatsApp Status Poster Mode */}
             {exportMode === 'story' ? (
               <div
-                className="w-full max-w-[390px] flex items-center justify-center p-2"
+                className="w-full max-w-[340px] xs:max-w-[370px] sm:max-w-[390px] flex items-center justify-center p-1 sm:p-2"
                 style={{ perspective: 1200 }}
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsHovered(true)}
@@ -599,7 +599,7 @@ export default function BadgeCreator() {
                       : 'rotateY(0deg) rotateX(0deg)',
                     transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.5s ease-out',
                   }}
-                  className="relative w-full aspect-[9/16] rounded-[32px] p-5 sm:p-6 bg-gradient-to-b from-neutral-900 via-black to-neutral-950 border-2 border-amber-400/50 shadow-[0_0_80px_rgba(245,158,11,0.35)] flex flex-col justify-between overflow-hidden select-none"
+                  className="relative w-full aspect-[9/16] rounded-[24px] sm:rounded-[32px] p-4 sm:p-6 bg-gradient-to-b from-neutral-900 via-black to-neutral-950 border-2 border-amber-400/50 shadow-[0_0_80px_rgba(245,158,11,0.35)] flex flex-col justify-between overflow-hidden select-none"
                 >
                   {/* Real PIT Campus Photo Background Layer */}
                   <div 
@@ -755,7 +755,7 @@ export default function BadgeCreator() {
             ) : (
               /* Mode 2: Isolated VIP Badge Only */
               <div
-                className="w-full max-w-[400px] flex items-center justify-center p-2"
+                className="w-full max-w-[340px] xs:max-w-[370px] sm:max-w-[400px] flex items-center justify-center p-1 sm:p-2"
                 style={{ perspective: 1200 }}
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsHovered(true)}
@@ -772,7 +772,7 @@ export default function BadgeCreator() {
                       : 'rotateY(0deg) rotateX(0deg)',
                     transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.5s ease-out',
                   }}
-                  className={`relative w-full rounded-[30px] p-6 bg-gradient-to-b ${activeTheme.cardBg} border-2 ${activeTheme.border} ${activeTheme.glow} text-white shadow-2xl overflow-hidden select-none`}
+                  className={`relative w-full rounded-[24px] sm:rounded-[30px] p-4 sm:p-6 bg-gradient-to-b ${activeTheme.cardBg} border-2 ${activeTheme.border} ${activeTheme.glow} text-white shadow-2xl overflow-hidden select-none`}
                 >
                   {/* Real PIT Campus Photo Background Layer if theme specifies */}
                   {activeTheme.bgImage && (

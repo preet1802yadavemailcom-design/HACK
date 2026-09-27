@@ -14,8 +14,8 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200">
-      <div className="relative w-full max-w-lg p-7 sm:p-9 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-black to-neutral-950 border-2 border-amber-400/50 shadow-[0_0_80px_rgba(245,158,11,0.35)] text-white text-center overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto p-5 sm:p-8 rounded-3xl bg-gradient-to-b from-neutral-900/95 via-black to-neutral-950 border-2 border-amber-400/50 shadow-[0_0_80px_rgba(245,158,11,0.35)] text-white text-center">
         {/* Background Ambient Glow */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />

@@ -56,14 +56,14 @@ export default function CollegeAccreditationBanner({ onOpenRegister }: CollegeAc
           />
 
           {/* Top Pill - Institutional Badge */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-red-500/20 to-amber-500/20 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-              <ShieldCheck className="w-4 h-4 text-amber-400 animate-pulse" />
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 pb-5 sm:pb-6 border-b border-white/10">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-red-500/20 to-amber-500/20 border border-amber-400/40 text-amber-300 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wide sm:tracking-wider shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+              <ShieldCheck className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-amber-400 animate-pulse flex-shrink-0" />
               <span>OFFICIAL HOST INSTITUTION • ESTABLISHED EXCELLENCE</span>
             </div>
 
-            <div className="flex items-center gap-2 text-[11px] font-mono text-zinc-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono text-zinc-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping flex-shrink-0" />
               <span className="text-emerald-400 font-bold">CAMPUS ACCREDITED</span>
               <span className="text-zinc-600">|</span>
               <span>JAUNPUR, UP</span>
@@ -71,8 +71,8 @@ export default function CollegeAccreditationBanner({ onOpenRegister }: CollegeAc
           </div>
 
           {/* Main Visual: Illuminated Institution Banner Canvas */}
-          <div className="relative z-10 my-8">
-            <div className="relative rounded-2xl bg-white p-3 sm:p-6 shadow-[0_15px_45px_rgba(0,0,0,0.8),0_0_40px_rgba(255,255,255,0.15)] border-2 border-amber-400/60 overflow-hidden group-hover:border-amber-300 transition-all duration-500">
+          <div className="relative z-10 my-6 sm:my-8">
+            <div className="relative rounded-2xl bg-white p-2.5 sm:p-6 shadow-[0_15px_45px_rgba(0,0,0,0.8),0_0_40px_rgba(255,255,255,0.15)] border-2 border-amber-400/60 overflow-hidden group-hover:border-amber-300 transition-all duration-500">
               {/* Subtle glossy glass reflection across the white plinth */}
               <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent pointer-events-none opacity-40" />
 

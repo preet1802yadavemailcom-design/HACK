@@ -237,13 +237,13 @@ export default function Home() {
       <FloatingWhatsAppWidget />
 
       {/* Floating Cyber Matrix Terminal Launcher (Bottom-Right, above BGM) */}
-      <div className="fixed bottom-20 right-6 z-40">
+      <div className="fixed bottom-16 sm:bottom-20 right-3 sm:right-6 z-40">
         <button
           onClick={() => {
             soundEngine.playClick();
             setIsTerminalOpen(true);
           }}
-          className="group flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-black/85 hover:bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:scale-105 active:scale-95 transition-all cursor-pointer backdrop-blur-xl"
+          className="group flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-full bg-black/85 hover:bg-emerald-950/80 border border-emerald-500/40 hover:border-emerald-400 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:scale-105 active:scale-95 transition-all cursor-pointer backdrop-blur-xl"
           title="Open Hacker Terminal (Ctrl+K or `)"
           aria-label="Open Cyber Terminal"
         >
@@ -256,10 +256,10 @@ export default function Home() {
       </div>
 
       {/* Floating BGM Toggle Pill (Bottom-Right, Default OFF) */}
-      <div className="fixed bottom-6 right-6 z-40">
+      <div className="fixed bottom-3 sm:bottom-6 right-3 sm:right-6 z-40">
         <button
           onClick={toggleBgm}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-2xl border font-mono text-xs uppercase tracking-wider transition-all shadow-2xl cursor-pointer ${
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full backdrop-blur-2xl border font-mono text-xs uppercase tracking-wider transition-all shadow-2xl cursor-pointer ${
             isBgmOn
               ? 'bg-amber-500 text-black font-bold border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.6)] animate-pulse'
               : 'bg-black/80 hover:bg-black/95 text-zinc-400 hover:text-white border-white/15'

@@ -37,7 +37,7 @@ export default function ModernNavbar({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4 pointer-events-none transition-all">
-      <nav className="max-w-6xl mx-auto rounded-full bg-black/85 hover:bg-black/95 border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_0_25px_rgba(245,158,11,0.06)] backdrop-blur-2xl py-2 px-4 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300">
+      <nav className="max-w-6xl mx-auto rounded-full bg-black/85 hover:bg-black/95 border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.85),0_0_25px_rgba(245,158,11,0.06)] backdrop-blur-2xl py-2 px-3 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300">
         {/* Left: Brand Identity & Creator Credit */}
         <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
           <div className="relative w-9 h-9 rounded-full bg-white p-0.5 border-2 border-amber-400/80 group-hover:scale-105 group-hover:border-amber-300 transition-all shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center flex-shrink-0">
@@ -49,16 +49,16 @@ export default function ModernNavbar({
             <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-ping" />
           </div>
 
-          <div className="flex flex-col text-left">
+          <div className="flex flex-col text-left min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="font-sans font-black text-sm tracking-wide text-white group-hover:text-amber-300 transition-colors">
+              <span className="font-sans font-black text-xs sm:text-sm tracking-wide text-white group-hover:text-amber-300 transition-colors truncate">
                 HACKTOBERFEST
               </span>
-              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/35 font-bold uppercase">
+              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/35 font-bold uppercase flex-shrink-0">
                 PIT
               </span>
             </div>
-            <div className="text-[10px] font-mono text-zinc-400 -mt-0.5">
+            <div className="text-[9px] sm:text-[10px] font-mono text-zinc-400 -mt-0.5 truncate max-w-[125px] sm:max-w-none">
               CSE Dept • <span className="text-amber-400 font-semibold group-hover:underline">Preet Yadav</span>
             </div>
           </div>
