@@ -4,18 +4,27 @@ import React, { useState } from 'react';
 import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
+import MLHSponsorBanner from '@/components/ui/MLHSponsorBanner';
 import TracksSection from '@/components/ui/TracksSection';
 import BadgePromoSection from '@/components/ui/BadgePromoSection';
+import PrizesSection from '@/components/ui/PrizesSection';
+import ResourcesSection from '@/components/ui/ResourcesSection';
 import SquadSection from '@/components/ui/SquadSection';
 import ScheduleSection from '@/components/ui/ScheduleSection';
 import VenueSection from '@/components/ui/VenueSection';
 import RegistrationModal from '@/components/ui/RegistrationModal';
 import { soundEngine } from '@/lib/audio';
-import { ArrowRight, Terminal } from 'lucide-react';
+import { ArrowRight, Terminal, Volume2, VolumeX } from 'lucide-react';
 
 export default function Home() {
   const [isVideoIntroActive, setIsVideoIntroActive] = useState(true);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isBgmOn, setIsBgmOn] = useState(false); // By default OFF
+
+  const toggleBgm = () => {
+    const nextMuted = soundEngine.toggleMute();
+    setIsBgmOn(!nextMuted);
+  };
 
   return (
     <main className="relative min-h-screen w-full bg-neutral-950 text-white overflow-x-hidden selection:bg-amber-500 selection:text-black">
@@ -24,7 +33,6 @@ export default function Home() {
         <VideoIntroOverlay
           onComplete={() => {
             setIsVideoIntroActive(false);
-            soundEngine.startAmbient();
           }}
         />
       )}
@@ -42,7 +50,7 @@ export default function Home() {
       </div>
 
       {/* 3. Deep Cinematic Contrast Vignette Overlay for Crystal-Clear Readability */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90 pointer-events-none backdrop-blur-[0.5px]" />
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/80 via-black/65 to-black/90 pointer-events-none backdrop-blur-[0.5px]" />
 
       {/* 4. Modern Sticky Navigation */}
       <ModernNavbar onOpenRegister={() => setIsRegisterOpen(true)} />
@@ -56,11 +64,20 @@ export default function Home() {
         {/* Hero Section */}
         <HeroSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
+        {/* Major League Hacking (MLH) Official Sponsorship Banner */}
+        <MLHSponsorBanner />
+
         {/* Focus Tracks */}
         <TracksSection />
 
         {/* Official Hacker ID Card Studio Promo */}
         <BadgePromoSection />
+
+        {/* Prizes & Perks (Announcing Soon) */}
+        <PrizesSection />
+
+        {/* Developer Links & Resources (8 Spec Guides & Gemma Docs) */}
+        <ResourcesSection />
 
         {/* Squad & Team Formation */}
         <SquadSection onOpenRegister={() => setIsRegisterOpen(true)} />
@@ -103,8 +120,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="relative w-full py-12 px-4 border-t border-white/10 bg-black/85 backdrop-blur-xl text-center font-mono text-xs text-zinc-400 z-20">
+        {/* Footer with Creator Credits */}
+        <footer className="relative w-full py-12 px-4 border-t border-white/10 bg-black/90 backdrop-blur-xl text-center font-mono text-xs text-zinc-400 z-20">
           <div className="max-w-4xl mx-auto flex flex-col items-center gap-3">
             <div className="flex items-center gap-2 text-zinc-200">
               <Terminal className="w-4 h-4 text-amber-400" />
@@ -112,14 +129,48 @@ export default function Home() {
               <span>×</span>
               <span>PRASAD INSTITUTE OF TECHNOLOGY</span>
             </div>
+
+            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-zinc-300 text-xs max-w-lg">
+              Crafted &amp; Engineered by <span className="text-amber-400 font-bold">Preet Yadav</span>
+              <br />
+              <span className="text-zinc-400 text-[11px]">
+                Department of Computer Science &amp; Engineering (CSE) • Prasad Institute of Technology
+              </span>
+            </div>
+
             <p className="text-[11px] text-zinc-400 max-w-md">
-              Organized by Shubhasheesh Kundu &amp; Preet Yadav • 100% Offline On-Campus Hackathon.
+              Organized by Shubhasheesh Kundu &amp; Preet Yadav • Sponsored by Major League Hacking (MLH).
             </p>
             <div className="text-[10px] text-zinc-500">
               Prasad Institute of Technology, Jaunpur, Uttar Pradesh 222002, India
             </div>
           </div>
         </footer>
+      </div>
+
+      {/* Floating BGM Toggle Pill (Default OFF) */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={toggleBgm}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-2xl border font-mono text-xs uppercase tracking-wider transition-all shadow-2xl cursor-pointer ${
+            isBgmOn
+              ? 'bg-amber-500 text-black font-bold border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.6)] animate-pulse'
+              : 'bg-black/80 hover:bg-black/95 text-zinc-400 hover:text-white border-white/15'
+          }`}
+          title={isBgmOn ? 'Mute Background Music' : 'Play Background Music'}
+        >
+          {isBgmOn ? (
+            <>
+              <Volume2 className="w-4 h-4 text-black" />
+              <span>Music: Playing 🎵</span>
+            </>
+          ) : (
+            <>
+              <VolumeX className="w-4 h-4 text-zinc-500" />
+              <span>Music: Off 🔇</span>
+            </>
+          )}
+        </button>
       </div>
 
       {/* 6. Registration Modal */}

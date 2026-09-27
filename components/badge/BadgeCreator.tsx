@@ -55,6 +55,19 @@ const VIRAL_HACKER_TITLES = [
 
 const CARD_THEMES = [
   {
+    id: 'campus',
+    name: '🏛️ PIT Campus Edition',
+    border: 'border-amber-400',
+    glow: 'shadow-[0_0_60px_rgba(245,158,11,0.6)]',
+    accentText: 'text-amber-400',
+    accentBg: 'bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500',
+    cardBg: 'from-amber-950/60 via-black/90 to-black',
+    bgImage: '/pit-campus.png',
+    chipGradient: 'from-amber-300 via-yellow-500 to-amber-600',
+    tag: 'bg-amber-400/20 text-amber-300 border-amber-400/50',
+    highlight: '#f59e0b',
+  },
+  {
     id: 'gold',
     name: 'Cyber Gold VIP',
     border: 'border-amber-400',
@@ -62,6 +75,7 @@ const CARD_THEMES = [
     accentText: 'text-amber-400',
     accentBg: 'bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500',
     cardBg: 'from-amber-950/40 via-neutral-950 to-black',
+    bgImage: null,
     chipGradient: 'from-amber-300 via-yellow-500 to-amber-600',
     tag: 'bg-amber-400/15 text-amber-300 border-amber-400/40',
     highlight: '#f59e0b',
@@ -74,6 +88,7 @@ const CARD_THEMES = [
     accentText: 'text-emerald-400',
     accentBg: 'bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500',
     cardBg: 'from-emerald-950/40 via-neutral-950 to-black',
+    bgImage: null,
     chipGradient: 'from-emerald-300 via-teal-500 to-emerald-600',
     tag: 'bg-emerald-400/15 text-emerald-300 border-emerald-400/40',
     highlight: '#10b981',
@@ -86,6 +101,7 @@ const CARD_THEMES = [
     accentText: 'text-cyan-400',
     accentBg: 'bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500',
     cardBg: 'from-cyan-950/40 via-neutral-950 to-black',
+    bgImage: null,
     chipGradient: 'from-cyan-300 via-sky-500 to-blue-600',
     tag: 'bg-cyan-400/15 text-cyan-300 border-cyan-400/40',
     highlight: '#06b6d4',
@@ -104,7 +120,7 @@ export default function BadgeCreator() {
   const [studentId, setStudentId] = useState(searchParams.get('roll') || 'PIT-2023-CS042');
   const [hackerRole, setHackerRole] = useState(VIRAL_HACKER_TITLES[0]);
   const [customRole, setCustomRole] = useState('');
-  const [selectedTheme, setSelectedTheme] = useState('gold');
+  const [selectedTheme, setSelectedTheme] = useState('campus');
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [passNumber, setPassNumber] = useState('PIT-HKTB-7892');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -540,6 +556,13 @@ export default function BadgeCreator() {
                   }}
                   className="relative w-full aspect-[9/16] rounded-[32px] p-5 sm:p-6 bg-gradient-to-b from-neutral-900 via-black to-neutral-950 border-2 border-amber-400/50 shadow-[0_0_80px_rgba(245,158,11,0.35)] flex flex-col justify-between overflow-hidden select-none"
                 >
+                  {/* Real PIT Campus Photo Background Layer */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center opacity-35 mix-blend-luminosity pointer-events-none"
+                    style={{ backgroundImage: "url('/pit-campus.png')" }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black/95 pointer-events-none" />
+
                   {/* Background Watermark & Glow */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -567,10 +590,19 @@ export default function BadgeCreator() {
 
                     {/* Badge Card Core */}
                     <div
-                      className={`relative rounded-3xl p-5 bg-gradient-to-b ${activeTheme.cardBg} border-2 ${activeTheme.border} ${activeTheme.glow} shadow-2xl backdrop-blur-2xl text-center`}
+                      className={`relative rounded-3xl p-5 bg-gradient-to-b ${activeTheme.cardBg} border-2 ${activeTheme.border} ${activeTheme.glow} shadow-2xl backdrop-blur-2xl text-center overflow-hidden`}
                     >
+                      {activeTheme.bgImage && (
+                        <>
+                          <div 
+                            className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity pointer-events-none"
+                            style={{ backgroundImage: `url('${activeTheme.bgImage}')` }}
+                          />
+                          <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+                        </>
+                      )}
                       {/* EMV Gold Chip & Level */}
-                      <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                      <div className="relative z-10 flex items-center justify-between pb-3 border-b border-white/15">
                         <div
                           className={`w-10 h-7 rounded-md bg-gradient-to-tr ${activeTheme.chipGradient} border border-yellow-200/50 shadow-md flex items-center justify-center`}
                         >
@@ -682,8 +714,19 @@ export default function BadgeCreator() {
                   }}
                   className={`relative w-full rounded-[30px] p-6 bg-gradient-to-b ${activeTheme.cardBg} border-2 ${activeTheme.border} ${activeTheme.glow} text-white shadow-2xl overflow-hidden select-none`}
                 >
+                  {/* Real PIT Campus Photo Background Layer if theme specifies */}
+                  {activeTheme.bgImage && (
+                    <>
+                      <div 
+                        className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity pointer-events-none"
+                        style={{ backgroundImage: `url('${activeTheme.bgImage}')` }}
+                      />
+                      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+                    </>
+                  )}
+
                   {/* Lanyard Hole Mockup */}
-                  <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-3.5 rounded-full bg-black/80 border border-white/20 flex items-center justify-center">
+                  <div className="relative z-10 mx-auto w-16 h-3.5 rounded-full bg-black/80 border border-white/20 flex items-center justify-center">
                     <div className="w-7 h-1.5 rounded-full bg-white/20" />
                   </div>
 
@@ -870,6 +913,19 @@ export default function BadgeCreator() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Creator & Department Attribution Footer */}
+        <div className="mt-16 pt-8 border-t border-white/10 text-center space-y-2 font-mono">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
+            <span>✨ Designed &amp; Engineered with ❤️ by Preet Yadav</span>
+          </div>
+          <p className="text-zinc-400 text-xs">
+            Created for <span className="text-white font-bold">Department of Computer Science &amp; Engineering (CSE)</span>
+          </p>
+          <p className="text-zinc-500 text-[11px]">
+            Prasad Institute of Technology, Jaunpur • Hacktoberfest 2026 In-Person Hack Day
+          </p>
         </div>
       </div>
     </div>

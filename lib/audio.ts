@@ -1,24 +1,29 @@
 /**
- * Procedural Web Audio API Sound Engine for Hacktoberfest Hack Day
- * Modern synthesizer audio: digital chimes, soft ambient drone, warp sweep, and UI clicks.
- * Zero external audio files required. Completely offline & instantaneous.
+ * Procedural Web Audio API Sound Engine for Hacktoberfest Hack Day (Jaunpur × PIT)
+ * Melodic cyber-ambient BGM, high-tech UI clicks, futuristic chimes, and warp transitions.
+ * By default OFF (muted) per user request, user can toggle ON at any time.
+ * Zero external audio downloads needed, 100% offline & instantaneous.
  */
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
-  private isMuted: boolean = false;
-  private ambientGain: GainNode | null = null;
-  private droneOsc1: OscillatorNode | null = null;
-  private droneOsc2: OscillatorNode | null = null;
-  private isAmbientPlaying: boolean = false;
+  private isMuted: boolean = true; // By default OFF
+  private masterGain: GainNode | null = null;
+  private bgmInterval: NodeJS.Timeout | null = null;
+  private isBgmPlaying: boolean = false;
 
   constructor() {}
 
   private initContext() {
     if (!this.ctx && typeof window !== 'undefined') {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.15, this.ctx.currentTime);
+        this.masterGain.connect(this.ctx.destination);
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
@@ -28,8 +33,15 @@ class SoundEngine {
 
   public setMuted(muted: boolean) {
     this.isMuted = muted;
-    if (this.ambientGain && this.ctx) {
-      this.ambientGain.gain.setValueAtTime(muted ? 0 : 0.05, this.ctx.currentTime);
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.setValueAtTime(muted ? 0 : 0.15, this.ctx.currentTime);
+    }
+    if (!muted && !this.isBgmPlaying) {
+      this.startAmbient();
+    } else if (muted && this.bgmInterval) {
+      clearInterval(this.bgmInterval);
+      this.bgmInterval = null;
+      this.isBgmPlaying = false;
     }
   }
 
@@ -39,57 +51,76 @@ class SoundEngine {
 
   public toggleMute(): boolean {
     this.initContext();
-    this.setMuted(!this.isMuted);
-    if (!this.isMuted && !this.isAmbientPlaying) {
-      this.startAmbient();
-    }
-    return this.isMuted;
+    const next = !this.isMuted;
+    this.setMuted(next);
+    return next;
   }
 
   /**
-   * Continuous soft atmospheric ambient pad
+   * Cyber Lounge / Lo-Fi Hackathon Synth Soundtrack (Procedural)
+   * Plays a progression: Am7 -> Fmaj7 -> Cmaj7 -> Gsus4 with soft filter sweep
    */
   public startAmbient() {
     this.initContext();
-    if (!this.ctx || this.isAmbientPlaying) return;
+    if (!this.ctx || this.isBgmPlaying) return;
+    this.isBgmPlaying = true;
 
-    try {
+    const chords = [
+      [220, 261.63, 329.63, 392], // Am7
+      [174.61, 220, 261.63, 329.63], // Fmaj7
+      [130.81, 164.81, 196, 246.94], // Cmaj7
+      [196, 246.94, 293.66, 392], // G
+    ];
+
+    let chordIndex = 0;
+
+    const playChordStep = () => {
+      if (this.isMuted || !this.ctx || !this.masterGain) return;
+
       const now = this.ctx.currentTime;
-      this.ambientGain = this.ctx.createGain();
-      this.ambientGain.gain.setValueAtTime(this.isMuted ? 0 : 0.04, now);
-      this.ambientGain.connect(this.ctx.destination);
+      const currentChord = chords[chordIndex % chords.length];
+      chordIndex++;
 
-      this.droneOsc1 = this.ctx.createOscillator();
-      this.droneOsc1.type = 'sine';
-      this.droneOsc1.frequency.setValueAtTime(110, now);
+      currentChord.forEach((freq, idx) => {
+        try {
+          const osc = this.ctx!.createOscillator();
+          const gain = this.ctx!.createGain();
+          const filter = this.ctx!.createBiquadFilter();
 
-      this.droneOsc2 = this.ctx.createOscillator();
-      this.droneOsc2.type = 'sine';
-      this.droneOsc2.frequency.setValueAtTime(220, now);
+          osc.type = idx === 0 ? 'triangle' : 'sine';
+          osc.frequency.setValueAtTime(freq, now);
 
-      const filter = this.ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(280, now);
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(350 + idx * 80, now);
+          filter.frequency.exponentialRampToValueAtTime(700 + idx * 120, now + 1.8);
+          filter.frequency.exponentialRampToValueAtTime(320 + idx * 60, now + 3.8);
 
-      this.droneOsc1.connect(filter);
-      this.droneOsc2.connect(filter);
-      filter.connect(this.ambientGain);
+          // Gentle ambient envelope
+          gain.gain.setValueAtTime(0, now);
+          gain.gain.linearRampToValueAtTime(0.045, now + 0.8);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 3.9);
 
-      this.droneOsc1.start();
-      this.droneOsc2.start();
-      this.isAmbientPlaying = true;
-    } catch {
-      // AudioContext policy restriction fallback
-    }
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.masterGain!);
+
+          osc.start(now);
+          osc.stop(now + 4.0);
+        } catch {}
+      });
+    };
+
+    playChordStep();
+    this.bgmInterval = setInterval(playChordStep, 4000);
   }
 
   /**
-   * Soft digital synthesizer chime (clean modern UI tone, zero bells)
+   * Crisp digital synthesizer tone for UI achievements
    */
   public playTempleBell(pitchMultiplier = 1.0) {
     if (this.isMuted) return;
     this.initContext();
-    if (!this.ctx) return;
+    if (!this.ctx || !this.masterGain) return;
 
     const now = this.ctx.currentTime;
     const baseFreq = 520 * pitchMultiplier;
@@ -99,117 +130,42 @@ class SoundEngine {
 
     osc.type = 'sine';
     osc.frequency.setValueAtTime(baseFreq, now);
-    osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, now + 0.12);
+    osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.7, now + 0.6);
 
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.08, now + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
 
     osc.connect(gain);
-    gain.connect(this.ctx.destination);
+    gain.connect(this.masterGain);
 
     osc.start(now);
-    osc.stop(now + 0.65);
+    osc.stop(now + 0.7);
   }
 
   /**
-   * Node ignition spark
+   * Subtle modern UI click
    */
-  public playDiyaIgnite() {
-    if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
-
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(320, now);
-    osc.frequency.exponentialRampToValueAtTime(640, now + 0.15);
-
-    gain.gain.setValueAtTime(0.05, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + 0.22);
-  }
-
-  /**
-   * Smooth transition warp sweep
-   */
-  public playRealmWarp() {
-    if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
-
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(220, now);
-    osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
-    osc.frequency.exponentialRampToValueAtTime(440, now + 0.5);
-
-    gain.gain.setValueAtTime(0.01, now);
-    gain.gain.linearRampToValueAtTime(0.08, now + 0.2);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
-
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + 0.56);
-  }
-
   public playClick() {
     if (this.isMuted) return;
     this.initContext();
-    if (!this.ctx) return;
+    if (!this.ctx || !this.masterGain) return;
 
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(700, now);
-    osc.frequency.exponentialRampToValueAtTime(350, now + 0.05);
+    osc.frequency.setValueAtTime(800, now);
+    osc.frequency.exponentialRampToValueAtTime(200, now + 0.04);
 
     gain.gain.setValueAtTime(0.04, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
 
     osc.connect(gain);
-    gain.connect(this.ctx.destination);
+    gain.connect(this.masterGain);
 
     osc.start(now);
-    osc.stop(now + 0.07);
-  }
-
-  public playHover() {
-    if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
-
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, now);
-    osc.frequency.linearRampToValueAtTime(980, now + 0.04);
-
-    gain.gain.setValueAtTime(0.015, now);
-    gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.05);
-
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + 0.06);
+    osc.stop(now + 0.04);
   }
 }
 
