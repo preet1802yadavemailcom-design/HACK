@@ -110,20 +110,46 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
     }
   }, [isOpen]);
 
+  // ── CORS-safe fetch helpers ──────────────────────────────
+  // Google Apps Script blocks OPTIONS preflight (application/json POST).
+  // Fix: use Content-Type: text/plain → treated as "simple request" → no preflight!
+  const scriptFetch = async (payload: object) => {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      // text/plain avoids CORS preflight (no OPTIONS request sent)
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  };
+
+  // Fire-and-forget for member 2 / member 3 (no need to await response)
+  const scriptPost = (payload: object) => {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
+  };
+
   const fetchTeamPreview = async (code: string) => {
     if (!code.trim()) return;
     setLoadingTeam(true);
     setPreviewTeam(null);
     try {
-      const res = await fetch(`${APPS_SCRIPT_URL}?action=getTeam&teamCode=${encodeURIComponent(code.trim())}`);
+      // GET is a simple request — no CORS preflight needed
+      const res = await fetch(
+        `${APPS_SCRIPT_URL}?action=getTeam&teamCode=${encodeURIComponent(code.trim())}`,
+        { method: 'GET' }
+      );
       const data = await res.json();
       if (data.success) {
         setPreviewTeam({ teamName: data.teamName, memberCount: data.memberCount, isFull: data.isFull });
       } else {
-        setError('Invalid Team Code. Please ask your Team Leader to share the correct code.');
+        setError('Invalid Team Code. Please ask your Team Leader for the correct code.');
       }
     } catch {
-      setError('Could not fetch team details. Please check your connection.');
+      setError('Could not verify team. Check your connection and try again.');
     } finally {
       setLoadingTeam(false);
     }
@@ -187,12 +213,8 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
         track,
       };
 
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
+      const res = await scriptFetch(payload);
+      const data = res;
 
       if (data.isDuplicate) {
         setDuplicateInfo({ ticketId: data.ticketId, teamName: data.teamName, teamCode: data.teamCode, name: data.registeredName });
@@ -212,14 +234,14 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
         return;
       }
 
-      // If Leader with multiple members, register them too sequentially
+      // Register Member 2 & 3 as fire-and-forget (no need to block UI)
       if (!isSolo && !joinExisting && teamSize >= 2) {
-        const m2Payload = { action: 'REGISTER', participationType: 'Team', ...member2, phone: member2.phone.trim(), email: member2.email.trim().toLowerCase(), teamCode: data.teamCode, teamName: data.teamName, role: 'Member 2', track };
-        await fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m2Payload) });
+        const m2Payload = { action: 'REGISTER', participationType: 'Team', fullName: member2.fullName.trim(), rollNo: member2.rollNo.trim(), phone: member2.phone.trim(), email: member2.email.trim().toLowerCase(), year: member2.year, branch: member2.branch, teamCode: data.teamCode, teamName: data.teamName, role: 'Member 2', track };
+        scriptPost(m2Payload);
       }
       if (!isSolo && !joinExisting && teamSize === 3) {
-        const m3Payload = { action: 'REGISTER', participationType: 'Team', ...member3, phone: member3.phone.trim(), email: member3.email.trim().toLowerCase(), teamCode: data.teamCode, teamName: data.teamName, role: 'Member 3', track };
-        await fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m3Payload) });
+        const m3Payload = { action: 'REGISTER', participationType: 'Team', fullName: member3.fullName.trim(), rollNo: member3.rollNo.trim(), phone: member3.phone.trim(), email: member3.email.trim().toLowerCase(), year: member3.year, branch: member3.branch, teamCode: data.teamCode, teamName: data.teamName, role: 'Member 3', track };
+        scriptPost(m3Payload);
       }
 
       setTicketId(data.ticketId);
