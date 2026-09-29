@@ -636,75 +636,187 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
 
           {/* ── STEP: Success ──────────────────────────────── */}
           {step === 'success' && (
-            <div className="space-y-5">
-              {/* Success header */}
-              <div className="text-center space-y-3">
-                <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.4)]">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+            <div className="space-y-4">
+
+              {/* 🌟 Royal Animated Header */}
+              <div className="relative text-center py-6 overflow-hidden">
+                {/* Animated star burst rings */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="absolute w-32 h-32 rounded-full border border-amber-400/20 animate-ping" style={{ animationDuration: '2s' }} />
+                  <div className="absolute w-48 h-48 rounded-full border border-emerald-400/10 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.3s' }} />
+                  <div className="absolute w-64 h-64 rounded-full border border-amber-400/5 animate-ping" style={{ animationDuration: '3s', animationDelay: '0.6s' }} />
                 </div>
-                <h3 className="text-2xl font-black uppercase text-white">
-                  🎉 Registration <span className="text-emerald-400">Confirmed!</span>
-                </h3>
-                <p className="text-zinc-300 text-sm">Your official in-person pass has been generated. Check your email for confirmation!</p>
+
+                {/* Crown icon */}
+                <div className="relative mx-auto w-20 h-20 mb-4">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-400/30 to-amber-600/10 animate-pulse" />
+                  <div className="absolute inset-0 rounded-full border-2 border-amber-400 shadow-[0_0_40px_rgba(245,158,11,0.6)]" />
+                  <div className="absolute inset-0 flex items-center justify-center text-4xl">👑</div>
+                </div>
+
+                <div className="relative">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-400 font-mono text-[10px] font-bold uppercase tracking-widest mb-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+                    REGISTRATION CONFIRMED
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
+                  </div>
+                  <h3 className="text-3xl font-black uppercase tracking-tight">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-300">
+                      Welcome, Hacker!
+                    </span>
+                  </h3>
+                  <p className="text-zinc-400 text-xs font-mono mt-1">
+                    You&apos;re officially in. Your pass has been generated &amp; emailed. ✉️
+                  </p>
+                </div>
               </div>
 
-              {/* Ticket info card */}
-              <div className="p-4 rounded-2xl bg-black/70 border border-amber-500/30 space-y-2 font-mono text-sm">
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-zinc-500 text-xs uppercase">Ticket ID</span>
-                  <span className="text-amber-400 font-bold">{ticketId}</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                  <span className="text-zinc-500 text-xs uppercase">Team / Type</span>
-                  <span className="text-white font-bold">{resultTeamName}</span>
-                </div>
-                {teamCode && !teamCode.startsWith('SOLO') && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-zinc-500 text-xs uppercase">Team Code</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-emerald-400 font-bold text-base">{teamCode}</span>
-                      <button onClick={copyTeamCode} className="p-1 rounded bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer" title="Copy Team Code">
-                        {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      </button>
+              {/* 🎫 Royal Ticket Card */}
+              <div className="relative rounded-2xl overflow-hidden border border-amber-500/40 shadow-[0_0_50px_rgba(245,158,11,0.2)]">
+                {/* Card gradient bg */}
+                <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-black to-amber-950/20" />
+                {/* Top gold bar */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+                {/* Bottom gold bar */}
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent" />
+
+                <div className="relative p-5 space-y-3">
+                  {/* Ticket header */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[9px] font-mono text-amber-400/70 uppercase tracking-widest">PRASAD INSTITUTE OF TECHNOLOGY</p>
+                      <p className="text-[8px] font-mono text-zinc-600 uppercase tracking-wider">Hacktoberfest Hack Day Jaunpur 2026</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[9px] font-mono text-emerald-400 font-bold uppercase">
+                        ✓ VALID
+                      </span>
                     </div>
                   </div>
-                )}
+
+                  {/* Dashed separator */}
+                  <div className="border-t border-dashed border-white/10" />
+
+                  {/* Main ticket info */}
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono">
+                    <div>
+                      <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-0.5">Ticket ID</p>
+                      <p className="text-amber-400 font-black text-sm tracking-wider">{ticketId}</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-0.5">Event Date</p>
+                      <p className="text-white font-bold text-xs">Oct 24, 2026</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-0.5">Team / Name</p>
+                      <p className="text-white font-bold text-xs truncate">{resultTeamName}</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-0.5">Venue</p>
+                      <p className="text-white font-bold text-xs">PIT Auditorium</p>
+                    </div>
+                    {teamCode && !teamCode.startsWith('SOLO') && (
+                      <div className="col-span-2">
+                        <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-0.5">Team Code</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-emerald-400 font-black text-lg tracking-widest">{teamCode}</p>
+                          <button onClick={copyTeamCode}
+                            className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-colors cursor-pointer flex-shrink-0"
+                            title="Copy Team Code">
+                            {copied ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                          </button>
+                          <span className="text-[9px] text-zinc-600 font-mono">Tap to copy</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              {/* Invite info for teams */}
+              {/* 📲 Invite Teammates (only for team leaders) */}
               {teamCode && !teamCode.startsWith('SOLO') && (
-                <div className="p-4 rounded-2xl bg-emerald-500/8 border border-emerald-500/25 text-sm">
-                  <p className="text-emerald-400 font-bold font-mono text-xs uppercase mb-2">📲 Invite Teammates via WhatsApp</p>
-                  <p className="text-zinc-300 text-xs leading-relaxed">
-                    Share your <span className="text-amber-400 font-bold">Team Code: {teamCode}</span> with your teammates. They can register by opening the website or using the invite link. When they click it, they&apos;ll watch the full cinematic trailer and then join your team!
-                  </p>
+                <div className="relative p-4 rounded-2xl overflow-hidden border border-emerald-500/25">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/40 via-black to-emerald-950/20" />
+                  <div className="relative space-y-2">
+                    <p className="text-emerald-400 font-black font-mono text-xs uppercase tracking-widest flex items-center gap-2">
+                      <span className="text-lg">📲</span> Invite Your Teammates
+                    </p>
+                    <p className="text-zinc-300 text-xs leading-relaxed">
+                      Share your <span className="text-amber-400 font-bold bg-amber-400/10 px-1.5 py-0.5 rounded font-mono">{teamCode}</span> with teammates.
+                      They&apos;ll open the website, watch the cinematic trailer, and then join your team!
+                    </p>
+                    <div className="flex items-center gap-2 mt-2 p-2 rounded-xl bg-black/40 border border-white/5 font-mono text-[10px] text-zinc-500 break-all">
+                      🔗 hack-avm.pages.dev/?team={teamCode}
+                    </div>
+                  </div>
                 </div>
               )}
 
               {/* Canvas (hidden, for download) */}
               <canvas ref={canvasRef} className="hidden" />
 
-              {/* Action Buttons */}
+              {/* 🔥 Action Buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button onClick={downloadPass}
-                  className="py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:shadow-[0_0_40px_rgba(245,158,11,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2">
-                  <Download className="w-4 h-4" />
-                  <span>Download Official Pass</span>
+                  className="group relative py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:shadow-[0_0_55px_rgba(245,158,11,0.8)] hover:scale-[1.03] active:scale-[0.97] transition-all cursor-pointer flex items-center justify-center gap-2 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-white/20 to-yellow-400/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  <Download className="w-4 h-4 relative" />
+                  <span className="relative">Download Official Pass</span>
                 </button>
 
                 <button onClick={shareOnWhatsApp}
-                  className="py-3.5 rounded-2xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/50 hover:border-emerald-400 text-emerald-300 font-black text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                  className="group py-4 rounded-2xl bg-emerald-600/15 hover:bg-emerald-600/25 border border-emerald-500/40 hover:border-emerald-400/70 text-emerald-300 font-black text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_35px_rgba(16,185,129,0.35)]">
                   <Share2 className="w-4 h-4" />
-                  <span>Share via WhatsApp</span>
+                  <span>Share on WhatsApp</span>
                 </button>
               </div>
 
+              {/* 🆘 Having Any Issues? */}
+              <div className="relative p-4 rounded-2xl border border-white/8 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-zinc-900/80 via-black to-zinc-900/40" />
+                <div className="relative space-y-3">
+                  <p className="text-zinc-300 font-black text-xs uppercase tracking-widest flex items-center gap-2">
+                    <span className="text-base">🆘</span> Having Any Issues?
+                  </p>
+                  <p className="text-zinc-500 text-[10px] font-mono leading-relaxed">
+                    Registration problems, team issues, or any queries — contact our coordinators directly:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {/* Shubhashish Kundu Sir */}
+                    <a href="tel:+919876543210"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-amber-500/8 border border-amber-500/20 hover:bg-amber-500/15 hover:border-amber-400/40 transition-all cursor-pointer group">
+                      <div className="w-9 h-9 rounded-full bg-amber-500/15 border border-amber-400/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <span className="text-base">👨‍🏫</span>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-amber-400 font-bold text-[10px] uppercase tracking-wide truncate">Shubhashish Kundu Sir</p>
+                        <p className="text-zinc-300 font-mono text-xs font-bold">+91-XXXXXXXXXX</p>
+                        <p className="text-zinc-600 text-[9px] font-mono">Faculty Coordinator</p>
+                      </div>
+                    </a>
+                    {/* Preet Yadav */}
+                    <a href="tel:+919876543211"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/8 border border-emerald-500/20 hover:bg-emerald-500/15 hover:border-emerald-400/40 transition-all cursor-pointer group">
+                      <div className="w-9 h-9 rounded-full bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <span className="text-base">👨‍💻</span>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-emerald-400 font-bold text-[10px] uppercase tracking-wide truncate">Preet Yadav</p>
+                        <p className="text-zinc-300 font-mono text-xs font-bold">+91-XXXXXXXXXX</p>
+                        <p className="text-zinc-600 text-[9px] font-mono">Student Coordinator</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <button onClick={() => { soundEngine.playClick(); onClose(); }}
-                className="w-full py-3 rounded-2xl bg-white/5 hover:bg-white/10 text-zinc-300 font-mono text-xs uppercase tracking-wide border border-white/10 hover:border-white/20 transition-all cursor-pointer">
-                Close & Explore Website
+                className="w-full py-3 rounded-2xl bg-white/3 hover:bg-white/8 text-zinc-500 hover:text-zinc-300 font-mono text-[10px] uppercase tracking-widest border border-white/5 hover:border-white/15 transition-all cursor-pointer">
+                ← Close & Explore the Hackathon Website
               </button>
             </div>
           )}
+
 
           {/* ── STEP: Duplicate ────────────────────────────── */}
           {step === 'duplicate' && duplicateInfo && (
