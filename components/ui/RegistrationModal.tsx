@@ -301,125 +301,449 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
     canvas.width = 1080;
     canvas.height = 1920;
 
-    // Background
-    const bg = ctx.createLinearGradient(0, 0, 0, 1920);
-    bg.addColorStop(0, '#020818');
-    bg.addColorStop(0.4, '#0a0f1e');
-    bg.addColorStop(1, '#030712');
+    // Helper: draw rounded rectangle
+    const drawRoundRect = (x: number, y: number, w: number, h: number, r: number) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    };
+
+    // ── 1. BASE BACKGROUND & LUXURY GRADIENT ──
+    const bg = ctx.createLinearGradient(0, 0, 1080, 1920);
+    bg.addColorStop(0, '#020617');
+    bg.addColorStop(0.25, '#070d1e');
+    bg.addColorStop(0.5, '#040814');
+    bg.addColorStop(0.8, '#080d1a');
+    bg.addColorStop(1, '#02040a');
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, 1080, 1920);
 
-    // Golden border
-    ctx.strokeStyle = '#f59e0b';
-    ctx.lineWidth = 8;
-    ctx.strokeRect(24, 24, 1032, 1872);
-    ctx.strokeStyle = 'rgba(245,158,11,0.3)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(36, 36, 1008, 1848);
-
-    // Ambient glow top
-    const glow = ctx.createRadialGradient(540, 300, 0, 540, 300, 500);
-    glow.addColorStop(0, 'rgba(245,158,11,0.15)');
-    glow.addColorStop(1, 'transparent');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, 0, 1080, 600);
-
-    // Title
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#f59e0b';
-    ctx.font = 'bold 36px Arial';
-    ctx.fillText('PRASAD INSTITUTE OF TECHNOLOGY', 540, 120);
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '24px Arial';
-    ctx.fillText('Department of Computer Science & Engineering, Jaunpur', 540, 160);
-
-    // Divider
-    ctx.strokeStyle = 'rgba(245,158,11,0.4)';
+    // ── 2. CYBER ISOMETRIC GRID PATTERN ──
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.035)';
     ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(60, 190); ctx.lineTo(1020, 190); ctx.stroke();
-
-    // Hackathon Title
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 80px Arial';
-    ctx.fillText('HACKTOBERFEST', 540, 300);
-    ctx.fillStyle = '#f59e0b';
-    ctx.font = 'bold 56px Arial';
-    ctx.fillText('HACK DAY JAUNPUR 2026', 540, 380);
-
-    // Badge circle
-    const badgeGrad = ctx.createRadialGradient(540, 570, 0, 540, 570, 130);
-    badgeGrad.addColorStop(0, 'rgba(245,158,11,0.2)');
-    badgeGrad.addColorStop(1, 'rgba(245,158,11,0.05)');
-    ctx.beginPath(); ctx.arc(540, 570, 130, 0, Math.PI * 2);
-    ctx.fillStyle = badgeGrad; ctx.fill();
-    ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 4;
-    ctx.stroke();
-
-    // "IN-PERSON PASS" text in badge
-    ctx.fillStyle = '#10b981'; ctx.font = 'bold 28px Arial';
-    ctx.fillText('✓ OFFICIAL', 540, 545);
-    ctx.fillStyle = '#f59e0b'; ctx.font = 'bold 32px Arial';
-    ctx.fillText('IN-PERSON PASS', 540, 590);
-    ctx.fillStyle = '#94a3b8'; ctx.font = '20px Arial';
-    ctx.fillText('CONFIRMED', 540, 625);
-
-    // Details
-    const drawField = (label: string, val: string, y: number, color = '#ffffff') => {
-      ctx.textAlign = 'left';
-      ctx.fillStyle = '#94a3b8'; ctx.font = '22px Arial';
-      ctx.fillText(label, 80, y);
-      ctx.fillStyle = color; ctx.font = 'bold 28px Arial';
-      ctx.fillText(val, 80, y + 34);
-    };
-
-    drawField('PARTICIPANT NAME', name, 760);
-    drawField('TICKET ID', tid, 860, '#f59e0b');
-    drawField('TEAM / PARTICIPATION', tn, 960);
-    drawField('ROLE', role, 1060);
-    drawField('FOCUS TRACK', tr, 1160, '#22d3ee');
-    drawField('EVENT DATE', 'Saturday, October 24, 2026 | 09:30 AM IST', 1260);
-    drawField('VENUE', 'PIT Campus Auditorium, Jaunpur, UP', 1360);
-
-    // Team Code box
-    if (tc && !tc.startsWith('SOLO')) {
-      ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(245,158,11,0.12)';
+    const gridSize = 40;
+    for (let x = 0; x < 1080; x += gridSize) {
       ctx.beginPath();
-      roundRect(ctx, 100, 1470, 880, 100, 16);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(245,158,11,0.5)'; ctx.lineWidth = 2;
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 1920);
       ctx.stroke();
-      ctx.fillStyle = '#94a3b8'; ctx.font = '22px Arial';
-      ctx.fillText('TEAM CODE — Share with teammates to invite them', 540, 1500);
-      ctx.fillStyle = '#f59e0b'; ctx.font = 'bold 40px Arial';
-      ctx.fillText(tc, 540, 1550);
+    }
+    for (let y = 0; y < 1920; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(1080, y);
+      ctx.stroke();
     }
 
-    // Footer
-    ctx.textAlign = 'center';
-    ctx.strokeStyle = 'rgba(245,158,11,0.3)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(60, 1640); ctx.lineTo(1020, 1640); ctx.stroke();
-    ctx.fillStyle = '#475569'; ctx.font = '22px Arial';
-    ctx.fillText('Hacktoberfest Hack Day Jaunpur 2026  •  In Association with MLH & AKTU', 540, 1700);
-    ctx.fillStyle = '#334155'; ctx.font = '18px Arial';
-    ctx.fillText('Bring this pass (digital or printed) on event day for entry verification', 540, 1740);
-    ctx.fillStyle = '#1e293b'; ctx.font = '16px Arial';
-    ctx.fillText('Produced by CSE Dept • Prasad Institute of Technology • Jaunpur, Uttar Pradesh', 540, 1820);
-  }, []);
+    // ── 3. GLOWING AMBIENT LIGHT FLARES ──
+    // Top-center gold glow
+    const topGlow = ctx.createRadialGradient(540, 220, 0, 540, 220, 500);
+    topGlow.addColorStop(0, 'rgba(245, 158, 11, 0.22)');
+    topGlow.addColorStop(0.6, 'rgba(245, 158, 11, 0.04)');
+    topGlow.addColorStop(1, 'transparent');
+    ctx.fillStyle = topGlow;
+    ctx.fillRect(0, 0, 1080, 750);
 
-  function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+    // Mid emerald glow
+    const midGlow = ctx.createRadialGradient(200, 1000, 0, 200, 1000, 450);
+    midGlow.addColorStop(0, 'rgba(16, 185, 129, 0.12)');
+    midGlow.addColorStop(1, 'transparent');
+    ctx.fillStyle = midGlow;
+    ctx.fillRect(0, 700, 1080, 800);
+
+    // Bottom gold glow
+    const botGlow = ctx.createRadialGradient(880, 1700, 0, 880, 1700, 400);
+    botGlow.addColorStop(0, 'rgba(245, 158, 11, 0.1)');
+    botGlow.addColorStop(1, 'transparent');
+    ctx.fillStyle = botGlow;
+    ctx.fillRect(0, 1400, 1080, 520);
+
+    // ── 4. MULTI-TIER ROYAL METALLIC BORDERS & CYBER CORNERS ──
+    // Outer border
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 6;
+    drawRoundRect(28, 28, 1024, 1864, 24);
+    ctx.stroke();
+
+    // Inner thin border
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+    ctx.lineWidth = 1.5;
+    drawRoundRect(42, 42, 996, 1836, 18);
+    ctx.stroke();
+
+    // Tech corner brackets (top-left, top-right, bottom-left, bottom-right)
+    const drawCorner = (cx: number, cy: number, dx: number, dy: number) => {
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + dy * 32);
+      ctx.lineTo(cx, cy);
+      ctx.lineTo(cx + dx * 32, cy);
+      ctx.stroke();
+    };
+    drawCorner(54, 54, 1, 1);
+    drawCorner(1026, 54, -1, 1);
+    drawCorner(54, 1866, 1, -1);
+    drawCorner(1026, 1866, -1, -1);
+
+    // ── 5. TOP INSTITUTIONAL HEADER ──
+    ctx.textAlign = 'center';
+    
+    // Top crest pill
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.12)';
+    drawRoundRect(340, 68, 400, 36, 18);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('★ AKTU CODE: 144  •  ESTD. 2002 ★', 540, 91);
+
+    // College Name
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = '900 34px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '2px';
+    ctx.fillText('PRASAD INSTITUTE OF TECHNOLOGY', 540, 152);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '600 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '1.5px';
+    ctx.fillText('Department of Computer Science & Engineering · Jaunpur, U.P.', 540, 186);
+
+    // Divider Line with diamond center
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.4)';
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.moveTo(90, 218);
+    ctx.lineTo(510, 218);
+    ctx.moveTo(570, 218);
+    ctx.lineTo(990, 218);
+    ctx.stroke();
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.beginPath();
+    ctx.arc(540, 218, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ── 6. HACKATHON HERO TITLE & VERIFIED BADGE ──
+    // Royal Verified Badge Pill
+    const badgeGrad = ctx.createLinearGradient(360, 245, 720, 245);
+    badgeGrad.addColorStop(0, 'rgba(16, 185, 129, 0.22)');
+    badgeGrad.addColorStop(1, 'rgba(5, 150, 105, 0.12)');
+    ctx.fillStyle = badgeGrad;
+    drawRoundRect(330, 246, 420, 44, 22);
+    ctx.fill();
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#34d399';
+    ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('✦ OFFICIAL IN-PERSON VIP PASS ✦', 540, 274);
+
+    // Main Titles
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 84px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '-1px';
+    ctx.fillText('HACKTOBERFEST', 540, 376);
+
+    const titleGrad = ctx.createLinearGradient(200, 440, 880, 440);
+    titleGrad.addColorStop(0, '#f59e0b');
+    titleGrad.addColorStop(0.5, '#fde047');
+    titleGrad.addColorStop(1, '#f59e0b');
+    ctx.fillStyle = titleGrad;
+    ctx.font = '900 52px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('HACK DAY JAUNPUR 2026', 540, 444);
+
+    // Date & Venue Chip Bar
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+    drawRoundRect(140, 478, 800, 48, 14);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'bold 17px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('📅 SATURDAY, OCT 24, 2026   •   ⏰ 09:30 AM IST   •   🏛️ AUDITORIUM', 540, 508);
+
+    // ── 7. VIP PARTICIPANT IDENTITY CARD (The Centerpiece) ──
+    const cardX = 80;
+    const cardY = 560;
+    const cardW = 920;
+    const cardH = 580;
+
+    // Card background & metallic gradient
+    const cardBg = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + cardH);
+    cardBg.addColorStop(0, '#0c1326');
+    cardBg.addColorStop(0.5, '#070b16');
+    cardBg.addColorStop(1, '#05070f');
+    ctx.fillStyle = cardBg;
+    drawRoundRect(cardX, cardY, cardW, cardH, 24);
+    ctx.fill();
+
+    // Card border
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.55)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Card top ribbon
+    const ribbonGrad = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY);
+    ribbonGrad.addColorStop(0, '#f59e0b');
+    ribbonGrad.addColorStop(0.5, '#d97706');
+    ribbonGrad.addColorStop(1, '#b45309');
+    ctx.fillStyle = ribbonGrad;
+    ctx.beginPath();
+    ctx.moveTo(cardX + 24, cardY);
+    ctx.lineTo(cardX + cardW - 24, cardY);
+    ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 24);
+    ctx.lineTo(cardX + cardW, cardY + 46);
+    ctx.lineTo(cardX, cardY + 46);
+    ctx.lineTo(cardX, cardY + 24);
+    ctx.quadraticCurveTo(cardX, cardY, cardX + 24, cardY);
     ctx.closePath();
-  }
+    ctx.fill();
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#000000';
+    ctx.font = '900 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('★ PIT CSE HACKATHON PROTOCOL • CONFIRMED ENTRY ★', cardX + 32, cardY + 30);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 14px "Courier New", monospace';
+    ctx.fillText('AUTH-LEVEL-1', cardX + cardW - 32, cardY + 30);
+
+    // Participant Name Display
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 16px "Courier New", monospace';
+    ctx.letterSpacing = '2px';
+    ctx.fillText('DELEGATE NAME', cardX + 44, cardY + 98);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 50px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '0px';
+    ctx.fillText(name, cardX + 44, cardY + 154);
+
+    // Role Badge Pill next to name
+    const roleWidth = Math.max(160, role.length * 13 + 36);
+    ctx.fillStyle = role.includes('Leader') ? 'rgba(245, 158, 11, 0.18)' : 'rgba(16, 185, 129, 0.18)';
+    drawRoundRect(cardX + 44, cardY + 176, roleWidth, 38, 19);
+    ctx.fill();
+    ctx.strokeStyle = role.includes('Leader') ? '#f59e0b' : '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = role.includes('Leader') ? '#fbbf24' : '#34d399';
+    ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '1px';
+    ctx.fillText(`👑 ${role.toUpperCase()}`, cardX + 62, cardY + 201);
+
+    // Grid divider
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cardX + 44, cardY + 234);
+    ctx.lineTo(cardX + cardW - 44, cardY + 234);
+    ctx.stroke();
+
+    // 4-Box Info Grid inside the card
+    const gridFields = [
+      { label: 'TICKET IDENTIFIER', val: tid, color: '#f59e0b', mono: true, size: 28 },
+      { label: 'AFFILIATED SQUAD', val: tn, color: '#ffffff', mono: false, size: 24 },
+      { label: 'INNOVATION TRACK', val: tr || 'General Track', color: '#38bdf8', mono: false, size: 24 },
+      { label: 'ACCREDITATION', val: 'Dept. of CSE, PIT', color: '#a1a1aa', mono: false, size: 24 },
+    ];
+
+    const colW = (cardW - 88) / 2;
+    gridFields.forEach((gf, idx) => {
+      const col = idx % 2;
+      const row = Math.floor(idx / 2);
+      const fx = cardX + 44 + col * colW;
+      const fy = cardY + 280 + row * 92;
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = 'bold 13px "Courier New", monospace';
+      ctx.letterSpacing = '2px';
+      ctx.fillText(gf.label, fx, fy);
+
+      ctx.fillStyle = gf.color;
+      ctx.font = gf.mono ? `900 ${gf.size}px "Courier New", monospace` : `bold ${gf.size}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+      ctx.letterSpacing = gf.mono ? '1.5px' : '0.5px';
+      // Truncate if too long
+      const textMetrics = ctx.measureText(gf.val);
+      let renderText = gf.val;
+      if (textMetrics.width > colW - 30) {
+        renderText = gf.val.substring(0, 22) + '...';
+      }
+      ctx.fillText(renderText, fx, fy + 34);
+    });
+
+    // Sub-card bottom security strip
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+    drawRoundRect(cardX + 24, cardY + cardH - 84, cardW - 48, 62, 12);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = '900 13px "Courier New", monospace';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('STATUS: CONFIRMED DELEGATE', cardX + 46, cardY + cardH - 48);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#64748b';
+    ctx.font = 'bold 12px "Courier New", monospace';
+    ctx.fillText(`HASH: ${tid.replace(/[^0-9]/g, '')}-SECURE-VERIFIED`, cardX + cardW - 46, cardY + cardH - 48);
+
+    // ── 8. TEAM SQUAD PASSCODE SECTION (If Team) ──
+    let nextY = 1170;
+    if (tc && !tc.startsWith('SOLO')) {
+      const tcBoxH = 110;
+      ctx.fillStyle = 'rgba(5, 46, 22, 0.6)';
+      drawRoundRect(80, nextY, 920, tcBoxH, 18);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.55)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#34d399';
+      ctx.font = '900 13px "Courier New", monospace';
+      ctx.letterSpacing = '3px';
+      ctx.fillText('⚡ SQUAD ACCESS KEY — SHARE WITH YOUR TEAMMATES', 112, nextY + 38);
+
+      ctx.fillStyle = '#fde047';
+      ctx.font = '900 42px "Courier New", monospace';
+      ctx.letterSpacing = '4px';
+      ctx.fillText(tc, 112, nextY + 86);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#6ee7b7';
+      ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText('🔗 hack-avm.pages.dev/?team=' + tc, 970, nextY + 68);
+
+      nextY += tcBoxH + 28;
+    } else {
+      nextY += 10;
+    }
+
+    // ── 9. PROCEDURAL CRYPTOGRAPHIC BARCODE ──
+    const barY = nextY;
+    const barH = 58;
+    const barStart = 120;
+    const barWidth = 840;
+
+    // Draw realistic barcode lines
+    ctx.fillStyle = '#ffffff';
+    let currX = barStart;
+    const pattern = [2, 4, 1, 3, 2, 5, 1, 2, 4, 2, 1, 3, 4, 2, 1, 5, 2, 3, 1, 4, 2, 1, 3, 5, 2, 1, 4, 3, 2, 1, 4, 2, 3, 1, 5, 2, 4, 1, 3, 2, 4, 1, 2, 5, 3, 1, 4, 2];
+    let pIdx = 0;
+    while (currX < barStart + barWidth) {
+      const w = pattern[pIdx % pattern.length];
+      ctx.fillRect(currX, barY, w * 2.2, barH);
+      currX += w * 2.2 + ((pIdx % 3 === 0) ? 5 : 3);
+      pIdx++;
+    }
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 12px "Courier New", monospace';
+    ctx.letterSpacing = '6px';
+    ctx.fillText(`* ${tid} * 2026-HACKTOBERFEST-JAUNPUR *`, 540, barY + barH + 24);
+
+    // ── 10. DIRECT COORDINATOR HOTLINE CHIPS ──
+    const hotlineY = barY + barH + 54;
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    drawRoundRect(80, hotlineY, 920, 150, 20);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = '900 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('🆘 HAVING ANY ISSUES? DIRECT COORDINATOR HOTLINE', 110, hotlineY + 34);
+
+    // Card 1: Shubhashish Kundu Sir
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.08)';
+    drawRoundRect(110, hotlineY + 50, 410, 78, 14);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = '900 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('👨‍🏫 Shubhashish Kundu Sir', 128, hotlineY + 78);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 18px "Courier New", monospace';
+    ctx.fillText('+91 63065 88533', 128, hotlineY + 104);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('Faculty Coordinator', 376, hotlineY + 104);
+
+    // Card 2: Preet Yadav
+    ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
+    drawRoundRect(550, hotlineY + 50, 410, 78, 14);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#34d399';
+    ctx.font = '900 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('👨‍💻 Preet Yadav', 568, hotlineY + 78);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 18px "Courier New", monospace';
+    ctx.fillText('+91 63945 30549', 568, hotlineY + 104);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('Student Coordinator', 814, hotlineY + 104);
+
+    // ── 11. FOOTER & MOTTO ──
+    const footY = hotlineY + 184;
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(90, footY);
+    ctx.lineTo(990, footY);
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('🏆 In Association with Major League Hacking (MLH)  •  AKTU Lucknow', 540, footY + 34);
+
+    ctx.fillStyle = '#64748b';
+    ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('Organized by Dept. of CSE • Prasad Institute of Technology • Jaunpur, Uttar Pradesh', 540, footY + 60);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 12px "Courier New", monospace';
+    ctx.letterSpacing = '2px';
+    ctx.fillText('INNOVATE • CODE • CONQUER — hack-avm.pages.dev', 540, footY + 84);
+  }, []);
 
   const downloadPass = () => {
     const canvas = canvasRef.current;
