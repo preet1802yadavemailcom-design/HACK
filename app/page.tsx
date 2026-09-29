@@ -40,7 +40,7 @@ export default function Home() {
     if (teamCode) {
       setPrefillTeamCode(teamCode.toUpperCase());
       // Show floating invite banner after trailer finishes
-      fetch(`https://script.google.com/macros/s/AKfycbx9NY9xcIC6luKL2RbHp2Unc34zfx4deWxLAemZGuzz2A-xsQdi3MPl2GQB5LZX3wg/exec?action=getTeam&teamCode=${encodeURIComponent(teamCode)}`)
+      fetch(`https://script.google.com/macros/s/AKfycbxP2NBaEF9qb-XAEjHwdlCKWLTqEtgfuofIFOZFu5GzXwf4CR7v24W3KFLORxaPqcVrgA/exec?action=getTeam&teamCode=${encodeURIComponent(teamCode)}`)
         .then(r => r.json())
         .then(d => {
           if (d.success) {

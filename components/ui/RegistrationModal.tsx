@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbx9NY9xcIC6luKL2RbHp2Unc34zfx4deWxLAemZGuzz2A-xsQdi3MPl2GQB5LZX3wg/exec';
+  'https://script.google.com/macros/s/AKfycbxP2NBaEF9qb-XAEjHwdlCKWLTqEtgfuofIFOZFu5GzXwf4CR7v24W3KFLORxaPqcVrgA/exec';
 
 const TRACKS = [
   'Web & Open Innovation',
