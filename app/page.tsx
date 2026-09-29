@@ -27,7 +27,30 @@ export default function Home() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isBgmOn, setIsBgmOn] = useState(false); // By default OFF
+  const [prefillTeamCode, setPrefillTeamCode] = useState<string | undefined>(undefined);
+  const [showInviteBanner, setShowInviteBanner] = useState(false);
+  const [inviteTeamName, setInviteTeamName] = useState('');
   const bgVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Detect invite link: ?team=CODE
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const teamCode = params.get('team');
+    if (teamCode) {
+      setPrefillTeamCode(teamCode.toUpperCase());
+      // Show floating invite banner after trailer finishes
+      fetch(`https://script.google.com/macros/s/AKfycbx9NY9xcIC6luKL2RbHp2Unc34zfx4deWxLAemZGuzz2A-xsQdi3MPl2GQB5LZX3wg/exec?action=getTeam&teamCode=${encodeURIComponent(teamCode)}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d.success) {
+            setInviteTeamName(d.teamName || teamCode);
+          }
+        })
+        .catch(() => setInviteTeamName(teamCode));
+      setShowInviteBanner(true);
+    }
+  }, []);
 
   // Global Keyboard Shortcut: Ctrl + K or ` (backtick) to launch Hacker Matrix Terminal
   useEffect(() => {
@@ -104,6 +127,33 @@ export default function Home() {
           isVideoIntroActive ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
+        {/* Floating Team Invite Banner (appears after trailer, only when ?team= param present) */}
+        {showInviteBanner && !isVideoIntroActive && (
+          <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-40 w-full max-w-sm px-4 pointer-events-auto">
+            <div className="relative p-4 rounded-2xl bg-gradient-to-r from-emerald-900/90 via-black/95 to-emerald-900/90 border border-emerald-400/50 shadow-[0_0_40px_rgba(16,185,129,0.35)] backdrop-blur-xl flex items-center gap-3">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center">
+                <span className="text-xl">👥</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wide">Team Invite</p>
+                <p className="text-sm font-bold text-white truncate">Join: &quot;{inviteTeamName || prefillTeamCode}&quot;</p>
+              </div>
+              <button
+                onClick={() => { setIsRegisterOpen(true); soundEngine.playClick(); setShowInviteBanner(false); }}
+                className="flex-shrink-0 px-3 py-2 rounded-xl bg-emerald-500 text-black font-black text-xs uppercase cursor-pointer hover:bg-emerald-400 transition-colors"
+              >
+                Join →
+              </button>
+              <button
+                onClick={() => setShowInviteBanner(false)}
+                className="flex-shrink-0 p-1 rounded-full text-zinc-500 hover:text-white cursor-pointer transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Hero Section with Live Countdown */}
         <HeroSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
@@ -285,10 +335,11 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Registration Modal (Opening Soon Teaser) */}
+      {/* Registration Modal — Live with Google Sheets backend */}
       <RegistrationModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}
+        prefillTeamCode={prefillTeamCode}
       />
 
       {/* Cyber Matrix Terminal HUD */}
