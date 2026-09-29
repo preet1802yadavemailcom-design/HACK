@@ -114,7 +114,7 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
   // Google Apps Script blocks OPTIONS preflight (application/json POST).
   // Fix: use Content-Type: text/plain → treated as "simple request" → no preflight!
   const scriptFetch = async (payload: object) => {
-    const res = await fetch(APPS_SCRIPT_URL, {
+    const res = await fetch(`${APPS_SCRIPT_URL}?action=REGISTER`, {
       method: 'POST',
       // text/plain avoids CORS preflight (no OPTIONS request sent)
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -125,7 +125,7 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
 
   // Fire-and-forget for member 2 / member 3 (no need to await response)
   const scriptPost = (payload: object) => {
-    fetch(APPS_SCRIPT_URL, {
+    fetch(`${APPS_SCRIPT_URL}?action=REGISTER`, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
