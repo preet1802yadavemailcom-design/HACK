@@ -422,39 +422,6 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
 
   if (!isOpen) return null;
 
-  // ─── MEMBER FORM CARD ───────────────────────────────────────
-  const MemberCard = ({
-    label, icon, data, setter, isLeader = false,
-  }: {
-    label: string;
-    icon: React.ReactNode;
-    data: MemberData;
-    setter: React.Dispatch<React.SetStateAction<MemberData>>;
-    isLeader?: boolean;
-  }) => (
-    <div className="p-4 rounded-2xl bg-black/60 border border-white/10 space-y-3">
-      <div className="flex items-center gap-2 mb-1">
-        {icon}
-        <span className="font-mono font-bold text-xs uppercase tracking-widest text-amber-400">{label}</span>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <InputField icon={<User className="w-3.5 h-3.5" />} placeholder="Full Name *" value={data.fullName}
-          onChange={v => updateMember(setter, 'fullName', v)} />
-        <InputField icon={<Hash className="w-3.5 h-3.5" />} placeholder="Roll / Enrollment No *" value={data.rollNo}
-          onChange={v => updateMember(setter, 'rollNo', v)} />
-        <InputField icon={<Phone className="w-3.5 h-3.5" />} placeholder="WhatsApp Number *" value={data.phone}
-          onChange={v => updateMember(setter, 'phone', v)} type="tel" />
-        <InputField icon={<Mail className="w-3.5 h-3.5" />} placeholder="Email Address *" value={data.email}
-          onChange={v => updateMember(setter, 'email', v)} type="email" />
-        <SelectField icon={<GraduationCap className="w-3.5 h-3.5" />} placeholder="Academic Year *"
-          value={data.year} onChange={v => updateMember(setter, 'year', v)} options={YEARS} />
-        <SelectField icon={<GitBranch className="w-3.5 h-3.5" />} placeholder="Branch *"
-          value={data.branch} onChange={v => updateMember(setter, 'branch', v)} options={BRANCHES} />
-      </div>
-    </div>
-  );
-
   // ─── RENDER ─────────────────────────────────────────────────
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-2xl">
@@ -595,20 +562,23 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
               )}
 
               {/* Leader / Your Details */}
-              <MemberCard
+              <MemberFormCard
                 label={participationType === 'Team' && !joinExisting ? '👑 Team Leader Details (Your Info)' : '👤 Your Details'}
-                icon={<User className="w-4 h-4 text-amber-400" />}
-                data={leader} setter={setLeader} isLeader
+                iconColor="amber"
+                data={leader}
+                onUpdate={(f, v) => setLeader(prev => ({ ...prev, [f]: v }))}
               />
 
               {/* Member 2 */}
               {participationType === 'Team' && !joinExisting && teamSize >= 2 && (
-                <MemberCard label="👤 Member 2 Details" icon={<User className="w-4 h-4 text-cyan-400" />} data={member2} setter={setMember2} />
+                <MemberFormCard label="👤 Member 2 Details" iconColor="cyan" data={member2}
+                  onUpdate={(f, v) => setMember2(prev => ({ ...prev, [f]: v }))} />
               )}
 
               {/* Member 3 */}
               {participationType === 'Team' && !joinExisting && teamSize === 3 && (
-                <MemberCard label="👤 Member 3 Details" icon={<User className="w-4 h-4 text-purple-400" />} data={member3} setter={setMember3} />
+                <MemberFormCard label="👤 Member 3 Details" iconColor="purple" data={member3}
+                  onUpdate={(f, v) => setMember3(prev => ({ ...prev, [f]: v }))} />
               )}
 
               {/* Track selection */}
@@ -845,3 +815,75 @@ function SelectField({ icon, placeholder, value, onChange, options }: {
     </div>
   );
 }
+
+// ─── MemberFormCard — MUST be outside RegistrationModal ──────
+// If defined inside the parent component, React creates a NEW component
+// type on every render → inputs unmount/remount → focus lost after each keystroke.
+// Defined at module scope = stable reference = no remounting = typing works perfectly.
+function MemberFormCard({
+  label,
+  iconColor,
+  data,
+  onUpdate,
+}: {
+  label: string;
+  iconColor: 'amber' | 'cyan' | 'purple';
+  data: MemberData;
+  onUpdate: (field: keyof MemberData, value: string) => void;
+}) {
+  const labelColor =
+    iconColor === 'amber' ? 'text-amber-400' :
+    iconColor === 'cyan' ? 'text-cyan-400' : 'text-purple-400';
+
+  return (
+    <div className="p-4 rounded-2xl bg-black/60 border border-white/10 space-y-3">
+      <div className="flex items-center gap-2 mb-1">
+        <User className={`w-4 h-4 ${labelColor}`} />
+        <span className={`font-mono font-bold text-xs uppercase tracking-widest ${labelColor}`}>{label}</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <InputField
+          icon={<User className="w-3.5 h-3.5" />}
+          placeholder="Full Name *"
+          value={data.fullName}
+          onChange={v => onUpdate('fullName', v)}
+        />
+        <InputField
+          icon={<Hash className="w-3.5 h-3.5" />}
+          placeholder="Roll / Enrollment No *"
+          value={data.rollNo}
+          onChange={v => onUpdate('rollNo', v)}
+        />
+        <InputField
+          icon={<Phone className="w-3.5 h-3.5" />}
+          placeholder="WhatsApp Number *"
+          value={data.phone}
+          onChange={v => onUpdate('phone', v)}
+          type="tel"
+        />
+        <InputField
+          icon={<Mail className="w-3.5 h-3.5" />}
+          placeholder="Email Address *"
+          value={data.email}
+          onChange={v => onUpdate('email', v)}
+          type="email"
+        />
+        <SelectField
+          icon={<GraduationCap className="w-3.5 h-3.5" />}
+          placeholder="Academic Year *"
+          value={data.year}
+          onChange={v => onUpdate('year', v)}
+          options={YEARS}
+        />
+        <SelectField
+          icon={<GitBranch className="w-3.5 h-3.5" />}
+          placeholder="Branch *"
+          value={data.branch}
+          onChange={v => onUpdate('branch', v)}
+          options={BRANCHES}
+        />
+      </div>
+    </div>
+  );
+}
+
