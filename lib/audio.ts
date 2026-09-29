@@ -36,13 +36,6 @@ class SoundEngine {
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.setValueAtTime(muted ? 0 : 0.15, this.ctx.currentTime);
     }
-    if (!muted && !this.isBgmPlaying) {
-      this.startAmbient();
-    } else if (muted && this.bgmInterval) {
-      clearInterval(this.bgmInterval);
-      this.bgmInterval = null;
-      this.isBgmPlaying = false;
-    }
   }
 
   public getMuted(): boolean {

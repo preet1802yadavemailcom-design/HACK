@@ -5,12 +5,16 @@ import { Volume2, VolumeX, FastForward } from 'lucide-react';
 
 interface VideoIntroOverlayProps {
   onComplete: () => void;
+  isBgmOn?: boolean;
+  onToggleBgm?: () => void;
 }
 
-export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps) {
+export default function VideoIntroOverlay({
+  onComplete,
+  isBgmOn = false,
+  onToggleBgm,
+}: VideoIntroOverlayProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  // Strictly muted by default so speaker NEVER turns on automatically
-  const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
 
@@ -18,18 +22,15 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
     const vid = videoRef.current;
 
     if (vid) {
-      vid.playbackRate = 0.75;
+      vid.playbackRate = 0.85;
       vid.volume = 0;
       vid.muted = true;
-      setIsMuted(true);
       vid.play().catch(() => {});
     }
 
     return () => {
-      // Strict cleanup so video audio never leaks onto the home screen
       if (vid) {
         vid.pause();
-        vid.muted = true;
       }
     };
   }, []);
@@ -37,34 +38,20 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
   const handleTimeUpdate = () => {
     if (videoRef.current) {
       const current = videoRef.current.currentTime;
-      const duration = videoRef.current.duration || 14;
+      const duration = videoRef.current.duration || 11.2;
       setProgress((current / duration) * 100);
     }
   };
 
   const finishVideo = () => {
-    // Immediately stop and mute video before exiting
+    // Stop video cleanly without interrupting the background song
     if (videoRef.current) {
       videoRef.current.pause();
-      videoRef.current.muted = true;
     }
     setIsExiting(true);
     setTimeout(() => {
       onComplete();
     }, 300);
-  };
-
-  const handleToggleMute = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (videoRef.current) {
-      const nextMuted = !videoRef.current.muted;
-      videoRef.current.muted = nextMuted;
-      videoRef.current.volume = nextMuted ? 0 : 1.0;
-      setIsMuted(nextMuted);
-      if (videoRef.current.paused) {
-        videoRef.current.play().catch(() => {});
-      }
-    }
   };
 
   return (
@@ -81,39 +68,42 @@ export default function VideoIntroOverlay({ onComplete }: VideoIntroOverlayProps
         preload="auto"
         autoPlay
         playsInline
-        muted={isMuted}
+        muted
         onTimeUpdate={handleTimeUpdate}
         onEnded={finishVideo}
-        onPlay={() => {
-          if (videoRef.current) videoRef.current.playbackRate = 0.75;
-        }}
-        onLoadedMetadata={() => {
-          if (videoRef.current) videoRef.current.playbackRate = 0.75;
-        }}
         className="absolute inset-0 w-full h-full object-cover filter contrast-[1.06] saturate-[1.12]"
       />
 
       {/* Top Floating Controls */}
       <div className="absolute top-6 left-6 right-6 z-20 flex items-center justify-between pointer-events-auto">
-        {/* Sound Toggle Pill - Click to unmute only if user desires */}
+        {/* Sound Toggle Pill - Controls the unified background song */}
         <button
-          onClick={handleToggleMute}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onToggleBgm) {
+              onToggleBgm();
+            }
+          }}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-full backdrop-blur-2xl border font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-xl ${
-            !isMuted
+            isBgmOn
               ? 'bg-amber-500 text-black font-bold border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.7)] animate-pulse'
               : 'bg-black/75 text-zinc-300 border-white/20 hover:bg-black/90 hover:text-white'
           }`}
-          aria-label={isMuted ? 'Click to enable audio' : 'Mute audio'}
+          aria-label={isBgmOn ? 'Mute background song' : 'Play background song'}
         >
-          {isMuted ? (
+          {isBgmOn ? (
             <>
-              <VolumeX className="w-4 h-4 text-zinc-400" />
-              <span>Sound: Off 🔇</span>
+              <div className="flex items-end gap-[2px] h-3.5">
+                <span className="w-[2px] bg-black rounded-full animate-bounce h-2" style={{ animationDelay: '0ms' }} />
+                <span className="w-[2px] bg-black rounded-full animate-bounce h-3.5" style={{ animationDelay: '150ms' }} />
+                <span className="w-[2px] bg-black rounded-full animate-bounce h-2.5" style={{ animationDelay: '300ms' }} />
+              </div>
+              <span>Sound: ON 🔊</span>
             </>
           ) : (
             <>
-              <Volume2 className="w-4 h-4 text-black" />
-              <span>Sound On (0.75x) 🔊</span>
+              <VolumeX className="w-4 h-4 text-zinc-400" />
+              <span>Sound: Off 🔇</span>
             </>
           )}
         </button>

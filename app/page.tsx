@@ -31,6 +31,7 @@ export default function Home() {
   const [showInviteBanner, setShowInviteBanner] = useState(false);
   const [inviteTeamName, setInviteTeamName] = useState('');
   const bgVideoRef = useRef<HTMLVideoElement>(null);
+  const bgmAudioRef = useRef<HTMLAudioElement>(null);
 
   // Detect invite link: ?team=CODE
   useEffect(() => {
@@ -65,25 +66,48 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Unified background music toggle: persists across intro video and home screen
   const toggleBgm = () => {
-    const nextState = !isBgmOn;
-    setIsBgmOn(nextState);
-
-    // Unmute/mute the authentic home background video music with 100% full rich volume
-    if (bgVideoRef.current) {
-      bgVideoRef.current.muted = !nextState;
-      bgVideoRef.current.volume = 1.0;
-      if (nextState) {
-        bgVideoRef.current.play().catch(() => {});
-      }
-    }
+    soundEngine.playClick();
+    setIsBgmOn((prev) => !prev);
   };
+
+  // Continuous loop auto-play controller for the background song
+  useEffect(() => {
+    const audio = bgmAudioRef.current;
+    if (!audio) return;
+
+    if (isBgmOn) {
+      audio.volume = 0.85;
+      audio.play().catch((err) => {
+        console.warn('Audio playback notice:', err);
+      });
+    } else {
+      audio.pause();
+    }
+  }, [isBgmOn]);
 
   return (
     <main className="relative min-h-screen w-full bg-neutral-950 text-white overflow-x-hidden selection:bg-amber-500 selection:text-black">
+      {/* Unified Background Music Audio Engine (Continuous loop across Intro & Home) */}
+      <audio
+        ref={bgmAudioRef}
+        src="/bgm.mp3"
+        loop
+        preload="auto"
+        onEnded={() => {
+          if (bgmAudioRef.current && isBgmOn) {
+            bgmAudioRef.current.currentTime = 0;
+            bgmAudioRef.current.play().catch(() => {});
+          }
+        }}
+      />
+
       {/* 1. Fullscreen Edge-to-Edge Video Intro (Supports all devices including laptops) */}
       {isVideoIntroActive && (
         <VideoIntroOverlay
+          isBgmOn={isBgmOn}
+          onToggleBgm={toggleBgm}
           onComplete={() => {
             setIsVideoIntroActive(false);
             if (bgVideoRef.current) {
@@ -102,7 +126,7 @@ export default function Home() {
           preload={isVideoIntroActive ? "none" : "auto"}
           autoPlay={!isVideoIntroActive}
           loop
-          muted={!isBgmOn}
+          muted
           playsInline
           className="w-full h-full object-cover filter contrast-[1.06] saturate-[1.12] brightness-[0.96]"
         />
