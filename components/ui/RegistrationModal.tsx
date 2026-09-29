@@ -783,26 +783,26 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {/* Shubhashish Kundu Sir */}
-                    <a href="tel:+919876543210"
+                    <a href="tel:+916306588533"
                       className="flex items-center gap-3 p-3 rounded-xl bg-amber-500/8 border border-amber-500/20 hover:bg-amber-500/15 hover:border-amber-400/40 transition-all cursor-pointer group">
                       <div className="w-9 h-9 rounded-full bg-amber-500/15 border border-amber-400/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                         <span className="text-base">👨‍🏫</span>
                       </div>
                       <div className="min-w-0">
                         <p className="text-amber-400 font-bold text-[10px] uppercase tracking-wide truncate">Shubhashish Kundu Sir</p>
-                        <p className="text-zinc-300 font-mono text-xs font-bold">+91-XXXXXXXXXX</p>
+                        <p className="text-zinc-300 font-mono text-xs font-bold">+91 63065 88533</p>
                         <p className="text-zinc-600 text-[9px] font-mono">Faculty Coordinator</p>
                       </div>
                     </a>
                     {/* Preet Yadav */}
-                    <a href="tel:+919876543211"
+                    <a href="tel:+916394530549"
                       className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/8 border border-emerald-500/20 hover:bg-emerald-500/15 hover:border-emerald-400/40 transition-all cursor-pointer group">
                       <div className="w-9 h-9 rounded-full bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                         <span className="text-base">👨‍💻</span>
                       </div>
                       <div className="min-w-0">
                         <p className="text-emerald-400 font-bold text-[10px] uppercase tracking-wide truncate">Preet Yadav</p>
-                        <p className="text-zinc-300 font-mono text-xs font-bold">+91-XXXXXXXXXX</p>
+                        <p className="text-zinc-300 font-mono text-xs font-bold">+91 63945 30549</p>
                         <p className="text-zinc-600 text-[9px] font-mono">Student Coordinator</p>
                       </div>
                     </a>
