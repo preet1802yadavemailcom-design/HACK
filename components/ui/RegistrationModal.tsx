@@ -253,6 +253,37 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
       // Generate pass canvas after render
       setTimeout(() => generatePass(data.ticketId, data.teamCode, data.teamName, leader.fullName, role, track), 600);
 
+      // Auto-send WhatsApp confirmation to registrant's own number
+      const isTeam = participationType === 'Team';
+      const inviteSection = (isTeam && !joinExisting && data.teamCode)
+        ? `\n\n📲 *Apne teammates ko invite karo:*\nhttps://hack-avm.pages.dev/?team=${data.teamCode}\n\nYa Team Code share karo: *${data.teamCode}*`
+        : '';
+
+      const waMsg = encodeURIComponent(
+        `🎉 *Hacktoberfest Hack Day Jaunpur 2026*\n` +
+        `📍 Prasad Institute of Technology, Jaunpur\n\n` +
+        `✅ *Registration Confirmed!*\n\n` +
+        `👤 Name: *${leader.fullName.trim()}*\n` +
+        `🎫 Ticket ID: *${data.ticketId}*\n` +
+        `👥 Team: *${data.teamName || 'Solo Participant'}*\n` +
+        `🔑 Team Code: *${data.teamCode}*\n` +
+        `🎯 Track: *${track}*\n\n` +
+        `📅 Date: *Saturday, October 24, 2026*\n` +
+        `⏰ Time: *09:30 AM IST*\n` +
+        `🏛️ Venue: *PIT Campus Auditorium, Jaunpur*\n` +
+        `${inviteSection}\n\n` +
+        `🆘 Koi problem ho to:\n` +
+        `👨‍🏫 Shubhashish Kundu Sir: *+91 63065 88533*\n` +
+        `👨‍💻 Preet Yadav: *+91 63945 30549*\n\n` +
+        `_Hacktoberfest Hack Day Jaunpur 2026 — In Association with MLH & AKTU_`
+      );
+      // Open WhatsApp with user's own number — they just press Send once
+      const userPhone = leader.phone.trim().replace(/\D/g, '');
+      const waPhone = userPhone.startsWith('91') ? userPhone : `91${userPhone}`;
+      setTimeout(() => {
+        window.open(`https://wa.me/${waPhone}?text=${waMsg}`, '_blank');
+      }, 1200); // slight delay so success screen renders first
+
     } catch (err) {
       setStep('form');
       setError('Network error. Please check your connection and try again.');
