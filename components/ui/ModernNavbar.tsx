@@ -109,6 +109,16 @@ export default function ModernNavbar({
             )}
           </button>
 
+          {/* Login / Check Pass Button */}
+          <Link
+            href="/login"
+            onClick={() => soundEngine.playClick()}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/15 hover:border-white/30 font-mono text-xs font-semibold transition-all cursor-pointer whitespace-nowrap"
+            title="Check Registration Status & MLH Pass"
+          >
+            <span>Login</span>
+          </Link>
+
           {/* VIP Passport Button */}
           <Link
             href="/badge"
@@ -167,6 +177,17 @@ export default function ModernNavbar({
           </div>
 
           <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
+            <Link
+              href="/login"
+              onClick={() => {
+                soundEngine.playClick();
+                setMobileMenuOpen(false);
+              }}
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-zinc-200 font-bold text-center text-xs uppercase flex items-center justify-center gap-2"
+            >
+              <span>🔑 Delegate Login / Check Status</span>
+            </Link>
+
             <Link
               href="/badge"
               onClick={() => {

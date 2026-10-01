@@ -11,6 +11,9 @@ import {
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbxP2NBaEF9qb-XAEjHwdlCKWLTqEtgfuofIFOZFu5GzXwf4CR7v24W3KFLORxaPqcVrgA/exec';
 
+export const MLH_REGISTRATION_URL =
+  'https://events.mlh.com/events/15264-hacktoberfest-hack-day-jaunpur-x-prasad-institute-of-technology-jaunpur';
+
 const TRACKS = [
   'Web & Open Innovation',
   'AI / Machine Learning',
@@ -40,12 +43,24 @@ interface RegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
   prefillTeamCode?: string;
+  initialTab?: 'register' | 'login';
 }
 
 type Step = 'type' | 'form' | 'submitting' | 'success' | 'duplicate' | 'full';
 type ParticipationType = 'Solo' | 'Team';
 
-export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: RegistrationModalProps) {
+export default function RegistrationModal({
+  isOpen,
+  onClose,
+  prefillTeamCode,
+  initialTab = 'register',
+}: RegistrationModalProps) {
+  // ── Tab state: register vs login
+  const [activeTab, setActiveTab] = useState<'register' | 'login'>(initialTab);
+  const [loginQuery, setLoginQuery] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
+
   // ── Step & flow
   const [step, setStep] = useState<Step>('type');
   const [participationType, setParticipationType] = useState<ParticipationType>('Solo');
@@ -75,9 +90,17 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Sync tab with prop when opened
+  useEffect(() => {
+    if (isOpen && initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [isOpen, initialTab]);
+
   // Prefill when joining via invite link
   useEffect(() => {
     if (prefillTeamCode && isOpen) {
+      setActiveTab('register');
       setParticipationType('Team');
       setJoinExisting(true);
       setExistingTeamCode(prefillTeamCode);
@@ -106,6 +129,8 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
         setResultTeamName('');
         setPreviewTeam(null);
         setDuplicateInfo(null);
+        setLoginError('');
+        setLoginQuery('');
       }, 300);
     }
   }, [isOpen]);
@@ -152,6 +177,48 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
       setError('Could not verify team. Check your connection and try again.');
     } finally {
       setLoadingTeam(false);
+    }
+  };
+
+  const handleLoginLookup = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const q = loginQuery.trim();
+    if (!q) {
+      setLoginError('Please enter your Roll No, registered Email, or Ticket ID.');
+      return;
+    }
+    setLoginLoading(true);
+    setLoginError('');
+    try {
+      const url = `${APPS_SCRIPT_URL}?action=checkStudent&query=${encodeURIComponent(q)}&rollNo=${encodeURIComponent(q)}&email=${encodeURIComponent(q.toLowerCase())}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.exists) {
+        setTicketId(data.ticketId);
+        setTeamCode(data.teamCode);
+        setResultTeamName(data.teamName || 'Solo Participant');
+        const studentName = data.name || 'Hacker Delegate';
+        const studentRole = data.role || (data.teamCode?.startsWith('SOLO-') ? 'Solo Hacker' : 'Team Member');
+        const studentTrack = data.track || track;
+        setLeader(prev => ({
+          ...prev,
+          fullName: studentName,
+          rollNo: data.rollNo || q,
+          email: data.email || '',
+        }));
+        setTrack(studentTrack);
+        setStep('success');
+        soundEngine.playTempleBell();
+        setTimeout(() => {
+          generatePass(data.ticketId, data.teamCode, data.teamName || 'Solo Participant', studentName, studentRole, studentTrack);
+        }, 500);
+      } else {
+        setLoginError('No confirmed registration found for this Roll No / Email. Please register as a new participant.');
+      }
+    } catch {
+      setLoginError('Could not connect to database. Please check your internet connection.');
+    } finally {
+      setLoginLoading(false);
     }
   };
 
@@ -256,13 +323,16 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
       // Auto-send WhatsApp confirmation to registrant's own number
       const isTeam = participationType === 'Team';
       const inviteSection = (isTeam && !joinExisting && data.teamCode)
-        ? `\n\n📲 *Apne teammates ko invite karo:*\nhttps://hack-avm.pages.dev/?team=${data.teamCode}\n\nYa Team Code share karo: *${data.teamCode}*`
+        ? `\n\n📲 *Teammates ko Invite Karein:*\n` +
+          `1️⃣ Website join link:\nhttps://hack-avm.pages.dev/?team=${data.teamCode}\n` +
+          `2️⃣ Team Code: *${data.teamCode}*\n` +
+          `3️⃣ Sabhi teammates ko MLH link par bhi individual registration karwana compulsory hai!`
         : '';
 
       const waMsg = encodeURIComponent(
         `🎉 *Hacktoberfest Hack Day Jaunpur 2026*\n` +
         `📍 Prasad Institute of Technology, Jaunpur\n\n` +
-        `✅ *Registration Confirmed!*\n\n` +
+        `✅ *Registration Confirmed (Step 1/2)!*\n\n` +
         `👤 Name: *${leader.fullName.trim()}*\n` +
         `🎫 Ticket ID: *${data.ticketId}*\n` +
         `👥 Team: *${data.teamName || 'Solo Participant'}*\n` +
@@ -270,7 +340,11 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
         `🎯 Track: *${track}*\n\n` +
         `📅 Date: *Saturday, October 24, 2026*\n` +
         `⏰ Time: *09:30 AM IST*\n` +
-        `🏛️ Venue: *PIT Campus Auditorium, Jaunpur*\n` +
+        `🏛️ Venue: *PIT Campus Auditorium, Jaunpur*\n\n` +
+        `⚠️ *MANDATORY STEP 2 (MLH Official Check-in):*\n` +
+        `Aap hackathon ke liye eligible hain! Official swags, certificates aur entry ke liye MLH portal par check-in complete karein:\n` +
+        `👉 ${MLH_REGISTRATION_URL}\n` +
+        `_(Note: Team ke sabhi members ko individually MLH portal par register karna anivarya hai)_` +
         `${inviteSection}\n\n` +
         `🆘 Koi problem ho to:\n` +
         `👨‍🏫 Shubhashish Kundu Sir: *+91 63065 88533*\n` +
@@ -756,14 +830,23 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
   };
 
   const shareOnWhatsApp = () => {
+    const isTeam = teamCode && !teamCode.startsWith('SOLO');
     const msg = encodeURIComponent(
-      `🚀 *Hacktoberfest Hack Day Jaunpur 2026*\n\n` +
-      `🎫 Ticket: *${ticketId}*\n` +
-      `👥 Team: *${resultTeamName}*\n` +
-      `🔑 Team Code: *${teamCode}*\n\n` +
-      `🎓 Join our team using invite link:\n` +
-      `https://hack-day-jaunpur.pages.dev/?team=${teamCode}\n\n` +
-      `📅 Oct 24, 2026 | 09:30 AM | PIT Auditorium, Jaunpur`
+      `🚀 *Hacktoberfest Hack Day Jaunpur 2026 (PIT × MLH)*\n\n` +
+      `🎫 Ticket ID: *${ticketId}*\n` +
+      `👥 Squad: *${resultTeamName}*\n` +
+      (isTeam ? `🔑 Team Code: *${teamCode}*\n\n` : `\n`) +
+      (isTeam
+        ? `📢 *Important Instructions for Teammates:*\n` +
+          `1️⃣ Pehle hamari website par jaakar Team Code *${teamCode}* se squad join karein:\n` +
+          `👉 https://hack-avm.pages.dev/?team=${teamCode}\n\n` +
+          `2️⃣ Uske baad har teammate ko official Major League Hacking (MLH) portal par individual check-in karna mandatory hai:\n` +
+          `👉 ${MLH_REGISTRATION_URL}\n\n`
+        : `⚠️ *Mandatory Step 2 (MLH Official Check-in):*\n` +
+          `👉 ${MLH_REGISTRATION_URL}\n\n`) +
+      `📅 *Date:* Saturday, Oct 24, 2026 | 09:30 AM IST\n` +
+      `🏛️ *Venue:* PIT Campus Auditorium, Jaunpur\n` +
+      `_Prasad Institute of Technology · Department of CSE_`
     );
     window.open(`https://wa.me/?text=${msg}`, '_blank');
   };
@@ -797,49 +880,146 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
 
         <div className="p-5 sm:p-7">
 
-          {/* ── STEP 1: Type Selection ─────────────────────── */}
+          {/* ── STEP 1: Type Selection or Login Portal ─────── */}
           {step === 'type' && (
             <div className="space-y-6 text-center">
-              {/* Header */}
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-mono text-xs font-bold uppercase tracking-widest mb-4">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
-                  REGISTRATIONS NOW OPEN
-                </div>
-                <div className="w-16 h-16 mx-auto rounded-full bg-white p-0.5 border-2 border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.4)] mb-3 flex items-center justify-center">
-                  <img src="/pit-logo.png" alt="PIT Logo" className="w-full h-full object-contain rounded-full" />
-                </div>
-                <h2 className="text-2xl font-black uppercase tracking-tight">
-                  HACKTOBERFEST <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">HACK DAY JAUNPUR 2026</span>
-                </h2>
-                <p className="text-zinc-400 text-sm mt-2">Saturday, Oct 24, 2026 · PIT Auditorium · Jaunpur</p>
-              </div>
-
-              <p className="text-sm text-zinc-300 font-mono">How do you want to participate?</p>
-
-              {/* Participation type cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-                {/* Solo */}
-                <button onClick={() => { setParticipationType('Solo'); setStep('form'); soundEngine.playClick(); }}
-                  className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-amber-400/60 hover:bg-amber-500/5 transition-all text-left cursor-pointer"
+              {/* Top Capsule Tab Switcher */}
+              <div className="flex items-center justify-center p-1 rounded-full bg-white/5 border border-white/10 max-w-xs mx-auto mb-2">
+                <button
+                  type="button"
+                  onClick={() => { setActiveTab('register'); soundEngine.playClick(); }}
+                  className={`flex-1 py-1.5 px-3 rounded-full font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    activeTab === 'register'
+                      ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
                 >
-                  <User className="w-8 h-8 text-amber-400 mb-3 group-hover:scale-110 transition-transform" />
-                  <div className="font-black text-base uppercase tracking-wide">Solo Hacker</div>
-                  <div className="text-xs text-zinc-400 mt-1">Just you. Build alone, win alone. Maximum focus!</div>
-                  <div className="mt-3 text-[10px] font-mono text-amber-400 uppercase tracking-widest">1 Member → Individual Pass →</div>
+                  📝 Register
                 </button>
-
-                {/* Team */}
-                <button onClick={() => { setParticipationType('Team'); setStep('form'); soundEngine.playClick(); }}
-                  className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-emerald-400/60 hover:bg-emerald-500/5 transition-all text-left cursor-pointer"
+                <button
+                  type="button"
+                  onClick={() => { setActiveTab('login'); soundEngine.playClick(); }}
+                  className={`flex-1 py-1.5 px-3 rounded-full font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    activeTab === 'login'
+                      ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-black shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
                 >
-                  <Users className="w-8 h-8 text-emerald-400 mb-3 group-hover:scale-110 transition-transform" />
-                  <div className="font-black text-base uppercase tracking-wide">Team Sprint</div>
-                  <div className="text-xs text-zinc-400 mt-1">2 or 3 members. Collaborate, build, dominate!</div>
-                  <div className="mt-3 text-[10px] font-mono text-emerald-400 uppercase tracking-widest">2–3 Members → Team Pass →</div>
+                  🔑 Login / Find Pass
                 </button>
               </div>
+
+              {activeTab === 'login' ? (
+                /* Login / Find Pass View */
+                <div className="space-y-6 text-center py-2 animate-fadeIn">
+                  <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/15 border-2 border-emerald-400/50 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                    <ShieldCheck className="w-8 h-8 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">
+                      Delegate Pass Login &amp; Status
+                    </h3>
+                    <p className="text-xs text-zinc-400 mt-1 max-w-md mx-auto">
+                      Enter your College Roll No, registered Email, or Ticket ID to view your pass, team code, and complete the mandatory MLH Official Registration.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleLoginLookup} className="space-y-4 max-w-md mx-auto text-left">
+                    <div>
+                      <label className="block text-xs font-mono uppercase text-zinc-400 mb-1.5">
+                        Roll No / Email / Ticket ID <span className="text-emerald-400">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={loginQuery}
+                        onChange={(e) => { setLoginQuery(e.target.value); setLoginError(''); }}
+                        placeholder="e.g. 2401440100032 or your@gmail.com"
+                        autoFocus
+                        className="w-full px-4 py-3.5 rounded-xl bg-black/80 border border-white/15 focus:border-emerald-400 text-white font-mono text-sm placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-all shadow-inner"
+                      />
+                    </div>
+
+                    {loginError && (
+                      <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 flex-shrink-0 text-red-400" />
+                        <span>{loginError}</span>
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={loginLoading}
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:from-emerald-400 hover:to-teal-300 text-black font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                      {loginLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Verifying with Database...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Fetch My Pass &amp; Status</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+
+                  <div className="pt-2 text-center">
+                    <button
+                      type="button"
+                      onClick={() => { setActiveTab('register'); soundEngine.playClick(); }}
+                      className="text-xs font-mono text-amber-400 hover:text-amber-300 hover:underline cursor-pointer"
+                    >
+                      Not registered yet? Register for Hacktoberfest 2026 →
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Registration Type Cards (Solo vs Team) */
+                <>
+                  {/* Header */}
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-mono text-xs font-bold uppercase tracking-widest mb-4">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                      REGISTRATIONS NOW OPEN
+                    </div>
+                    <div className="w-16 h-16 mx-auto rounded-full bg-white p-0.5 border-2 border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.4)] mb-3 flex items-center justify-center">
+                      <img src="/pit-logo.png" alt="PIT Logo" className="w-full h-full object-contain rounded-full" />
+                    </div>
+                    <h2 className="text-2xl font-black uppercase tracking-tight">
+                      HACKTOBERFEST <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">HACK DAY JAUNPUR 2026</span>
+                    </h2>
+                    <p className="text-zinc-400 text-sm mt-2">Saturday, Oct 24, 2026 · PIT Auditorium · Jaunpur</p>
+                  </div>
+
+                  <p className="text-sm text-zinc-300 font-mono">How do you want to participate?</p>
+
+                  {/* Participation type cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                    {/* Solo */}
+                    <button onClick={() => { setParticipationType('Solo'); setStep('form'); soundEngine.playClick(); }}
+                      className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-amber-400/60 hover:bg-amber-500/5 transition-all text-left cursor-pointer"
+                    >
+                      <User className="w-8 h-8 text-amber-400 mb-3 group-hover:scale-110 transition-transform" />
+                      <div className="font-black text-base uppercase tracking-wide">Solo Hacker</div>
+                      <div className="text-xs text-zinc-400 mt-1">Just you. Build alone, win alone. Maximum focus!</div>
+                      <div className="mt-3 text-[10px] font-mono text-amber-400 uppercase tracking-widest">1 Member → Individual Pass →</div>
+                    </button>
+
+                    {/* Team */}
+                    <button onClick={() => { setParticipationType('Team'); setStep('form'); soundEngine.playClick(); }}
+                      className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-emerald-400/60 hover:bg-emerald-500/5 transition-all text-left cursor-pointer"
+                    >
+                      <Users className="w-8 h-8 text-emerald-400 mb-3 group-hover:scale-110 transition-transform" />
+                      <div className="font-black text-base uppercase tracking-wide">Team Sprint</div>
+                      <div className="text-xs text-zinc-400 mt-1">2 or 3 members. Collaborate, build, dominate!</div>
+                      <div className="mt-3 text-[10px] font-mono text-emerald-400 uppercase tracking-widest">2–3 Members → Team Pass →</div>
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
@@ -1088,20 +1268,96 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
                 </div>
               </div>
 
-              {/* 📲 Invite Teammates (only for team leaders) */}
+              {/* 🚀 CRITICAL STEP 2 OF 2: MANDATORY MLH OFFICIAL PORTAL REGISTRATION */}
+              <div className="relative p-5 rounded-2xl overflow-hidden border-2 border-indigo-500/70 shadow-[0_0_40px_rgba(99,102,241,0.3)] bg-gradient-to-br from-indigo-950/90 via-black to-purple-950/50">
+                <div className="absolute top-0 right-0 w-44 h-44 bg-indigo-500/15 rounded-full blur-2xl pointer-events-none" />
+                
+                <div className="relative space-y-3.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/25 border border-red-400/60 text-red-300 font-mono text-[10px] font-black uppercase tracking-wider animate-pulse">
+                      <span className="w-2 h-2 rounded-full bg-red-400" />
+                      STEP 2 OF 2 • MANDATORY ACTION
+                    </div>
+                    <div className="inline-flex items-center gap-1 text-[10px] font-mono text-indigo-300 bg-indigo-500/15 px-2.5 py-0.5 rounded-full border border-indigo-500/40">
+                      <Sparkles className="w-3 h-3 text-indigo-400" />
+                      Hacker Eligibility Confirmed
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-base sm:text-lg font-black uppercase tracking-tight text-white flex items-center gap-2">
+                      <span>Now You Are Eligible! Complete MLH Check-in</span>
+                    </h4>
+                    <p className="text-zinc-300 text-xs leading-relaxed mt-1">
+                      Aapka college registration confirm ho chuka hai! Kyunki ye ek official <strong className="text-amber-300">Major League Hacking (MLH)</strong> event hai, <strong className="text-white">har ek participant (aur sabhi teammates ko individually)</strong> official MLH portal par check-in complete karna anivarya hai taaki aapko official MLH swags, certificates aur prizes mil sakein.
+                    </p>
+                  </div>
+
+                  {/* High-Impact Direct Button */}
+                  <a
+                    href={MLH_REGISTRATION_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative w-full py-4 px-5 rounded-xl bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(239,68,68,0.6)] hover:shadow-[0_0_55px_rgba(245,158,11,0.8)] transition-all flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98] border border-white/20"
+                  >
+                    <ExternalLink className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                    <span>Complete Official MLH Registration (Mandatory) 🚀</span>
+                  </a>
+
+                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-1 border-t border-white/10">
+                    <span>🌐 Portal: <strong className="text-indigo-300">events.mlh.com</strong></span>
+                    <span className="text-emerald-400 font-bold">✓ Free Check-in</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 📲 Invite Teammates (with clear 2-step instructions & direct WhatsApp share) */}
               {teamCode && !teamCode.startsWith('SOLO') && (
-                <div className="relative p-4 rounded-2xl overflow-hidden border border-emerald-500/25">
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/40 via-black to-emerald-950/20" />
-                  <div className="relative space-y-2">
-                    <p className="text-emerald-400 font-black font-mono text-xs uppercase tracking-widest flex items-center gap-2">
-                      <span className="text-lg">📲</span> Invite Your Teammates
-                    </p>
-                    <p className="text-zinc-300 text-xs leading-relaxed">
-                      Share your <span className="text-amber-400 font-bold bg-amber-400/10 px-1.5 py-0.5 rounded font-mono">{teamCode}</span> with teammates.
-                      They&apos;ll open the website, watch the cinematic trailer, and then join your team!
-                    </p>
-                    <div className="flex items-center gap-2 mt-2 p-2 rounded-xl bg-black/40 border border-white/5 font-mono text-[10px] text-zinc-500 break-all">
-                      🔗 hack-avm.pages.dev/?team={teamCode}
+                <div className="relative p-5 rounded-2xl overflow-hidden border border-emerald-500/35 bg-gradient-to-r from-emerald-950/40 via-black to-emerald-950/20 shadow-[0_0_30px_rgba(16,185,129,0.15)]">
+                  <div className="relative space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-emerald-400 font-black font-mono text-xs uppercase tracking-widest flex items-center gap-2">
+                        <span className="text-lg">📲</span> Invite Your Squad Members
+                      </p>
+                      <span className="text-[10px] font-mono bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30">
+                        Max 3 Members
+                      </span>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-black/60 border border-white/10 space-y-2 text-xs text-zinc-300">
+                      <p className="font-semibold text-white">Har teammate ko ye 2 steps complete karne hain:</p>
+                      <div className="space-y-1.5 pl-2 text-[11px] font-mono">
+                        <p className="text-emerald-300">
+                          1️⃣ Hamari website par Team Code <span className="text-amber-400 font-black px-1.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/30">{teamCode}</span> se team join karein.
+                        </p>
+                        <p className="text-indigo-300">
+                          2️⃣ Phir MLH official portal par individual check-in complete karein (Mandatory).
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <button
+                        type="button"
+                        onClick={copyTeamCode}
+                        className="flex-1 py-3 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-zinc-200 font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-amber-400" />}
+                        <span>{copied ? 'Code Copied!' : `Copy Code: ${teamCode}`}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={shareOnWhatsApp}
+                        className="flex-1 py-3 px-3 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/50 text-emerald-300 font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-950/50"
+                      >
+                        <Share2 className="w-4 h-4" />
+                        <span>Send Invite on WhatsApp 📲</span>
+                      </button>
+                    </div>
+
+                    <div className="text-[10px] font-mono text-zinc-500 break-all bg-black/40 p-2 rounded-lg border border-white/5">
+                      🔗 https://hack-avm.pages.dev/?team={teamCode}
                     </div>
                   </div>
                 </div>
@@ -1203,6 +1459,26 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
                 )}
               </div>
 
+              {/* MLH Registration CTA on Duplicate screen */}
+              <div className="p-4 rounded-2xl bg-indigo-950/60 border border-indigo-500/40 text-left space-y-2">
+                <div className="flex items-center gap-2 text-indigo-300 font-mono text-[10px] uppercase font-bold tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Mandatory MLH Registration Required</span>
+                </div>
+                <p className="text-zinc-300 text-xs leading-relaxed">
+                  Aapka college registration already confirmed hai. Kya aapne official MLH portal par check-in complete kiya hai? Agar nahi, to abhi karein:
+                </p>
+                <a
+                  href={MLH_REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Complete MLH Registration 🚀</span>
+                </a>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button onClick={() => {
                   setTicketId(duplicateInfo.ticketId);
@@ -1213,7 +1489,7 @@ export default function RegistrationModal({ isOpen, onClose, prefillTeamCode }: 
                   soundEngine.playClick();
                 }} className="py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-black font-black text-xs uppercase tracking-wider hover:scale-[1.02] transition-all cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.4)]">
                   <Download className="w-4 h-4" />
-                  <span>Download My Pass</span>
+                  <span>View Pass &amp; Details</span>
                 </button>
                 <button onClick={() => { soundEngine.playClick(); onClose(); }}
                   className="py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-zinc-300 font-mono text-xs uppercase tracking-wide border border-white/10 hover:border-white/20 transition-all cursor-pointer">

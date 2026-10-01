@@ -37,11 +37,18 @@ export default function MLHSponsorBanner() {
           </div>
         </div>
 
-        {/* Verified Partner Badge (NO EXTERNAL LINK per user request) */}
-        <div className="relative z-10 flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-600/20 via-red-700/20 to-red-800/20 text-red-300 border border-red-500/40 font-mono text-xs font-bold uppercase tracking-wider whitespace-nowrap shadow-md">
+        {/* Verified Partner Badge & Official Event Portal Link */}
+        <a
+          href="https://events.mlh.com/events/15264-hacktoberfest-hack-day-jaunpur-x-prasad-institute-of-technology-jaunpur"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-600/25 via-red-700/25 to-red-800/25 hover:from-red-600/40 hover:to-red-800/40 text-red-200 border border-red-500/50 hover:border-red-400 font-mono text-xs font-bold uppercase tracking-wider whitespace-nowrap shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer group/btn"
+          title="Open Official Major League Hacking (MLH) Event Page"
+        >
           <Sparkles className="w-3.5 h-3.5 text-red-400 animate-spin" />
-          <span>Verified Partner</span>
-        </div>
+          <span>Official MLH Event</span>
+          <span className="text-[10px] text-red-300 font-normal group-hover/btn:translate-x-0.5 transition-transform">↗</span>
+        </a>
       </div>
     </div>
   );
