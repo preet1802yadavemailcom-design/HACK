@@ -519,43 +519,52 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* 🚀 CRITICAL STEP 2: MLH OFFICIAL REGISTRATION PORTAL */}
-            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950/90 via-black to-purple-950/60 border-2 border-indigo-500/70 shadow-[0_0_50px_rgba(99,102,241,0.3)] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-52 h-52 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+            {/* 📲 OFFICIAL WHATSAPP COMMUNITY GROUP & LAPTOP NOTICE */}
+            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-emerald-950/90 via-black to-teal-950/60 border-2 border-emerald-500/70 shadow-[0_0_50px_rgba(16,185,129,0.3)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-52 h-52 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
 
               <div className="space-y-4 relative">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/25 border border-red-400/60 text-red-300 font-mono text-[10px] font-black uppercase tracking-wider animate-pulse">
-                    <span className="w-2 h-2 rounded-full bg-red-400" />
-                    STEP 2 OF 2 • MANDATORY ACTION
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/25 border border-emerald-400/60 text-emerald-300 font-mono text-[10px] font-black uppercase tracking-wider animate-pulse">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    MANDATORY ACTION • JOIN GROUP
                   </div>
-                  <span className="text-[10px] font-mono text-indigo-300 bg-indigo-500/15 px-2.5 py-0.5 rounded-full border border-indigo-500/30">
-                    Official MLH Partner Portal
+                  <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                    Official Community
                   </span>
                 </div>
 
                 <div>
                   <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white flex items-center gap-2">
-                    <span>Now You Are Eligible! Complete MLH Check-in</span>
+                    <span>Join Official Hackathon WhatsApp Group</span>
                   </h3>
                   <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-1.5">
-                    Aapka college registration hamare record me verify ho chuka hai! Major League Hacking (MLH) ke guidelines ke anusaar, <strong className="text-amber-300">har participant (aur team ke baki sabhi members ko individually)</strong> official MLH portal par check-in complete karna anivarya hai taaki aapko official MLH developer toolkits, stickers, certificates aur prizes mil sakein.
+                    Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi live problem statements, event schedule updates, reporting guidelines, aur mentor coordination isi group me share honge.
+                  </p>
+                  <p className="text-xs font-mono text-emerald-300/90 mt-1 italic">
+                    💡 Agar aap pehle se hi WhatsApp group me jud chuke hain, to koi issue nahi hai — you are already set!
                   </p>
                 </div>
 
                 <a
-                  href={MLH_REGISTRATION_URL}
+                  href="https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-mono font-black text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_35px_rgba(239,68,68,0.6)] hover:shadow-[0_0_55px_rgba(245,158,11,0.8)] transition-all flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98] border border-white/20"
+                  className="group relative w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:from-emerald-400 hover:to-teal-300 text-black font-mono font-black text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_35px_rgba(16,185,129,0.5)] hover:shadow-[0_0_55px_rgba(16,185,129,0.8)] transition-all flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <ExternalLink className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-                  <span>Complete Official MLH Registration (Mandatory) 🚀</span>
+                  <ExternalLink className="w-4 h-4 text-black group-hover:scale-110 transition-transform" />
+                  <span>Join Official WhatsApp Group Now 🚀</span>
                 </a>
 
-                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-2 border-t border-white/10">
-                  <span>Direct Event Link: <strong className="text-indigo-300">events.mlh.com/events/15264...</strong></span>
-                  <span className="text-emerald-400 font-bold">Free Individual Registration</span>
+                {/* Laptop & College System Notice Box */}
+                <div className="p-4 rounded-2xl bg-black/70 border border-amber-400/40 space-y-1.5">
+                  <p className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wide flex items-center gap-1.5">
+                    <span>💻</span> Laptop &amp; Computer Systems Notice:
+                  </p>
+                  <p className="text-xs text-zinc-300 leading-relaxed">
+                    &bull; Jin participants ke paas laptop hai, wo apna personal laptop aur charger sath le kar aayenge.<br />
+                    &bull; <strong className="text-white">Jinke paas laptop NAHI hai:</strong> Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke systems aapke liye uplabdh rahenge — college dwara proper computer desktop setup provide kiya jayega!
+                  </p>
                 </div>
               </div>
             </div>

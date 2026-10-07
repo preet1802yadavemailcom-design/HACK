@@ -836,21 +836,19 @@ export default function RegistrationModal({
     a.click();
   };
 
+  const WHATSAPP_COMMUNITY_URL = 'https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th';
+
   const shareOnWhatsApp = () => {
     const isTeam = teamCode && !teamCode.startsWith('SOLO');
     const msg = encodeURIComponent(
-      `🚀 *Hacktoberfest Hack Day Jaunpur 2026 (PIT × MLH)*\n\n` +
+      `🚀 *Hacktoberfest Hack Day Jaunpur 2026 (PIT CSE)*\n\n` +
       `🎫 Ticket ID: *${ticketId}*\n` +
       `👥 Squad: *${resultTeamName}*\n` +
       (isTeam ? `🔑 Team Code: *${teamCode}*\n\n` : `\n`) +
-      (isTeam
-        ? `📢 *Important Instructions for Teammates:*\n` +
-          `1️⃣ Pehle hamari website par jaakar Team Code *${teamCode}* se squad join karein:\n` +
-          `👉 https://hack-avm.pages.dev/?team=${teamCode}\n\n` +
-          `2️⃣ Uske baad har teammate ko official Major League Hacking (MLH) portal par individual check-in karna mandatory hai:\n` +
-          `👉 ${MLH_REGISTRATION_URL}\n\n`
-        : `⚠️ *Mandatory Step 2 (MLH Official Check-in):*\n` +
-          `👉 ${MLH_REGISTRATION_URL}\n\n`) +
+      `📲 *Official WhatsApp Group (Must Join):*\n` +
+      `👉 ${WHATSAPP_COMMUNITY_URL}\n` +
+      `_(Agar aap already jud chuke hain to koi issue nahi hai!)_\n\n` +
+      `💻 *Laptop Notice:* Jin participants ke paas laptop nahi hai, wo college computer labs ke system use kar sakte hain!\n\n` +
       `📅 *Date:* Saturday, Oct 24, 2026 | 09:30 AM IST\n` +
       `🏛️ *Venue:* PIT Campus Auditorium, Jaunpur\n` +
       `_Prasad Institute of Technology · Department of CSE_`
@@ -1371,45 +1369,54 @@ export default function RegistrationModal({
                 </div>
               </div>
 
-              {/* 🚀 CRITICAL STEP 2 OF 2: MANDATORY MLH OFFICIAL PORTAL REGISTRATION */}
-              <div className="relative p-5 rounded-2xl overflow-hidden border-2 border-indigo-500/70 shadow-[0_0_40px_rgba(99,102,241,0.3)] bg-gradient-to-br from-indigo-950/90 via-black to-purple-950/50">
-                <div className="absolute top-0 right-0 w-44 h-44 bg-indigo-500/15 rounded-full blur-2xl pointer-events-none" />
+              {/* 📲 OFFICIAL WHATSAPP COMMUNITY GROUP & LAPTOP NOTICE */}
+              <div className="relative p-5 rounded-2xl overflow-hidden border-2 border-emerald-500/70 shadow-[0_0_40px_rgba(16,185,129,0.3)] bg-gradient-to-br from-emerald-950/90 via-black to-teal-950/50">
+                <div className="absolute top-0 right-0 w-44 h-44 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none" />
                 
                 <div className="relative space-y-3.5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/25 border border-red-400/60 text-red-300 font-mono text-[10px] font-black uppercase tracking-wider animate-pulse">
-                      <span className="w-2 h-2 rounded-full bg-red-400" />
-                      STEP 2 OF 2 • MANDATORY ACTION
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/25 border border-emerald-400/60 text-emerald-300 font-mono text-[10px] font-black uppercase tracking-wider animate-pulse">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      MANDATORY ACTION • JOIN GROUP
                     </div>
-                    <div className="inline-flex items-center gap-1 text-[10px] font-mono text-indigo-300 bg-indigo-500/15 px-2.5 py-0.5 rounded-full border border-indigo-500/40">
-                      <Sparkles className="w-3 h-3 text-indigo-400" />
-                      Hacker Eligibility Confirmed
+                    <div className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-300 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/40">
+                      <Sparkles className="w-3 h-3 text-emerald-400" />
+                      Official Community
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-base sm:text-lg font-black uppercase tracking-tight text-white flex items-center gap-2">
-                      <span>Now You Are Eligible! Complete MLH Check-in</span>
+                      <span>Join Official Hackathon WhatsApp Group</span>
                     </h4>
                     <p className="text-zinc-300 text-xs leading-relaxed mt-1">
-                      Aapka college registration confirm ho chuka hai! Kyunki ye ek official <strong className="text-amber-300">Major League Hacking (MLH)</strong> event hai, <strong className="text-white">har ek participant (aur sabhi teammates ko individually)</strong> official MLH portal par check-in complete karna anivarya hai taaki aapko official MLH swags, certificates aur prizes mil sakein.
+                      Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi live problem statements, event updates, reporting guidelines, aur mentor coordination isi group me share honge.
+                    </p>
+                    <p className="text-[11px] font-mono text-emerald-300/90 mt-1 italic">
+                      💡 Agar aap pehle se hi WhatsApp group me jud chuke hain, to koi issue nahi hai — you are already set!
                     </p>
                   </div>
 
-                  {/* High-Impact Direct Button */}
+                  {/* High-Impact Direct WhatsApp Group Button */}
                   <a
-                    href={MLH_REGISTRATION_URL}
+                    href="https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative w-full py-4 px-5 rounded-xl bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(239,68,68,0.6)] hover:shadow-[0_0_55px_rgba(245,158,11,0.8)] transition-all flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98] border border-white/20"
+                    className="group relative w-full py-4 px-5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:from-emerald-400 hover:to-teal-300 text-black font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(16,185,129,0.5)] hover:shadow-[0_0_55px_rgba(16,185,129,0.8)] transition-all flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <ExternalLink className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-                    <span>Complete Official MLH Registration (Mandatory) 🚀</span>
+                    <ExternalLink className="w-4 h-4 text-black group-hover:scale-110 transition-transform" />
+                    <span>Join Official WhatsApp Group Now 🚀</span>
                   </a>
 
-                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-1 border-t border-white/10">
-                    <span>🌐 Portal: <strong className="text-indigo-300">events.mlh.com</strong></span>
-                    <span className="text-emerald-400 font-bold">✓ Free Check-in</span>
+                  {/* Laptop & College System Notice Box */}
+                  <div className="p-3.5 rounded-xl bg-black/70 border border-amber-400/40 space-y-1">
+                    <p className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wide flex items-center gap-1.5">
+                      <span>💻</span> Laptop &amp; Computer Systems Notice:
+                    </p>
+                    <p className="text-[11px] text-zinc-300 leading-relaxed">
+                      &bull; Jin participants ke paas laptop hai, wo apna laptop aur charger sath le kar aayenge.<br />
+                      &bull; <strong className="text-white">Jinke paas laptop NAHI hai:</strong> Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke college desktop systems aapke liye uplabdh rahenge — college dwara proper computer setup provide kiya jayega!
+                    </p>
                   </div>
                 </div>
               </div>

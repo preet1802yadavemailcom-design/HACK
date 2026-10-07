@@ -437,37 +437,45 @@ function sendUltraRoyalEmail(data, ticketId, teamCode, teamName, role) {
   </tr>
 
   <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- 🚀 STEP 2: MANDATORY MLH OFFICIAL REGISTRATION                     -->
+  <!-- 🚀 STEP 2: OFFICIAL WHATSAPP COMMUNITY GROUP & LAPTOP NOTICE       -->
   <!-- ═══════════════════════════════════════════════════════════════════ -->
   <tr>
     <td style="padding:0 36px 28px;">
-      <div style="background:linear-gradient(135deg,#1e1b4b,#0f172a);border:2px solid #818cf8;border-radius:16px;padding:24px;box-shadow:0 0 30px rgba(129,140,248,0.25);">
+      <div style="background:linear-gradient(135deg,#064e3b,#022c22);border:2px solid #10b981;border-radius:16px;padding:24px;box-shadow:0 0 30px rgba(16,185,129,0.3);">
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td>
-              <div style="display:inline-block;padding:4px 12px;background:rgba(239,68,68,0.2);border:1px solid #f87171;border-radius:20px;font-family:'Courier New',monospace;font-size:10px;font-weight:800;color:#fca5a5;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">
-                ⚠️ ACTION REQUIRED &bull; STEP 2 OF 2
+              <div style="display:inline-block;padding:4px 12px;background:rgba(16,185,129,0.25);border:1px solid #34d399;border-radius:20px;font-family:'Courier New',monospace;font-size:10px;font-weight:800;color:#6ee7b7;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">
+                📲 MANDATORY COMMUNITY GROUP &bull; JOIN NOW
               </div>
               <h3 style="margin:0 0 8px 0;font-size:18px;font-weight:900;color:#ffffff;text-transform:uppercase;letter-spacing:1px;">
-                Now You Are Eligible! Complete MLH Check-in
+                Join Official Hackathon WhatsApp Group
               </h3>
-              <p style="margin:0 0 16px 0;font-size:13px;color:#cbd5e1;line-height:1.6;">
-                Congratulations, you are now officially eligible for <strong>Hacktoberfest Hack Day Jaunpur 2026</strong>! Because this is an official <strong>Major League Hacking (MLH)</strong> partnered hackathon, <strong>every participant (including all teammates individually)</strong> must complete the official MLH portal registration to qualify for official hackathon check-in, certificates, developer swags, and prizes.
+              <p style="margin:0 0 14px 0;font-size:13px;color:#e2e8f0;line-height:1.6;">
+                Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi live problem statements, sprint updates, reporting guidelines, aur mentor coordination isi group me share honge.<br>
+                <em>(Agar aap pehle se hi group me jud chuke hain, to koi issue nahi hai — you are already set!)</em>
               </p>
               
               <table cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
                 <tr>
-                  <td align="center" style="border-radius:12px;background:linear-gradient(135deg,#ef4444,#f59e0b);box-shadow:0 4px 20px rgba(239,68,68,0.5);">
-                    <a href="${mlhEventUrl}" target="_blank" style="display:inline-block;padding:14px 28px;font-family:'Courier New',monospace;font-size:13px;font-weight:900;color:#ffffff;text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;">
-                      🚀 Complete Official MLH Registration &raquo;
+                  <td align="center" style="border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 20px rgba(16,185,129,0.5);">
+                    <a href="https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th" target="_blank" style="display:inline-block;padding:14px 28px;font-family:'Courier New',monospace;font-size:13px;font-weight:900;color:#000000;text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;">
+                      👉 Join Official WhatsApp Group Now &raquo;
                     </a>
                   </td>
                 </tr>
               </table>
               
-              <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.5;font-style:italic;">
-                💡 <strong>Team Members Notice:</strong> Agar aap team me hain, to apne sabhi teammates ko bolen ki wo is official MLH link par jakar apna individual registration zaroor complete karein.
-              </p>
+              <!-- Laptop / College System Notice -->
+              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:14px;margin-top:12px;">
+                <p style="margin:0 0 4px 0;font-size:12px;font-weight:800;color:#fbbf24;">
+                  💻 LAPTOP &amp; COLLEGE COMPUTER SYSTEMS NOTICE:
+                </p>
+                <p style="margin:0;font-size:12px;color:#cbd5e1;line-height:1.5;">
+                  &bull; Jin participants ke paas laptop hai, wo apna laptop aur charger sath le kar aayenge.<br>
+                  &bull; <strong>Jinke paas personal laptop NAHI hai:</strong> Bilkul chinta mat karein! Aap <strong>Prasad Institute of Technology ki Computer Labs ke college desktop systems</strong> use kar sakte hain. College dwara complete setup provide kiya jayega!
+                </p>
+              </div>
             </td>
           </tr>
         </table>
@@ -782,31 +790,40 @@ function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName
     </td>
   </tr>
 
-  <!-- MANDATORY STEP 2: MLH Official Event Check-In Reminder -->
+  <!-- MANDATORY STEP: Official WhatsApp Community Group & Laptop Notice -->
   <tr>
     <td style="padding:0 32px 24px;">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:linear-gradient(135deg,rgba(16,185,129,0.15) 0%,rgba(5,150,105,0.08) 100%);border:2px solid #10b981;border-radius:18px;padding:22px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:linear-gradient(135deg,#064e3b 0%,#022c22 100%);border:2px solid #10b981;border-radius:18px;padding:22px;box-shadow:0 0 35px rgba(16,185,129,0.25);">
         <tr>
           <td>
             <div style="font-size:11px;font-weight:800;color:#34d399;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">
-              ⚡ MANDATORY ACTION ITEM (STEP 2/2)
+              📲 MANDATORY COMMUNITY GROUP &bull; JOIN NOW
             </div>
-            <h3 style="margin:0 0 10px;font-size:17px;color:#ffffff;font-weight:800;">
-              Complete Your Major League Hacking (MLH) Check-in!
+            <h3 style="margin:0 0 10px;font-size:18px;color:#ffffff;font-weight:800;">
+              Join Official Hackathon WhatsApp Group
             </h3>
-            <p style="margin:0 0 14px;font-size:13px;line-height:1.6;color:#e2e8f0;">
-              Every confirmed attendee (and <strong>all individual teammates</strong>) must complete the official registration on the MLH Portal to claim:
+            <p style="margin:0 0 12px;font-size:13px;line-height:1.6;color:#e2e8f0;">
+              Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi urgent sprint announcements, live problem statements, event schedule updates, aur mentor coordination isi group me milengi:
             </p>
-            <ul style="margin:0 0 16px;padding-left:20px;font-size:13px;color:#cbd5e1;line-height:1.7;">
-              <li>🌐 <strong>FREE 1-Year .xyz Domain Name</strong> for your hackathon project</li>
-              <li>🎒 Eligibility for up to <strong>8 MLH Belt Bags</strong> (AI &amp; Gemma Challenges)</li>
-              <li>👕 Official Hacktoberfest T-Shirts, Arduino Hardware &amp; Swags</li>
-              <li>☁️ <strong>$65+ Cloud Credits:</strong> $50 Render, 3-mo ElevenLabs, $10 Tinker, $5 Backboard</li>
-            </ul>
-            <div style="text-align:center;margin-top:16px;">
-              <a href="${mlhUrl}" target="_blank" style="display:inline-block;padding:14px 28px;background:linear-gradient(90deg,#10b981,#059669);color:#000000;text-decoration:none;font-weight:900;font-size:13px;letter-spacing:1px;text-transform:uppercase;border-radius:12px;box-shadow:0 4px 20px rgba(16,185,129,0.4);">
-                👉 Complete MLH Check-In Now →
+            <p style="margin:0 0 16px;font-size:12px;color:#a7f3d0;line-height:1.5;font-style:italic;">
+              💡 <em>Agar aap pehle se hi WhatsApp group me jud chuke hain, to koi issue nahi hai — you are already set!</em>
+            </p>
+            
+            <div style="text-align:center;margin:16px 0;">
+              <a href="https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th" target="_blank" style="display:inline-block;padding:14px 28px;background:linear-gradient(90deg,#10b981,#059669);color:#000000;text-decoration:none;font-weight:900;font-size:13px;letter-spacing:1px;text-transform:uppercase;border-radius:12px;box-shadow:0 4px 20px rgba(16,185,129,0.5);">
+                👉 Join Official WhatsApp Group Now 🚀
               </a>
+            </div>
+
+            <!-- Laptop & College Computer Systems Notice -->
+            <div style="background:rgba(0,0,0,0.45);border:1px solid rgba(245,158,11,0.45);border-radius:14px;padding:14px 16px;margin-top:14px;">
+              <p style="margin:0 0 6px 0;font-size:12px;font-weight:800;color:#fbbf24;">
+                💻 LAPTOP &amp; COLLEGE COMPUTER SYSTEMS NOTICE:
+              </p>
+              <p style="margin:0;font-size:12px;color:#cbd5e1;line-height:1.6;">
+                &bull; Jin participants ke paas personal laptop hai, wo apna laptop aur charger sath le kar aayenge.<br>
+                &bull; <strong>Jinke paas personal laptop NAHI hai:</strong> Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke systems aapke liye uplabdh rahenge — aap college ke computer system par hackathon smoothly participate kar sakte hain!
+              </p>
             </div>
           </td>
         </tr>
@@ -852,7 +869,7 @@ function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName
             📅 <strong style="color:#ffffff;">Date:</strong> Saturday, October 24, 2026<br>
             ⏰ <strong style="color:#ffffff;">Reporting Time:</strong> 09:30 AM IST (Keynote starts at 10:00 AM)<br>
             🏛️ <strong style="color:#ffffff;">Venue:</strong> Main Auditorium, Prasad Institute of Technology, Jaunpur<br>
-            💻 <strong style="color:#ffffff;">What to Bring:</strong> Your Laptop, Charger, Student College ID &amp; your team spirit!
+            💻 <strong style="color:#ffffff;">Setup:</strong> Personal Laptop &amp; Charger (College Lab Systems available for those without laptop)
           </td>
         </tr>
       </table>
@@ -899,14 +916,13 @@ function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName
     "Our initial target was 100 participants, but thanks to your overwhelming response, we easily crossed 125+ registered builders! Registrations are now officially closed.\n\n" +
     "Your Confirmed Ticket ID: " + (ticketId || "PIT-2026-VIP") + "\n" +
     "Affiliated Squad: " + (teamName || "Solo Participant") + "\n\n" +
-    "⚠️ MANDATORY STEP 2 (MLH CHECK-IN):\n" +
-    "Every participant and teammate must complete check-in on the official MLH portal:\n" +
-    "👉 " + mlhUrl + "\n\n" +
-    "Prizes & Swags Confirmed:\n" +
-    "• Free 1-Year .xyz Domain Name for all check-in participants\n" +
-    "• Up to 8 MLH Belt Bags (AI & Gemma Challenges)\n" +
-    "• Arduino Hardware & Official T-Shirts\n" +
-    "• $65+ Cloud Credits: $50 Render, 3-mo ElevenLabs, $10 Tinker, $5 Backboard\n\n" +
+    "📲 OFFICIAL WHATSAPP COMMUNITY GROUP (JOIN NOW):\n" +
+    "Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi urgent sprint notices, live problem statements, aur mentor guidance isi group me milengi:\n" +
+    "👉 https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th\n" +
+    "(Note: Agar aap already group me jud chuke hain, to koi issue nahi hai!)\n\n" +
+    "💻 LAPTOP & COLLEGE LAB SYSTEMS NOTICE:\n" +
+    "• Jin participants ke paas laptop hai, wo apna laptop aur charger sath le kar aayenge.\n" +
+    "• Jinke paas personal laptop NAHI hai: Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke systems aapke liye uplabdh rahenge — aap college ke computer system par hackathon participate kar sakte hain!\n\n" +
     "Event Date: Saturday, October 24, 2026 | 09:30 AM IST\n" +
     "Venue: PIT Campus Auditorium, Jaunpur\n\n" +
     "Direct Coordinator Hotline:\n" +
