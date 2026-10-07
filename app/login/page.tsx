@@ -443,13 +443,9 @@ export default function LoginPage() {
           </form>
 
           <div className="text-center mt-4">
-            <Link
-              href="/#register"
-              onClick={() => soundEngine.playClick()}
-              className="text-xs font-mono text-zinc-400 hover:text-amber-300 hover:underline cursor-pointer"
-            >
-              Haven&apos;t registered yet? Sign up for Hacktoberfest Hack Day 2026 →
-            </Link>
+            <span className="text-xs font-mono text-amber-400/90">
+              🎉 125+ Builders Registered! Registrations are officially closed (Housefull).
+            </span>
           </div>
         </div>
 

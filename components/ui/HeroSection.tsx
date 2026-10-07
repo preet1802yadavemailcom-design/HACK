@@ -72,19 +72,20 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Offline Status Badge */}
-      <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/75 border border-emerald-500/50 backdrop-blur-xl shadow-[0_0_25px_rgba(16,185,129,0.3)] mb-6 transition-all hover:scale-105">
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
-        </span>
-        <span className="text-xs font-mono font-bold text-emerald-400 tracking-wider uppercase">
-          100% OFFLINE IN-PERSON EVENT
-        </span>
-        <span className="text-zinc-600">|</span>
-        <span className="text-xs font-mono text-amber-300 font-semibold">
-          PIT JAUNPUR CAMPUS
-        </span>
+      {/* Offline Status & Milestone Badge */}
+      <div className="flex flex-wrap items-center justify-center gap-2.5 mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/15 border border-red-500/40 text-red-300 backdrop-blur-xl shadow-[0_0_20px_rgba(239,68,68,0.25)] text-xs font-mono font-bold uppercase tracking-wider">
+          <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse inline-block" />
+          <span>HOUSEFULL • 125+ REGISTERED</span>
+        </div>
+
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/75 border border-emerald-500/50 backdrop-blur-xl shadow-[0_0_25px_rgba(16,185,129,0.3)] text-xs font-mono font-bold text-emerald-400 tracking-wider uppercase">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+          </span>
+          <span>100% OFFLINE IN-PERSON EVENT</span>
+        </div>
       </div>
 
       {/* Main Title with Radiant Gradient & Glow */}
@@ -172,11 +173,11 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
             soundEngine.playClick();
             onOpenRegister();
           }}
-          className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:shadow-[0_0_55px_rgba(245,158,11,0.85)] hover:scale-105 active:scale-95 transition-all cursor-pointer overflow-hidden"
+          className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-red-500/25 via-amber-500/30 to-red-500/25 border-2 border-amber-400/60 hover:border-amber-300 text-amber-300 hover:text-white font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.3)] hover:shadow-[0_0_55px_rgba(245,158,11,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer overflow-hidden"
         >
-          <span className="relative z-10">Register for In-Person Pass</span>
+          <span className="relative z-10">🔒 Registrations Closed (125+ Full) • View Pass</span>
           <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-          <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+          <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
         </button>
 
         <a

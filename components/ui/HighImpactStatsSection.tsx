@@ -16,9 +16,9 @@ export default function HighImpactStatsSection() {
       glow: 'shadow-[0_0_35px_rgba(245,158,11,0.25)]',
     },
     {
-      value: '100+',
-      label: 'PIT CAMPUS BUILDERS',
-      description: 'Exclusive to students of Prasad Institute of Technology, Jaunpur across all branches.',
+      value: '125+',
+      label: 'TARGET SMASHED (125+ FULL)',
+      description: 'Original 100 capacity exceeded! 125+ enthusiastic builders registered across PIT Jaunpur.',
       icon: Users,
       gradient: 'from-emerald-400 via-teal-300 to-emerald-500',
       border: 'border-emerald-400/50',

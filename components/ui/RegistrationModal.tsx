@@ -14,6 +14,8 @@ const APPS_SCRIPT_URL =
 export const MLH_REGISTRATION_URL =
   'https://events.mlh.com/events/15264-hacktoberfest-hack-day-jaunpur-x-prasad-institute-of-technology-jaunpur';
 
+export const IS_REGISTRATION_CLOSED = true;
+
 const TRACKS = [
   'Web & Open Innovation',
   'AI / Machine Learning',
@@ -238,6 +240,11 @@ export default function RegistrationModal({
 
   const handleSubmit = async () => {
     setError('');
+
+    if (IS_REGISTRATION_CLOSED) {
+      setError('Registrations are officially closed. We reached full capacity (125+ registered vs 100 target). Please use the Login tab to view your pass.');
+      return;
+    }
     // Validate
     const leaderErr = validateMember(leader, 'Team Leader');
     if (leaderErr) { setError(leaderErr); return; }
@@ -890,11 +897,13 @@ export default function RegistrationModal({
                   onClick={() => { setActiveTab('register'); soundEngine.playClick(); }}
                   className={`flex-1 py-1.5 px-3 rounded-full font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeTab === 'register'
-                      ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+                      ? (IS_REGISTRATION_CLOSED
+                          ? 'bg-red-500/20 text-red-300 border border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+                          : 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]')
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
-                  📝 Register
+                  {IS_REGISTRATION_CLOSED ? '🔒 Closed (125+)' : '📝 Register'}
                 </button>
                 <button
                   type="button"
@@ -966,59 +975,151 @@ export default function RegistrationModal({
                   </form>
 
                   <div className="pt-2 text-center">
-                    <button
-                      type="button"
-                      onClick={() => { setActiveTab('register'); soundEngine.playClick(); }}
-                      className="text-xs font-mono text-amber-400 hover:text-amber-300 hover:underline cursor-pointer"
-                    >
-                      Not registered yet? Register for Hacktoberfest 2026 →
-                    </button>
+                    {IS_REGISTRATION_CLOSED ? (
+                      <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] font-mono text-amber-300">
+                        🎉 Target 100 crushed with 125+ registered hackers! Check your pass above.
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => { setActiveTab('register'); soundEngine.playClick(); }}
+                        className="text-xs font-mono text-amber-400 hover:text-amber-300 hover:underline cursor-pointer"
+                      >
+                        Not registered yet? Register for Hacktoberfest 2026 →
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
-                /* Registration Type Cards (Solo vs Team) */
-                <>
-                  {/* Header */}
-                  <div>
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-mono text-xs font-bold uppercase tracking-widest mb-4">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
-                      REGISTRATIONS NOW OPEN
+                /* Registration Tab */
+                IS_REGISTRATION_CLOSED ? (
+                  /* ── CELEBRATION / HOUSEFULL DISPLAY WHEN CLOSED ── */
+                  <div className="space-y-6 text-center py-2 animate-fadeIn">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/15 border border-red-500/40 text-red-400 font-mono text-xs font-bold uppercase tracking-widest shadow-lg">
+                      <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse inline-block" />
+                      REGISTRATIONS OFFICIALLY CLOSED (HOUSEFULL)
                     </div>
-                    <div className="w-16 h-16 mx-auto rounded-full bg-white p-0.5 border-2 border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.4)] mb-3 flex items-center justify-center">
-                      <img src="/pit-logo.png" alt="PIT Logo" className="w-full h-full object-contain rounded-full" />
+
+                    <div className="relative mx-auto w-20 h-20">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-500/30 to-red-500/20 animate-pulse blur-xl" />
+                      <div className="w-full h-full rounded-full bg-neutral-900 border-2 border-amber-400 flex items-center justify-center text-4xl shadow-[0_0_35px_rgba(245,158,11,0.4)]">
+                        🏆
+                      </div>
                     </div>
-                    <h2 className="text-2xl font-black uppercase tracking-tight">
-                      HACKTOBERFEST <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">HACK DAY JAUNPUR 2026</span>
-                    </h2>
-                    <p className="text-zinc-400 text-sm mt-2">Saturday, Oct 24, 2026 · PIT Auditorium · Jaunpur</p>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
+                        TARGET SMASHED! <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500">
+                          125+ HACKERS REGISTERED
+                        </span>
+                      </h2>
+                      <p className="text-xs sm:text-sm text-zinc-300 mt-2 max-w-lg mx-auto leading-relaxed">
+                        Our original capacity target was <span className="text-white font-bold">100 participants</span>, but thanks to the overwhelming enthusiasm from students across the Department of Computer Science &amp; Engineering, we crushed the milestone with <span className="text-emerald-400 font-bold">125+ confirmed registrations</span>!
+                      </p>
+                    </div>
+
+                    {/* Milestone Stat Callout */}
+                    <div className="p-4 rounded-2xl bg-black/80 border border-amber-500/40 max-w-lg mx-auto grid grid-cols-3 gap-2 text-center shadow-inner">
+                      <div>
+                        <div className="text-[10px] font-mono text-zinc-400 uppercase">Target</div>
+                        <div className="text-lg font-black font-mono text-zinc-500">100</div>
+                      </div>
+                      <div className="border-x border-white/10">
+                        <div className="text-[10px] font-mono text-amber-400 uppercase font-bold">Reached</div>
+                        <div className="text-lg font-black font-mono text-emerald-400">125+ 🚀</div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-mono text-zinc-400 uppercase">Status</div>
+                        <div className="text-xs sm:text-sm font-bold font-mono text-red-400 uppercase mt-1">Full Cap</div>
+                      </div>
+                    </div>
+
+                    {/* Notice & Login CTA */}
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-neutral-900 to-black border border-amber-400/30 text-left max-w-lg mx-auto space-y-3 shadow-lg">
+                      <div className="flex items-start gap-2.5">
+                        <ShieldCheck className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-xs text-amber-200 font-semibold leading-relaxed">
+                            New registrations are now deactivated to maintain auditorium seating and mentor attention.
+                          </p>
+                          <p className="text-xs text-zinc-300 mt-1 leading-relaxed">
+                            Already registered? You can look up your official pass, download your VIP ticket, and check your team details at any time:
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => { setActiveTab('login'); soundEngine.playClick(); }}
+                        className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 hover:from-emerald-400 hover:to-teal-300 text-black font-black font-mono text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        <ShieldCheck className="w-4 h-4 text-black" />
+                        <span>Go to Login / Find Pass Portal →</span>
+                      </button>
+                    </div>
+
+                    {/* Organizer Hotline */}
+                    <div className="pt-1 text-center">
+                      <p className="text-[11px] font-mono text-zinc-400">
+                        Need help or have questions? Reach out to the Lead Organizer &amp; Faculty:
+                      </p>
+                      <div className="flex flex-wrap items-center justify-center gap-3 mt-1.5 text-[11px] font-mono text-amber-400">
+                        <a href="tel:+916394530549" className="hover:underline flex items-center gap-1">
+                          <Phone className="w-3 h-3" /> Preet Yadav: +91 63945 30549
+                        </a>
+                        <span className="text-zinc-600">•</span>
+                        <a href="tel:+916306588533" className="hover:underline flex items-center gap-1">
+                          <Phone className="w-3 h-3" /> Shubhashish Kundu Sir: +91 63065 88533
+                        </a>
+                      </div>
+                    </div>
                   </div>
+                ) : (
+                  /* Original Registration Type Cards (Solo vs Team) Preserved */
+                  <>
+                    {/* Header */}
+                    <div>
+                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-mono text-xs font-bold uppercase tracking-widest mb-4">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                        REGISTRATIONS NOW OPEN
+                      </div>
+                      <div className="w-16 h-16 mx-auto rounded-full bg-white p-0.5 border-2 border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.4)] mb-3 flex items-center justify-center">
+                        <img src="/pit-logo.png" alt="PIT Logo" className="w-full h-full object-contain rounded-full" />
+                      </div>
+                      <h2 className="text-2xl font-black uppercase tracking-tight">
+                        HACKTOBERFEST <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">HACK DAY JAUNPUR 2026</span>
+                      </h2>
+                      <p className="text-zinc-400 text-sm mt-2">Saturday, Oct 24, 2026 · PIT Auditorium · Jaunpur</p>
+                    </div>
 
-                  <p className="text-sm text-zinc-300 font-mono">How do you want to participate?</p>
+                    <p className="text-sm text-zinc-300 font-mono">How do you want to participate?</p>
 
-                  {/* Participation type cards */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-                    {/* Solo */}
-                    <button onClick={() => { setParticipationType('Solo'); setStep('form'); soundEngine.playClick(); }}
-                      className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-amber-400/60 hover:bg-amber-500/5 transition-all text-left cursor-pointer"
-                    >
-                      <User className="w-8 h-8 text-amber-400 mb-3 group-hover:scale-110 transition-transform" />
-                      <div className="font-black text-base uppercase tracking-wide">Solo Hacker</div>
-                      <div className="text-xs text-zinc-400 mt-1">Just you. Build alone, win alone. Maximum focus!</div>
-                      <div className="mt-3 text-[10px] font-mono text-amber-400 uppercase tracking-widest">1 Member → Individual Pass →</div>
-                    </button>
+                    {/* Participation type cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                      {/* Solo */}
+                      <button onClick={() => { setParticipationType('Solo'); setStep('form'); soundEngine.playClick(); }}
+                        className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-amber-400/60 hover:bg-amber-500/5 transition-all text-left cursor-pointer"
+                      >
+                        <User className="w-8 h-8 text-amber-400 mb-3 group-hover:scale-110 transition-transform" />
+                        <div className="font-black text-base uppercase tracking-wide">Solo Hacker</div>
+                        <div className="text-xs text-zinc-400 mt-1">Just you. Build alone, win alone. Maximum focus!</div>
+                        <div className="mt-3 text-[10px] font-mono text-amber-400 uppercase tracking-widest">1 Member → Individual Pass →</div>
+                      </button>
 
-                    {/* Team */}
-                    <button onClick={() => { setParticipationType('Team'); setStep('form'); soundEngine.playClick(); }}
-                      className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-emerald-400/60 hover:bg-emerald-500/5 transition-all text-left cursor-pointer"
-                    >
-                      <Users className="w-8 h-8 text-emerald-400 mb-3 group-hover:scale-110 transition-transform" />
-                      <div className="font-black text-base uppercase tracking-wide">Team Sprint</div>
-                      <div className="text-xs text-zinc-400 mt-1">2 or 3 members. Collaborate, build, dominate!</div>
-                      <div className="mt-3 text-[10px] font-mono text-emerald-400 uppercase tracking-widest">2–3 Members → Team Pass →</div>
-                    </button>
-                  </div>
-                </>
+                      {/* Team */}
+                      <button onClick={() => { setParticipationType('Team'); setStep('form'); soundEngine.playClick(); }}
+                        className="group p-5 rounded-2xl bg-black/70 border-2 border-white/10 hover:border-emerald-400/60 hover:bg-emerald-500/5 transition-all text-left cursor-pointer"
+                      >
+                        <Users className="w-8 h-8 text-emerald-400 mb-3 group-hover:scale-110 transition-transform" />
+                        <div className="font-black text-base uppercase tracking-wide">Team Sprint</div>
+                        <div className="text-xs text-zinc-400 mt-1">2 or 3 members. Collaborate, build, dominate!</div>
+                        <div className="mt-3 text-[10px] font-mono text-emerald-400 uppercase tracking-widest">2–3 Members → Team Pass →</div>
+                      </button>
+                    </div>
+                  </>
+                )
               )}
             </div>
           )}
@@ -1141,11 +1242,13 @@ export default function RegistrationModal({
 
               {/* Submit */}
               <button onClick={() => { soundEngine.playClick(); handleSubmit(); }}
-                disabled={loading || (joinExisting && (!previewTeam || previewTeam.isFull))}
+                disabled={IS_REGISTRATION_CLOSED || loading || (joinExisting && (!previewTeam || previewTeam.isFull))}
                 className="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-black text-sm uppercase tracking-wider shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:shadow-[0_0_55px_rgba(245,158,11,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 <Sparkles className="w-4 h-4" />
                 <span>
-                  {participationType === 'Solo' ? 'Register as Solo Hacker' : (joinExisting ? 'Join Team & Generate Pass' : `Register Team (${teamSize} Members)`)}
+                  {IS_REGISTRATION_CLOSED
+                    ? '🔒 Registrations Closed (125+ Full)'
+                    : (participationType === 'Solo' ? 'Register as Solo Hacker' : (joinExisting ? 'Join Team & Generate Pass' : `Register Team (${teamSize} Members)`))}
                 </span>
                 <ArrowRight className="w-4 h-4" />
               </button>

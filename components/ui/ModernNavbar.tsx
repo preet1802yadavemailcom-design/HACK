@@ -135,10 +135,10 @@ export default function ModernNavbar({
               soundEngine.playClick();
               onOpenRegister();
             }}
-            className="hidden sm:inline-flex items-center gap-1.5 px-4.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-mono font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap border border-amber-300/70"
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-red-500/20 via-amber-500/25 to-red-500/20 hover:from-amber-500/30 hover:to-amber-400/30 text-amber-300 hover:text-white font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:scale-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap border border-amber-400/50"
+            title="Registrations Closed (125+ Full) • Click to View Pass"
           >
-            <span>Register</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>🔒 Closed (125+ Full)</span>
           </button>
 
           {/* Mobile Menu Toggle */}
@@ -205,9 +205,9 @@ export default function ModernNavbar({
                 setMobileMenuOpen(false);
                 onOpenRegister();
               }}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-black font-black uppercase text-xs cursor-pointer shadow-md"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-red-500/20 to-amber-500/20 border border-amber-400/50 text-amber-300 font-bold uppercase text-xs cursor-pointer shadow-md flex items-center justify-center gap-2"
             >
-              Register for In-Person Pass →
+              <span>🔒 Registrations Closed (125+ Full) • View Pass</span>
             </button>
           </div>
         </div>

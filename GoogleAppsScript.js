@@ -136,6 +136,10 @@ function doGet(e) {
       output = checkStudentExists(params.rollNo, params.email, params.query);
     } else if (action === "quota") {
       output = { success: true, remainingDailyEmailQuota: MailApp.getRemainingDailyQuota() };
+    } else if (action === "testBroadcast") {
+      output = testBroadcastMilestoneEmailToAdmin();
+    } else if (action === "broadcastMilestone") {
+      output = broadcastMilestoneThankYouToAllParticipants();
     } else if (action === "REGISTER") {
       output = processRegistration(params);
     } else if (!action && params.fullName && params.email) {
@@ -145,7 +149,7 @@ function doGet(e) {
         success: true,
         service: "Hacktoberfest Hack Day Jaunpur 2026 API",
         status: "LIVE & OPERATIONAL",
-        supportedActions: ["REGISTER", "getTeam", "checkStudent", "quota"]
+        supportedActions: ["REGISTER", "getTeam", "checkStudent", "quota", "testBroadcast", "broadcastMilestone"]
       };
     }
   } catch (err) {
@@ -612,3 +616,332 @@ function sendUltraRoyalEmail(data, ticketId, teamCode, teamName, role) {
     }
   }
 }
+
+// ════════════════════════════════════════════════════════════════════════════════
+//  MILESTONE BROADCAST ENGINE — 125+ HACKERS MILESTONE & SPECIAL THANKS
+// ════════════════════════════════════════════════════════════════════════════════
+
+/**
+ * 🧪 Test Milestone Email directly to Admin (Run from Script Editor dropdown!)
+ * Function: testBroadcastMilestoneEmailToAdmin()
+ */
+function testBroadcastMilestoneEmailToAdmin() {
+  var remaining = MailApp.getRemainingDailyQuota();
+  Logger.log("Remaining Daily Email Quota: " + remaining);
+
+  var testAttendee = {
+    fullName: "Preet Yadav (Admin Test)",
+    email: ADMIN_EMAIL,
+    ticketId: "PIT-2026-TEST",
+    teamName: "Hackathon Core Organizing Squad"
+  };
+
+  var res = sendMilestoneThankYouEmail(testAttendee.email, testAttendee.fullName, testAttendee.ticketId, testAttendee.teamName);
+  Logger.log("Admin Test Milestone Email Result: " + JSON.stringify(res));
+  return { success: res.success, details: res, remainingDailyQuota: MailApp.getRemainingDailyQuota() };
+}
+
+/**
+ * 📢 Broadcast Milestone & Special Thanks Email to ALL Registered Participants (125+)
+ * Run from Script Editor: Select "broadcastMilestoneThankYouToAllParticipants" -> Click "Run" (▶️)
+ */
+function broadcastMilestoneThankYouToAllParticipants() {
+  var ss    = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(SHEET_NAME) || ss.getActiveSheet();
+  var data  = sheet.getDataRange().getValues();
+
+  if (data.length <= 1) {
+    return { success: false, message: "No registered participants found in sheet." };
+  }
+
+  var quota = MailApp.getRemainingDailyQuota();
+  Logger.log("Starting broadcast. Daily Quota Available: " + quota);
+
+  var totalRows = data.length - 1; // excluding header
+  var sentCount = 0;
+  var skipCount = 0;
+  var failCount = 0;
+  var sentEmails = {};
+
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    var ticketId = row[1];
+    var teamName = row[4] || "Solo Hacker";
+    var fullName = row[6] || "Hacker Delegate";
+    var email    = row[9] ? String(row[9]).trim().toLowerCase() : "";
+
+    if (!email || email.indexOf("@") === -1) {
+      skipCount++;
+      continue;
+    }
+
+    // Prevent duplicate emails to the same address if registered multiple times
+    if (sentEmails[email]) {
+      skipCount++;
+      continue;
+    }
+
+    try {
+      var res = sendMilestoneThankYouEmail(email, fullName, ticketId, teamName);
+      if (res.success) {
+        sentCount++;
+        sentEmails[email] = true;
+        Logger.log("Sent (" + sentCount + "/" + totalRows + ") to: " + email);
+      } else {
+        failCount++;
+        Logger.log("Failed sending to " + email + ": " + res.error);
+      }
+
+      // Small pause to maintain respectful pacing
+      Utilities.sleep(150);
+    } catch (sendErr) {
+      failCount++;
+      Logger.log("Exception sending to " + email + ": " + sendErr.message);
+    }
+  }
+
+  var summary = {
+    success: true,
+    totalEligible: totalRows,
+    sentCount: sentCount,
+    skipped: skipCount,
+    failed: failCount,
+    remainingDailyQuota: MailApp.getRemainingDailyQuota()
+  };
+
+  Logger.log("Broadcast Completed: " + JSON.stringify(summary));
+  return summary;
+}
+
+/**
+ * 👑 Ultra-Royal Milestone Celebration & Thank You Email Template
+ */
+function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName) {
+  var mlhUrl = "https://events.mlh.com/events/15264-hacktoberfest-hack-day-jaunpur-x-prasad-institute-of-technology-jaunpur";
+
+  var html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Target Smashed! Special Thanks & Important Updates</title>
+</head>
+<body style="margin:0;padding:0;background-color:#05070f;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#e2e8f0;">
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#05070f;padding:24px 12px;">
+<tr>
+<td align="center">
+<table role="presentation" width="620" cellspacing="0" cellpadding="0" style="max-width:620px;width:100%;background-color:#0b0f19;border:1px solid rgba(245,158,11,0.4);border-radius:24px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.8),0 0 40px rgba(245,158,11,0.2);">
+
+  <!-- Top Amber Accent Line -->
+  <tr>
+    <td style="height:4px;background:linear-gradient(90deg,#f59e0b,#fbbf24,#10b981,#f59e0b);"></td>
+  </tr>
+
+  <!-- Header Branding -->
+  <tr>
+    <td style="padding:32px 32px 20px;text-align:center;background:linear-gradient(180deg,#121829 0%,#0b0f19 100%);border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div style="display:inline-block;padding:6px 16px;border-radius:50px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);color:#fbbf24;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">
+        🏆 MILESTONE CRUSHED: 125+ HACKERS REGISTERED!
+      </div>
+      <h1 style="margin:0;color:#ffffff;font-size:26px;font-weight:900;letter-spacing:-0.5px;line-height:1.2;">
+        HACKTOBERFEST HACK DAY JAUNPUR 2026
+      </h1>
+      <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;letter-spacing:1px;font-weight:600;text-transform:uppercase;">
+        Prasad Institute of Technology · Department of Computer Science &amp; Engineering
+      </p>
+    </td>
+  </tr>
+
+  <!-- Personalized Greeting & Special Thanks from Preet Yadav -->
+  <tr>
+    <td style="padding:28px 32px 18px;">
+      <h2 style="margin:0 0 12px;font-size:21px;color:#ffffff;font-weight:800;">
+        Dear ${fullName}, 👋
+      </h2>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#cbd5e1;">
+        A heartfelt <strong style="color:#fbbf24;">THANK YOU</strong> from all of us for your incredible enthusiasm! Our original target was to register <strong style="color:#ffffff;">100 participants</strong> for this hackathon, but thanks to your overwhelming response, we easily crossed <strong style="color:#34d399;">125+ registered builders</strong>! 🎉
+      </p>
+      <p style="margin:0 0 18px;font-size:14px;line-height:1.7;color:#cbd5e1;">
+        Because we have reached full capacity in the auditorium, <strong>new registrations have now been officially closed</strong> to ensure the best possible experience, mentorship, and safety for every attendee.
+      </p>
+
+      <!-- Ticket & Squad Reminder Box -->
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#050813;border:1px solid rgba(245,158,11,0.3);border-radius:16px;margin:16px 0;padding:16px;">
+        <tr>
+          <td width="50%" style="padding:8px;vertical-align:top;">
+            <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Confirmed Ticket ID</div>
+            <div style="font-size:15px;color:#fbbf24;font-weight:900;font-family:monospace;">${ticketId || "PIT-2026-VIP"}</div>
+          </td>
+          <td width="50%" style="padding:8px;vertical-align:top;">
+            <div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Affiliated Squad</div>
+            <div style="font-size:14px;color:#ffffff;font-weight:700;">${teamName || "Solo Participant"}</div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- MANDATORY STEP 2: MLH Official Event Check-In Reminder -->
+  <tr>
+    <td style="padding:0 32px 24px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:linear-gradient(135deg,rgba(16,185,129,0.15) 0%,rgba(5,150,105,0.08) 100%);border:2px solid #10b981;border-radius:18px;padding:22px;">
+        <tr>
+          <td>
+            <div style="font-size:11px;font-weight:800;color:#34d399;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">
+              ⚡ MANDATORY ACTION ITEM (STEP 2/2)
+            </div>
+            <h3 style="margin:0 0 10px;font-size:17px;color:#ffffff;font-weight:800;">
+              Complete Your Major League Hacking (MLH) Check-in!
+            </h3>
+            <p style="margin:0 0 14px;font-size:13px;line-height:1.6;color:#e2e8f0;">
+              Every confirmed attendee (and <strong>all individual teammates</strong>) must complete the official registration on the MLH Portal to claim:
+            </p>
+            <ul style="margin:0 0 16px;padding-left:20px;font-size:13px;color:#cbd5e1;line-height:1.7;">
+              <li>🌐 <strong>FREE 1-Year .xyz Domain Name</strong> for your hackathon project</li>
+              <li>🎒 Eligibility for up to <strong>8 MLH Belt Bags</strong> (AI &amp; Gemma Challenges)</li>
+              <li>👕 Official Hacktoberfest T-Shirts, Arduino Hardware &amp; Swags</li>
+              <li>☁️ <strong>$65+ Cloud Credits:</strong> $50 Render, 3-mo ElevenLabs, $10 Tinker, $5 Backboard</li>
+            </ul>
+            <div style="text-align:center;margin-top:16px;">
+              <a href="${mlhUrl}" target="_blank" style="display:inline-block;padding:14px 28px;background:linear-gradient(90deg,#10b981,#059669);color:#000000;text-decoration:none;font-weight:900;font-size:13px;letter-spacing:1px;text-transform:uppercase;border-radius:12px;box-shadow:0 4px 20px rgba(16,185,129,0.4);">
+                👉 Complete MLH Check-In Now →
+              </a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Sponsor Teaser Announcement (Verbatim) -->
+  <tr>
+    <td style="padding:0 32px 24px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#131826;border:1px solid rgba(245,158,11,0.35);border-radius:16px;padding:20px;">
+        <tr>
+          <td>
+            <div style="font-size:11px;font-weight:800;color:#fbbf24;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">
+              👀🔥 SOMETHING SPECIAL IS COMING SOON!
+            </div>
+            <p style="margin:0 0 8px;font-size:13px;line-height:1.6;color:#e2e8f0;font-weight:600;">
+              But wait… there’s more!
+            </p>
+            <p style="margin:0 0 8px;font-size:13px;line-height:1.6;color:#cbd5e1;">
+              We’re currently working on bringing additional sponsors and exclusive benefits for our participants and team members.
+            </p>
+            <p style="margin:0 0 8px;font-size:13px;line-height:1.6;color:#cbd5e1;">
+              🎁 More sponsor rewards &amp; goodies may be added soon, including benefits for participating teams.<br>
+              🤝 The exact rewards will depend on the sponsors and their available offerings.<br>
+              📢 All confirmed sponsor benefits will be officially revealed soon.
+            </p>
+            <p style="margin:8px 0 0;font-size:13px;color:#fbbf24;font-weight:700;">
+              So stay tuned… more surprises are on the way! 🚀✨
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Event Schedule & Venue Reminder -->
+  <tr>
+    <td style="padding:0 32px 24px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#090d18;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,0.06);">
+        <tr>
+          <td style="font-size:12px;color:#94a3b8;line-height:1.7;">
+            📅 <strong style="color:#ffffff;">Date:</strong> Saturday, October 24, 2026<br>
+            ⏰ <strong style="color:#ffffff;">Reporting Time:</strong> 09:30 AM IST (Keynote starts at 10:00 AM)<br>
+            🏛️ <strong style="color:#ffffff;">Venue:</strong> Main Auditorium, Prasad Institute of Technology, Jaunpur<br>
+            💻 <strong style="color:#ffffff;">What to Bring:</strong> Your Laptop, Charger, Student College ID &amp; your team spirit!
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Direct Organizer Hotline & Regards -->
+  <tr>
+    <td style="padding:0 32px 32px;">
+      <p style="margin:0 0 10px;font-size:13px;color:#cbd5e1;line-height:1.6;">
+        If you have any questions, need team adjustments, or require assistance, feel free to contact us anytime:
+      </p>
+      <div style="font-size:13px;color:#fbbf24;font-weight:700;line-height:1.8;">
+        📞 <strong>Preet Yadav</strong> (Lead Student Organizer): <a href="tel:+916394530549" style="color:#fbbf24;text-decoration:none;">+91 63945 30549</a><br>
+        📞 <strong>Shubhashish Kundu Sir</strong> (Faculty Coordinator): <a href="tel:+916306588533" style="color:#fbbf24;text-decoration:none;">+91 63065 88533</a>
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:#94a3b8;line-height:1.6;">
+        Warm regards &amp; happy hacking,<br>
+        <strong style="color:#ffffff;">Preet Yadav</strong> &amp; The Hacktoberfest Jaunpur Organizing Team<br>
+        Department of Computer Science &amp; Engineering<br>
+        Prasad Institute of Technology, Jaunpur<br>
+        <a href="https://hack-avm.pages.dev" style="color:#f59e0b;text-decoration:none;">hack-avm.pages.dev</a>
+      </div>
+    </td>
+  </tr>
+
+  <!-- Bottom Accent Line -->
+  <tr>
+    <td style="height:3px;background:linear-gradient(90deg,transparent,#f59e0b,transparent);"></td>
+  </tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+</body>
+</html>`;
+
+  var subject = "🎉 Target Smashed (125+ Hackers)! Special Thanks & Important Updates | Hacktoberfest Hack Day Jaunpur 2026";
+  var plainText = "Dear " + fullName + ",\n\n" +
+    "A heartfelt THANK YOU from all of us for your incredible enthusiasm!\n" +
+    "Our initial target was 100 participants, but thanks to your overwhelming response, we easily crossed 125+ registered builders! Registrations are now officially closed.\n\n" +
+    "Your Confirmed Ticket ID: " + (ticketId || "PIT-2026-VIP") + "\n" +
+    "Affiliated Squad: " + (teamName || "Solo Participant") + "\n\n" +
+    "⚠️ MANDATORY STEP 2 (MLH CHECK-IN):\n" +
+    "Every participant and teammate must complete check-in on the official MLH portal:\n" +
+    "👉 " + mlhUrl + "\n\n" +
+    "Prizes & Swags Confirmed:\n" +
+    "• Free 1-Year .xyz Domain Name for all check-in participants\n" +
+    "• Up to 8 MLH Belt Bags (AI & Gemma Challenges)\n" +
+    "• Arduino Hardware & Official T-Shirts\n" +
+    "• $65+ Cloud Credits: $50 Render, 3-mo ElevenLabs, $10 Tinker, $5 Backboard\n\n" +
+    "Event Date: Saturday, October 24, 2026 | 09:30 AM IST\n" +
+    "Venue: PIT Campus Auditorium, Jaunpur\n\n" +
+    "Direct Coordinator Hotline:\n" +
+    "• Preet Yadav: +91 63945 30549\n" +
+    "• Shubhashish Kundu Sir: +91 63065 88533\n\n" +
+    "Warm regards,\n" +
+    "Preet Yadav & The Organizing Team\n" +
+    "Department of CSE · Prasad Institute of Technology";
+
+  try {
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: subject,
+      body: plainText,
+      htmlBody: html,
+      name: "Hacktoberfest Hack Day Jaunpur 2026"
+    });
+    return { success: true, engine: "MailApp" };
+  } catch (err1) {
+    Logger.log("Milestone MailApp failed for " + recipientEmail + ": " + err1.message + ". Attempting GmailApp fallback...");
+    try {
+      GmailApp.sendEmail(
+        recipientEmail,
+        subject,
+        plainText,
+        {
+          htmlBody: html,
+          name: "Hacktoberfest Hack Day Jaunpur 2026"
+        }
+      );
+      return { success: true, engine: "GmailApp" };
+    } catch (err2) {
+      Logger.log("Both MailApp and GmailApp failed for " + recipientEmail + ": " + err2.message);
+      return { success: false, error: err2.message };
+    }
+  }
+}
+
