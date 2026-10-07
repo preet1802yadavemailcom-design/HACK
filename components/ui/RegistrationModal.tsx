@@ -330,16 +330,16 @@ export default function RegistrationModal({
       // Auto-send WhatsApp confirmation to registrant's own number
       const isTeam = participationType === 'Team';
       const inviteSection = (isTeam && !joinExisting && data.teamCode)
-        ? `\n\n📲 *Teammates ko Invite Karein:*\n` +
+        ? `\n\n📲 *Invite Teammates to Squad:*\n` +
           `1️⃣ Website join link:\nhttps://hack-avm.pages.dev/?team=${data.teamCode}\n` +
           `2️⃣ Team Code: *${data.teamCode}*\n` +
-          `3️⃣ Sabhi teammates ko MLH link par bhi individual registration karwana compulsory hai!`
+          `3️⃣ All squad members must join the official WhatsApp Community!`
         : '';
 
       const waMsg = encodeURIComponent(
         `🎉 *Hacktoberfest Hack Day Jaunpur 2026*\n` +
         `📍 Prasad Institute of Technology, Jaunpur\n\n` +
-        `✅ *Registration Confirmed (Step 1/2)!*\n\n` +
+        `✅ *Registration Confirmed!*\n\n` +
         `👤 Name: *${leader.fullName.trim()}*\n` +
         `🎫 Ticket ID: *${data.ticketId}*\n` +
         `👥 Team: *${data.teamName || 'Solo Participant'}*\n` +
@@ -348,15 +348,16 @@ export default function RegistrationModal({
         `📅 Date: *Saturday, October 24, 2026*\n` +
         `⏰ Time: *09:30 AM IST*\n` +
         `🏛️ Venue: *PIT Campus Auditorium, Jaunpur*\n\n` +
-        `⚠️ *MANDATORY STEP 2 (MLH Official Check-in):*\n` +
-        `Aap hackathon ke liye eligible hain! Official swags, certificates aur entry ke liye MLH portal par check-in complete karein:\n` +
-        `👉 ${MLH_REGISTRATION_URL}\n` +
-        `_(Note: Team ke sabhi members ko individually MLH portal par register karna anivarya hai)_` +
+        `📲 *OFFICIAL WHATSAPP COMMUNITY GROUP (MANDATORY):*\n` +
+        `All confirmed attendees must join the official WhatsApp group for live sprint announcements and guidelines:\n` +
+        `👉 ${WHATSAPP_COMMUNITY_URL}\n` +
+        `_(If you have already joined, no further action required!)_\n\n` +
+        `💻 *Laptop Notice:* Bringing your personal laptop is recommended. If you don't have one, Prasad Institute of Technology's computer lab workstations are available for your use.\n` +
         `${inviteSection}\n\n` +
-        `🆘 Koi problem ho to:\n` +
-        `👨‍🏫 Shubhashish Kundu Sir: *+91 63065 88533*\n` +
-        `👨‍💻 Preet Yadav: *+91 63945 30549*\n\n` +
-        `_Hacktoberfest Hack Day Jaunpur 2026 — In Association with MLH & AKTU_`
+        `🆘 Need assistance? Contact Organizing Team:\n` +
+        `👨‍🏫 Shubhashish Kundu Sir (Faculty Coordinator): *+91 63065 88533*\n` +
+        `👨‍💻 Preet Yadav (Lead Student Organizer): *+91 63945 30549*\n\n` +
+        `_Hacktoberfest Hack Day Jaunpur 2026 — Prasad Institute of Technology × MLH_`
       );
       // Open WhatsApp with user's own number — they just press Send once
       const userPhone = leader.phone.trim().replace(/\D/g, '');
@@ -847,8 +848,8 @@ export default function RegistrationModal({
       (isTeam ? `🔑 Team Code: *${teamCode}*\n\n` : `\n`) +
       `📲 *Official WhatsApp Group (Must Join):*\n` +
       `👉 ${WHATSAPP_COMMUNITY_URL}\n` +
-      `_(Agar aap already jud chuke hain to koi issue nahi hai!)_\n\n` +
-      `💻 *Laptop Notice:* Jin participants ke paas laptop nahi hai, wo college computer labs ke system use kar sakte hain!\n\n` +
+      `_(If you have already joined the group, you are all set!)_\n\n` +
+      `💻 *Laptop Notice:* Participants without personal laptops can access college computer lab workstations!\n\n` +
       `📅 *Date:* Saturday, Oct 24, 2026 | 09:30 AM IST\n` +
       `🏛️ *Venue:* PIT Campus Auditorium, Jaunpur\n` +
       `_Prasad Institute of Technology · Department of CSE_`
@@ -1390,10 +1391,10 @@ export default function RegistrationModal({
                       <span>Join Official Hackathon WhatsApp Group</span>
                     </h4>
                     <p className="text-zinc-300 text-xs leading-relaxed mt-1">
-                      Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi live problem statements, event updates, reporting guidelines, aur mentor coordination isi group me share honge.
+                      All confirmed builders must join the official WhatsApp Community. Real-time problem statements, sprint updates, reporting guidelines, and mentor coordination will be shared exclusively in this group.
                     </p>
                     <p className="text-[11px] font-mono text-emerald-300/90 mt-1 italic">
-                      💡 Agar aap pehle se hi WhatsApp group me jud chuke hain, to koi issue nahi hai — you are already set!
+                      💡 If you have already joined the WhatsApp group, you are all set — no further action required!
                     </p>
                   </div>
 
@@ -1414,14 +1415,14 @@ export default function RegistrationModal({
                       <span>💻</span> Laptop &amp; Computer Systems Notice:
                     </p>
                     <p className="text-[11px] text-zinc-300 leading-relaxed">
-                      &bull; Jin participants ke paas laptop hai, wo apna laptop aur charger sath le kar aayenge.<br />
-                      &bull; <strong className="text-white">Jinke paas laptop NAHI hai:</strong> Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke college desktop systems aapke liye uplabdh rahenge — college dwara proper computer setup provide kiya jayega!
+                      &bull; Participants with a personal laptop should bring their machine and charger to the venue.<br />
+                      &bull; <strong className="text-white">Don&apos;t have a laptop? No worries at all!</strong> Prasad Institute of Technology&apos;s high-speed computer labs and desktop workstations are fully available for your use during the hackathon.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* 📲 Invite Teammates (with clear 2-step instructions & direct WhatsApp share) */}
+              {/* 📲 Invite Teammates */}
               {teamCode && !teamCode.startsWith('SOLO') && (
                 <div className="relative p-5 rounded-2xl overflow-hidden border border-emerald-500/35 bg-gradient-to-r from-emerald-950/40 via-black to-emerald-950/20 shadow-[0_0_30px_rgba(16,185,129,0.15)]">
                   <div className="relative space-y-3">
@@ -1435,13 +1436,13 @@ export default function RegistrationModal({
                     </div>
 
                     <div className="p-3 rounded-xl bg-black/60 border border-white/10 space-y-2 text-xs text-zinc-300">
-                      <p className="font-semibold text-white">Har teammate ko ye 2 steps complete karne hain:</p>
+                      <p className="font-semibold text-white">Each teammate must complete these steps:</p>
                       <div className="space-y-1.5 pl-2 text-[11px] font-mono">
                         <p className="text-emerald-300">
-                          1️⃣ Hamari website par Team Code <span className="text-amber-400 font-black px-1.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/30">{teamCode}</span> se team join karein.
+                          1️⃣ Join squad using Team Code <span className="text-amber-400 font-black px-1.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/30">{teamCode}</span> on this portal.
                         </p>
-                        <p className="text-indigo-300">
-                          2️⃣ Phir MLH official portal par individual check-in complete karein (Mandatory).
+                        <p className="text-emerald-300">
+                          2️⃣ Join the official WhatsApp group for live problem statements &amp; guidelines.
                         </p>
                       </div>
                     </div>
@@ -1569,23 +1570,23 @@ export default function RegistrationModal({
                 )}
               </div>
 
-              {/* MLH Registration CTA on Duplicate screen */}
-              <div className="p-4 rounded-2xl bg-indigo-950/60 border border-indigo-500/40 text-left space-y-2">
-                <div className="flex items-center gap-2 text-indigo-300 font-mono text-[10px] uppercase font-bold tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Mandatory MLH Registration Required</span>
+              {/* WhatsApp Community Group CTA on Duplicate screen */}
+              <div className="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-left space-y-2">
+                <div className="flex items-center gap-2 text-emerald-300 font-mono text-[10px] uppercase font-bold tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Official WhatsApp Community Required</span>
                 </div>
                 <p className="text-zinc-300 text-xs leading-relaxed">
-                  Aapka college registration already confirmed hai. Kya aapne official MLH portal par check-in complete kiya hai? Agar nahi, to abhi karein:
+                  Your campus registration is already confirmed! Please make sure you have joined the official WhatsApp community for real-time sprint announcements and mentor guidance:
                 </p>
                 <a
-                  href={MLH_REGISTRATION_URL}
+                  href={WHATSAPP_COMMUNITY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Complete MLH Registration 🚀</span>
+                  <span>Join Official WhatsApp Group 🚀</span>
                 </a>
               </div>
 

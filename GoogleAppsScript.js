@@ -324,7 +324,7 @@ function sendUltraRoyalEmail(data, ticketId, teamCode, teamName, role) {
                     🔗 https://hack-avm.pages.dev/?team=${teamCode}
                   </p>
                   <p style="margin:0;font-size:12px;color:#a7f3d0;font-style:italic;">
-                    ⚠️ <strong>Teammates Note:</strong> Team join karne ke baad sabhi members ko niche diye gaye MLH link par bhi individual registration complete karna compulsory hai!
+                    ⚠️ <strong>Teammates Note:</strong> After joining your squad, make sure all team members connect to the official WhatsApp community for announcements!
                   </p>
                 </td>
               </tr>
@@ -452,8 +452,8 @@ function sendUltraRoyalEmail(data, ticketId, teamCode, teamName, role) {
                 Join Official Hackathon WhatsApp Group
               </h3>
               <p style="margin:0 0 14px 0;font-size:13px;color:#e2e8f0;line-height:1.6;">
-                Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi live problem statements, sprint updates, reporting guidelines, aur mentor coordination isi group me share honge.<br>
-                <em>(Agar aap pehle se hi group me jud chuke hain, to koi issue nahi hai — you are already set!)</em>
+                All confirmed participants must join the official WhatsApp Community. Real-time problem statements, sprint updates, reporting guidelines, and mentor assistance will be coordinated exclusively in this group.<br>
+                <em>(If you have already joined the community, you are all set &mdash; no further action required!)</em>
               </p>
               
               <table cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
@@ -472,8 +472,8 @@ function sendUltraRoyalEmail(data, ticketId, teamCode, teamName, role) {
                   💻 LAPTOP &amp; COLLEGE COMPUTER SYSTEMS NOTICE:
                 </p>
                 <p style="margin:0;font-size:12px;color:#cbd5e1;line-height:1.5;">
-                  &bull; Jin participants ke paas laptop hai, wo apna laptop aur charger sath le kar aayenge.<br>
-                  &bull; <strong>Jinke paas personal laptop NAHI hai:</strong> Bilkul chinta mat karein! Aap <strong>Prasad Institute of Technology ki Computer Labs ke college desktop systems</strong> use kar sakte hain. College dwara complete setup provide kiya jayega!
+                  &bull; Participants who own a personal laptop should bring their machine and charger to the venue.<br>
+                  &bull; <strong>Don&apos;t have a personal laptop? No worries at all!</strong> Prasad Institute of Technology&apos;s high-speed computer labs and desktop workstations are fully available for your use during the hackathon. Complete computer setups will be provided by the department!
                 </p>
               </div>
             </td>
@@ -582,18 +582,22 @@ function sendUltraRoyalEmail(data, ticketId, teamCode, teamName, role) {
 
   var subject = "Pass Confirmed: Hacktoberfest Hack Day Jaunpur 2026 | Ticket #" + ticketId;
   var plainText = "Congratulations " + data.fullName + "!\n\n" +
-    "Your pre-registration for Hacktoberfest Hack Day Jaunpur 2026 has been officially confirmed (Step 1/2).\n\n" +
+    "Your registration for Hacktoberfest Hack Day Jaunpur 2026 has been officially confirmed.\n\n" +
     "Ticket ID: " + ticketId + "\n" +
     "Squad / Team: " + teamName + "\n" +
     "Team Code: " + teamCode + "\n" +
     "Date: Saturday, October 24, 2026 | 09:30 AM IST\n" +
     "Venue: PIT Campus Auditorium, Jaunpur\n\n" +
-    "⚠️ MANDATORY STEP 2 (MLH Official Check-in):\n" +
-    "Aap hackathon ke liye eligible hain! Major League Hacking (MLH) requires every attendee (and all teammates individually) to complete the official MLH check-in & registration:\n" +
-    "👉 https://events.mlh.com/events/15264-hacktoberfest-hack-day-jaunpur-x-prasad-institute-of-technology-jaunpur\n\n" +
+    "📢 OFFICIAL WHATSAPP COMMUNITY GROUP (MANDATORY):\n" +
+    "All confirmed participants must join the official WhatsApp Community. Real-time problem statements, sprint updates, reporting guidelines, and mentor assistance will be coordinated exclusively in this group:\n" +
+    "👉 https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th\n" +
+    "(If you have already joined the group, you are all set — no further action required!)\n\n" +
+    "💻 LAPTOP & COLLEGE COMPUTER SYSTEMS NOTICE:\n" +
+    "• Participants who own a personal laptop should bring their machine and charger to the venue.\n" +
+    "• Don't have a personal laptop? No worries at all! Prasad Institute of Technology's high-speed computer labs and desktop workstations are fully available for your use during the hackathon. Complete computer setups will be provided by the department!\n\n" +
     "Direct Coordinator Hotline:\n" +
-    "• Shubhashish Kundu Sir: +91 63065 88533\n" +
-    "• Preet Yadav: +91 63945 30549\n\n" +
+    "• Shubhashish Kundu Sir (Faculty Coordinator): +91 63065 88533\n" +
+    "• Preet Yadav (Lead Student Organizer): +91 63945 30549\n\n" +
     "Prasad Institute of Technology · Department of CSE";
 
   try {
@@ -803,10 +807,10 @@ function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName
               Join Official Hackathon WhatsApp Group
             </h3>
             <p style="margin:0 0 12px;font-size:13px;line-height:1.6;color:#e2e8f0;">
-              Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi urgent sprint announcements, live problem statements, event schedule updates, aur mentor coordination isi group me milengi:
+              If you haven&apos;t joined the official WhatsApp group yet, please join immediately! All urgent sprint announcements, live problem statements, schedule updates, and mentor guidance will be shared directly in this community:
             </p>
             <p style="margin:0 0 16px;font-size:12px;color:#a7f3d0;line-height:1.5;font-style:italic;">
-              💡 <em>Agar aap pehle se hi WhatsApp group me jud chuke hain, to koi issue nahi hai — you are already set!</em>
+              💡 <em>If you have already joined the WhatsApp group, you are all set &mdash; no further action required!</em>
             </p>
             
             <div style="text-align:center;margin:16px 0;">
@@ -821,8 +825,8 @@ function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName
                 💻 LAPTOP &amp; COLLEGE COMPUTER SYSTEMS NOTICE:
               </p>
               <p style="margin:0;font-size:12px;color:#cbd5e1;line-height:1.6;">
-                &bull; Jin participants ke paas personal laptop hai, wo apna laptop aur charger sath le kar aayenge.<br>
-                &bull; <strong>Jinke paas personal laptop NAHI hai:</strong> Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke systems aapke liye uplabdh rahenge — aap college ke computer system par hackathon smoothly participate kar sakte hain!
+                &bull; Participants who own a personal laptop should bring their machine and charger to the venue.<br>
+                &bull; <strong>Don&apos;t have a personal laptop? No worries at all!</strong> Prasad Institute of Technology&apos;s Computer Labs and high-speed desktop workstations are fully accessible for your use &mdash; you can smoothly participate and code on college systems!
               </p>
             </div>
           </td>
@@ -917,12 +921,12 @@ function sendMilestoneThankYouEmail(recipientEmail, fullName, ticketId, teamName
     "Your Confirmed Ticket ID: " + (ticketId || "PIT-2026-VIP") + "\n" +
     "Affiliated Squad: " + (teamName || "Solo Participant") + "\n\n" +
     "📲 OFFICIAL WHATSAPP COMMUNITY GROUP (JOIN NOW):\n" +
-    "Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi urgent sprint notices, live problem statements, aur mentor guidance isi group me milengi:\n" +
+    "If you have not joined the official WhatsApp group yet, please join immediately! All urgent sprint notices, live problem statements, and mentor guidance will be shared in this group:\n" +
     "👉 https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th\n" +
-    "(Note: Agar aap already group me jud chuke hain, to koi issue nahi hai!)\n\n" +
+    "(Note: If you have already joined the group, you are all set — no further action required!)\n\n" +
     "💻 LAPTOP & COLLEGE LAB SYSTEMS NOTICE:\n" +
-    "• Jin participants ke paas laptop hai, wo apna laptop aur charger sath le kar aayenge.\n" +
-    "• Jinke paas personal laptop NAHI hai: Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke systems aapke liye uplabdh rahenge — aap college ke computer system par hackathon participate kar sakte hain!\n\n" +
+    "• Participants who own a personal laptop should bring their machine and charger to the venue.\n" +
+    "• Don't have a personal laptop? No worries at all! Prasad Institute of Technology's Computer Labs and workstations will be fully available for your use — you can smoothly participate using college computer systems!\n\n" +
     "Event Date: Saturday, October 24, 2026 | 09:30 AM IST\n" +
     "Venue: PIT Campus Auditorium, Jaunpur\n\n" +
     "Direct Coordinator Hotline:\n" +

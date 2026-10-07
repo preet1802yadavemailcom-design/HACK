@@ -49,7 +49,7 @@ export default function OrganizerHotlineSection() {
           CONNECT WITH ORGANIZERS
         </h2>
         <p className="mt-3 text-zinc-300 max-w-xl mx-auto text-sm sm:text-base font-light">
-          Koi bhi doubt ya query ho? Team formation, registration, ya offline sprint guidelines ke liye directly WhatsApp ya call par baat karein.
+          Have questions or need assistance? Reach out directly via WhatsApp or phone for squad coordination, event schedules, and sprint guidelines.
         </p>
       </div>
 

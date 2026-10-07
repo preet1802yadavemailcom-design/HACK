@@ -107,13 +107,16 @@ export default function LoginPage() {
       `👥 Squad: *${userData.teamName}*\n` +
       (isTeam ? `🔑 Team Code: *${userData.teamCode}*\n\n` : `\n`) +
       (isTeam
-        ? `📢 *Important Instructions for Teammates:*\n` +
-          `1️⃣ Pehle hamari website par jaakar Team Code *${userData.teamCode}* se squad join karein:\n` +
+        ? `📢 *Squad Coordination Note:*\n` +
+          `• First, join our squad using Team Code *${userData.teamCode}*:\n` +
           `👉 https://hack-avm.pages.dev/?team=${userData.teamCode}\n\n` +
-          `2️⃣ Uske baad har teammate ko official Major League Hacking (MLH) portal par individual check-in karna mandatory hai:\n` +
-          `👉 ${MLH_REGISTRATION_URL}\n\n`
-        : `⚠️ *Mandatory Step 2 (MLH Official Check-in):*\n` +
-          `👉 ${MLH_REGISTRATION_URL}\n\n`) +
+          `• All teammates must join the official WhatsApp Community:\n` +
+          `👉 https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th\n\n`
+        : `📢 *Official WhatsApp Community (Mandatory):*\n` +
+          `Join the official group for live sprint announcements and guidelines:\n` +
+          `👉 https://chat.whatsapp.com/JFsE2mm3c8l4wnnwjYI9Th\n` +
+          `_(If you have already joined, no further action required!)_\n\n`) +
+      `💻 *Laptop Notice:* Bringing your personal laptop is recommended. If you don't have one, Prasad Institute of Technology's computer lab workstations are available for your use.\n\n` +
       `📅 *Date:* Saturday, Oct 24, 2026 | 09:30 AM IST\n` +
       `🏛️ *Venue:* PIT Campus Auditorium, Jaunpur\n` +
       `_Prasad Institute of Technology · Department of CSE_`
@@ -539,10 +542,10 @@ export default function LoginPage() {
                     <span>Join Official Hackathon WhatsApp Group</span>
                   </h3>
                   <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mt-1.5">
-                    Agar aapne abhi tak official WhatsApp group join nahi kiya hai, to turant join kar lein! Sabhi live problem statements, event schedule updates, reporting guidelines, aur mentor coordination isi group me share honge.
+                    All confirmed delegates must join the official WhatsApp Community. Real-time problem statements, schedule updates, reporting instructions, and mentor assistance will be coordinated exclusively in this group.
                   </p>
                   <p className="text-xs font-mono text-emerald-300/90 mt-1 italic">
-                    💡 Agar aap pehle se hi WhatsApp group me jud chuke hain, to koi issue nahi hai — you are already set!
+                    💡 If you have already joined the WhatsApp group, you are all set — no further action required!
                   </p>
                 </div>
 
@@ -562,8 +565,8 @@ export default function LoginPage() {
                     <span>💻</span> Laptop &amp; Computer Systems Notice:
                   </p>
                   <p className="text-xs text-zinc-300 leading-relaxed">
-                    &bull; Jin participants ke paas laptop hai, wo apna personal laptop aur charger sath le kar aayenge.<br />
-                    &bull; <strong className="text-white">Jinke paas laptop NAHI hai:</strong> Bilkul chinta mat karein! Prasad Institute of Technology ke Computer Labs ke systems aapke liye uplabdh rahenge — college dwara proper computer desktop setup provide kiya jayega!
+                    &bull; Participants who have a personal laptop should bring their machine and charger to the venue.<br />
+                    &bull; <strong className="text-white">Don&apos;t have a laptop? No worries at all!</strong> Prasad Institute of Technology&apos;s high-speed computer labs and desktop workstations are fully available for your use during the hackathon.
                   </p>
                 </div>
               </div>
@@ -582,13 +585,13 @@ export default function LoginPage() {
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-black/60 border border-white/10 space-y-2 text-xs text-zinc-300">
-                  <p className="font-semibold text-white">Apne baki teammates ke sath share karein:</p>
+                  <p className="font-semibold text-white">Share instructions with your teammates:</p>
                   <div className="space-y-1.5 pl-2 text-[11px] font-mono">
                     <p className="text-emerald-300">
-                      1️⃣ Hamari website par Team Code <span className="text-amber-400 font-black px-1.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/30">{userData.teamCode}</span> daalkar team join karein.
+                      1️⃣ Join squad using Team Code <span className="text-amber-400 font-black px-1.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/30">{userData.teamCode}</span> on this portal.
                     </p>
-                    <p className="text-indigo-300">
-                      2️⃣ Phir unhe bhi MLH portal par apna individual check-in complete karna compulsory hai.
+                    <p className="text-emerald-300">
+                      2️⃣ Join the official WhatsApp group for live problem statements &amp; guidelines.
                     </p>
                   </div>
                 </div>

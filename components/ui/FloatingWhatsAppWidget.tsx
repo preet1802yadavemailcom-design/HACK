@@ -55,7 +55,7 @@ export default function FloatingWhatsAppWidget() {
             </div>
 
             <p className="text-xs text-zinc-300 font-light leading-relaxed">
-              Koi bhi query ho? Niche diye gaye kisi bhi organizer ke number par directly WhatsApp message bhej sakte hain:
+              Have questions or need assistance? Reach out directly to our organizing leads via WhatsApp below:
             </p>
 
             {/* Contacts list */}

@@ -318,7 +318,7 @@ export default function BadgeCreator() {
             </span>
           </h1>
           <p className="mt-3 text-sm sm:text-base text-zinc-300 font-light max-w-xl mx-auto leading-relaxed">
-            Dikhaye apna tech swag poore college ko! Upload your photo, pick your hacker archetype, and download the <span className="text-amber-400 font-semibold">1080×1920 WhatsApp Status Poster</span> that will make everyone ask for your link.
+            Show off your tech identity across campus! Upload your photo, pick your hacker archetype, and download the <span className="text-amber-400 font-semibold">1080×1920 WhatsApp Status Poster</span> and holographic VIP pass.
           </p>
         </div>
 
@@ -978,7 +978,7 @@ export default function BadgeCreator() {
 
               {/* Status Hype Tip */}
               <div className="p-3.5 rounded-2xl bg-black/70 border border-amber-500/30 text-center font-mono text-[11px] text-zinc-300 shadow-lg">
-                👑 <span className="text-amber-400 font-bold">College Swag Tip:</span> Status lagate waqt apne dosto ko tag karein aur hashtag lagayein <span className="text-white font-bold">#HackDayJaunpur #PIT</span> — sabhi log dekhte hi poochhenge!
+                👑 <span className="text-amber-400 font-bold">Campus Hype Tip:</span> When updating your WhatsApp status, tag your teammates with <span className="text-white font-bold">#HackDayJaunpur #PIT</span> — represent your team with pride!
               </div>
             </div>
           </div>

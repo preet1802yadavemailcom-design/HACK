@@ -29,7 +29,7 @@ export default function BadgePromoSection() {
             </h2>
 
             <p className="text-sm text-zinc-300 font-light leading-relaxed max-w-lg">
-              Dikhaye apna tech swag poore college ko! Upload your photo, pick your viral hacker title, and get an authentic <span className="text-amber-400 font-bold">PIT Campus 1080×1920 WhatsApp Status Poster</span> and 3D Holographic VIP Pass that will make everyone ask for your link.
+              Show off your tech identity across campus! Upload your photo, pick your viral hacker title, and get an authentic <span className="text-amber-400 font-bold">PIT Campus 1080×1920 WhatsApp Status Poster</span> and 3D Holographic VIP Pass.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono text-zinc-300">
