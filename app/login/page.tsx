@@ -396,15 +396,15 @@ export default function LoginPage() {
         {/* Search / Authentication Card */}
         <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-b from-neutral-900/90 via-black/90 to-neutral-950/90 border border-white/15 shadow-[0_0_80px_rgba(245,158,11,0.15)] backdrop-blur-2xl mb-8">
           <div className="text-center max-w-xl mx-auto mb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-400 font-mono text-[10px] font-bold uppercase tracking-widest mb-3">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>OFFICIAL DELEGATE PORTAL</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-400 font-mono text-[10px] font-bold uppercase tracking-widest mb-3">
+              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              <span>OFFICIAL DELEGATE PORTAL • AWARD CEREMONY EDITION</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
               Hacker Pass Login &amp; Status
             </h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Enter your registered College Roll Number, Email Address, or Ticket ID to load your pass, view your squad, and complete the mandatory MLH portal check-in.
+              Enter your registered College Roll Number, Email Address, or Ticket ID to load your official VIP Pass, view your squad details, and prepare for the Grand Award Ceremony.
             </p>
           </div>
 

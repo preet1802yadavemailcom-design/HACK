@@ -1,26 +1,110 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Trophy, Award, Crown, Sparkles, Star, Medal, Zap, CheckCircle2,
   Users, Volume2, ShieldCheck, Flame, Compass, Gift, ArrowRight,
-  ExternalLink, HeartHandshake, Eye, Flag, ChevronRight
+  ExternalLink, HeartHandshake, Eye, Flag, ChevronRight, HelpCircle
 } from 'lucide-react';
 import { soundEngine } from '@/lib/audio';
 
+interface ConfettiParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  rotation: number;
+  rotationSpeed: number;
+  opacity: number;
+}
+
 export default function GrandAwardCeremonySection() {
   const [hasCelebrated, setHasCelebrated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'podium' | 'categories' | 'jury'>('podium');
+  const [activeTab, setActiveTab] = useState<'podium' | 'categories' | 'jury' | 'checklist'>('podium');
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Trigger celebration fanfare & confetti burst
   const triggerCeremonyHype = () => {
     soundEngine.playCeremonyFanfare();
     setHasCelebrated(true);
-    // Reset pulse after 4s so user can re-trigger
-    setTimeout(() => setHasCelebrated(false), 4500);
+    launchConfetti();
+    setTimeout(() => setHasCelebrated(false), 5000);
+  };
+
+  // High-performance procedural confetti burst
+  const launchConfetti = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
+    canvas.height = canvas.parentElement?.clientHeight || 800;
+
+    const colors = ['#f59e0b', '#fbbf24', '#fef08a', '#10b981', '#34d399', '#ffffff', '#38bdf8'];
+    const particles: ConfettiParticle[] = [];
+
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+        y: canvas.height * 0.25,
+        vx: (Math.random() - 0.5) * 14,
+        vy: -Math.random() * 12 - 4,
+        size: Math.random() * 8 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 8,
+        opacity: 1,
+      });
+    }
+
+    let animationId: number;
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.35; // Gravity
+        p.vx *= 0.98; // Air drag
+        p.rotation += p.rotationSpeed;
+        p.opacity -= 0.007;
+
+        if (p.opacity > 0 && p.y < canvas.height) {
+          alive = true;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = Math.max(0, p.opacity);
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          ctx.restore();
+        }
+      });
+
+      if (alive) {
+        animationId = requestAnimationFrame(render);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+
+    render();
   };
 
   return (
     <section id="ceremony" className="relative w-full py-24 px-4 max-w-6xl mx-auto z-20 pointer-events-auto">
+      {/* ── Confetti Burst Canvas ───────────────────────────────────── */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 pointer-events-none z-30 w-full h-full"
+      />
+
       {/* ── Ambient Royal Lighting & Glow ───────────────────────────── */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-amber-500/25 via-yellow-400/20 to-emerald-500/20 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-[120px] pointer-events-none" />
@@ -93,7 +177,7 @@ export default function GrandAwardCeremonySection() {
       </div>
 
       {/* ── Tab Switcher ────────────────────────────────────────────── */}
-      <div className="flex items-center justify-center gap-2 mb-12 relative z-10">
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-12 relative z-10">
         <button
           onClick={() => { soundEngine.playClick(); setActiveTab('podium'); }}
           className={`px-5 py-2.5 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
@@ -128,6 +212,18 @@ export default function GrandAwardCeremonySection() {
         >
           <ShieldCheck className="w-4 h-4" />
           <span>Jury &amp; Evaluation Rigor</span>
+        </button>
+
+        <button
+          onClick={() => { soundEngine.playClick(); setActiveTab('checklist'); }}
+          className={`px-5 py-2.5 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+            activeTab === 'checklist'
+              ? 'bg-amber-500 text-black shadow-[0_0_25px_rgba(245,158,11,0.4)] scale-105'
+              : 'bg-black/60 text-zinc-400 hover:text-white border border-white/10'
+          }`}
+        >
+          <Flag className="w-4 h-4" />
+          <span>Stage Checklist for Hackers</span>
         </button>
       </div>
 
@@ -444,6 +540,59 @@ export default function GrandAwardCeremonySection() {
               </h4>
               <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
                 Led by <span className="text-amber-400 font-semibold">Shubhashish Kundu Sir</span> (Faculty Coordinator) and <span className="text-amber-400 font-semibold">Preet Yadav</span> (Lead Student Organizer), alongside senior reviewers from the Department of Computer Science &amp; Engineering.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── 4. STAGE CHECKLIST FOR PARTICIPANTS ─────────────────────── */}
+      {activeTab === 'checklist' && (
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-5 rounded-2xl bg-black/80 border border-emerald-500/30 flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono font-black text-sm flex-shrink-0">
+              1
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white">Be Seated in the Auditorium</h4>
+              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                All 125+ registered hackers and squads should assemble in the PIT Campus Auditorium with their teammates for the opening keynote of the ceremony.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-black/80 border border-amber-500/30 flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-black text-sm flex-shrink-0">
+              2
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white">Have Your GitHub Repo Ready</h4>
+              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                Ensure your repository is public, with a clear README, screenshots, and live demo link if requested for stage spotlight presentation.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-black/80 border border-cyan-500/30 flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-mono font-black text-sm flex-shrink-0">
+              3
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white">Keep Your Ticket ID Handy</h4>
+              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                Your Ticket ID (e.g., PIT-2026-XXXXXX) will be used for official certificate issuance and gift swag collection.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-black/80 border border-purple-500/30 flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-mono font-black text-sm flex-shrink-0">
+              4
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white">Official Group Photography</h4>
+              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                After the trophy awards, all participants and faculty will gather on stage for the official Hacktoberfest Hack Day Jaunpur 2026 group photo!
               </p>
             </div>
           </div>

@@ -121,6 +121,13 @@ export default function VideoIntroOverlay({
         </button>
       </div>
 
+      {/* Bottom Award Ceremony Teaser Pill */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/80 border border-amber-400/50 text-amber-300 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider backdrop-blur-xl shadow-[0_0_25px_rgba(245,158,11,0.4)] animate-pulse">
+          <span>🏆 ARE YOU READY FOR THE GRAND AWARD CEREMONY?</span>
+        </div>
+      </div>
+
       {/* Bottom Progress Bar */}
       <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/10 z-20">
         <div
