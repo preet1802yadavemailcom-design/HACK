@@ -70,8 +70,8 @@ export const EVENT_SCHEDULE = [
   },
   {
     time: '03:00 PM',
-    title: 'Closing Ceremony & Wrap-up',
-    description: 'Keynote closing address, acknowledgment of all student builders, community group photographs, and closing announcements.',
+    title: '🏆 Grand Award Ceremony & Valedictory Felicitation',
+    description: 'The moment of truth! Official felicitation by CSE faculty leads & organizers. Crowning the Grand Champion, 1st & 2nd Runners-Up, Track Winners, presentation of Trophies & Certificates, and the official Hacktoberfest community group photo!',
   },
 ];
 

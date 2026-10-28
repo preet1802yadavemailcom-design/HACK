@@ -21,15 +21,15 @@ export default function PrizesSection() {
       <div className="text-center max-w-3xl mx-auto mb-14">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-yellow-500/15 to-amber-500/20 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider mb-4 shadow-[0_0_25px_rgba(245,158,11,0.25)]">
           <Trophy className="w-4 h-4 text-amber-400 animate-bounce" />
-          <span>OFFICIAL PRIZES &amp; SWAG SHOWCASE</span>
+          <span>AWARD CEREMONY REWARDS &amp; SWAG SHOWCASE</span>
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
         </div>
 
         <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-          PRIZES, SWAG &amp; SPONSOR PERKS 🎁
+          PRIZES, TROPHIES &amp; SPONSOR PERKS 🎁
         </h2>
         <p className="mt-3 text-sm sm:text-base text-zinc-300 font-light max-w-2xl mx-auto leading-relaxed">
-          In official collaboration with <span className="text-amber-400 font-semibold">Major League Hacking (MLH)</span> &amp; <span className="text-white font-semibold">Prasad Institute of Technology</span>. Check out the official swags, hardware kits, developer cloud credits, and challenge bounties awaiting our hackers!
+          Presented live on stage during the <span className="text-amber-400 font-semibold">Grand Award Ceremony</span> in official collaboration with <span className="text-amber-400 font-semibold">Major League Hacking (MLH)</span> &amp; <span className="text-white font-semibold">Prasad Institute of Technology</span>. Check out the official swags, physical trophies, hardware kits, developer cloud credits, and challenge bounties awarded to our champions!
         </p>
       </div>
 

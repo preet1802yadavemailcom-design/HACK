@@ -27,6 +27,7 @@ export default function ModernNavbar({
   };
 
   const navLinks = [
+    { label: '🏆 Ceremony', href: '/#ceremony' },
     { label: 'Tracks', href: '/#tracks' },
     { label: 'Prizes', href: '/#prizes' },
     { label: 'Resources', href: '/#resources' },

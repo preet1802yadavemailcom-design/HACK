@@ -136,6 +136,53 @@ class SoundEngine {
   }
 
   /**
+   * Triumphant Award Ceremony Fanfare / Victory Chime
+   * Procedural major triad arpeggio with golden harmonic shimmer
+   */
+  public playCeremonyFanfare() {
+    this.initContext();
+    if (!this.ctx) return;
+    
+    // Temporarily unmute for the fanfare if needed so users get celebratory feedback
+    const wasMuted = this.isMuted;
+    if (wasMuted) {
+      this.setMuted(false);
+    }
+    if (!this.masterGain) return;
+
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Grand Victory Chord)
+    const now = this.ctx.currentTime;
+
+    notes.forEach((freq, idx) => {
+      try {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const startTime = now + idx * 0.12;
+        const duration = 0.9 + idx * 0.25;
+
+        osc.type = idx === notes.length - 1 ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.linearRampToValueAtTime(0.12, startTime + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain!);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.1);
+      } catch {}
+    });
+
+    if (wasMuted) {
+      setTimeout(() => {
+        this.setMuted(true);
+      }, 2000);
+    }
+  }
+
+  /**
    * Subtle modern UI click
    */
   public playClick() {

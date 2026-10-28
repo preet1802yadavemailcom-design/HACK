@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import VideoIntroOverlay from '@/components/ui/VideoIntroOverlay';
 import ModernNavbar from '@/components/ui/ModernNavbar';
 import HeroSection from '@/components/ui/HeroSection';
+import GrandAwardCeremonySection from '@/components/ui/GrandAwardCeremonySection';
 import HighImpactStatsSection from '@/components/ui/HighImpactStatsSection';
 import MLHSponsorBanner from '@/components/ui/MLHSponsorBanner';
 import CollegeAccreditationBanner from '@/components/ui/CollegeAccreditationBanner';
@@ -181,6 +182,9 @@ export default function Home() {
         {/* Hero Section with Live Countdown */}
         <HeroSection onOpenRegister={() => setIsRegisterOpen(true)} />
 
+        {/* The Grand Award Ceremony & Valedictory Showcase */}
+        <GrandAwardCeremonySection />
+
         {/* 3D High-Impact Stats Cubes */}
         <HighImpactStatsSection />
 
@@ -218,22 +222,22 @@ export default function Home() {
         <section className="relative w-full py-20 px-4 max-w-4xl mx-auto text-center z-20">
           <div className="p-8 sm:p-12 rounded-3xl bg-black/85 border border-white/10 backdrop-blur-2xl shadow-2xl">
             <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              READY TO BUILD IN JAUNPUR?
+              ARE YOU READY FOR THE GRAND FINALE?
             </h2>
             <p className="mt-3 text-sm sm:text-base text-zinc-300 max-w-lg mx-auto font-light">
-              Saturday, October 24, 2026 • 09:30 AM to 03:00 PM IST at Prasad Institute of Technology. Free registration exclusive to Prasad Institute of Technology students.
+              Be seated in the Prasad Institute of Technology Auditorium for the announcement of champions, trophy presentations, and verified certificate distribution!
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <button
+              <a href="#ceremony"
                 onClick={() => {
                   soundEngine.playClick();
-                  setIsRegisterOpen(true);
+                  soundEngine.playCeremonyFanfare();
                 }}
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
-                <span>Register for In-Person Pass</span>
+                <span>🏆 View Grand Award Ceremony Podium</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </a>
 
               <a
                 href="/badge"
